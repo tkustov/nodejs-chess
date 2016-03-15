@@ -27,11 +27,17 @@ var clientHtml = {
   ]
 };
 
+var clientLess = {
+  src: path.resolve(__dirname, 'src/client/index.less'),
+  dest: prefix + '.css'
+};
+
 var client = {
   target: clientTarget,
   assets: clientAssets,
   js: clientJs,
   partials: clientPartials,
+  less: clientLess,
   html: clientHtml
 };
 
