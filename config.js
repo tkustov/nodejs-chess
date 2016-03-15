@@ -5,6 +5,7 @@ var target = path.join(__dirname, 'lib');
 var clientTarget = path.join(target, 'client');
 var clientAssets = path.join(clientTarget, 'assets');
 var serverTarget = path.join(target, 'server');
+var commonTarget = path.join(target, 'common');
 var prefix = pkg.name + '-' + pkg.version;
 
 var clientJs = {
@@ -46,6 +47,12 @@ var server = {
   src: path.resolve(__dirname, 'src/server')
 };
 
+var common = {
+  target: commonTarget,
+  src: path.resolve(__dirname, 'src/common')
+};
+
 exports.target = target;
 exports.server = server;
 exports.client = client;
+exports.common = common;

@@ -8,5 +8,6 @@ tasks.forEach(task => { require(path.join(tasksPath, path.basename(task, path.ex
 
 gulp.task('default', [
   'server',
+  'common',
   'client'
 ]);
