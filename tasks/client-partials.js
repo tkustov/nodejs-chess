@@ -3,7 +3,7 @@ var rename = require('gulp-rename');
 var templateCache = require('gulp-angular-templatecache');
 var config = require('../config').client;
 
-gulp.task('client-partials', () => {
+gulp.task('client-partials', ['client-clean'], () => {
   return gulp.src('**/*.html', { cwd: config.partials.src }).
     pipe(templateCache({
       module: config.partials.module,

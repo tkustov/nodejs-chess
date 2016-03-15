@@ -19,18 +19,19 @@ var clientPartials = {
   dest: prefix + '-partials.js'
 };
 
+var clientLess = {
+  src: path.resolve(__dirname, 'src/client/index.less'),
+  dest: prefix + '.css'
+};
+
 var clientHtml = {
   src: path.resolve(__dirname, 'src/client/index.html'),
   dest: 'index.html',
   files: [
     clientJs.dest,
-    clientPartials.dest
+    clientPartials.dest,
+    clientLess.dest
   ]
-};
-
-var clientLess = {
-  src: path.resolve(__dirname, 'src/client/index.less'),
-  dest: prefix + '.css'
 };
 
 var client = {

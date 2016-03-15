@@ -11,7 +11,7 @@ var buffer = require('vinyl-buffer');
 var config = require('../config').client;
 var debug = process.env.NODE_ENV !== 'production';
 
-gulp.task('client-js', () => {
+gulp.task('client-js', ['client-clean'], () => {
   return browserify({ entries: [config.js.src], debug: true }).
     transform(babelify, { presets: ['es2015'] }).
     transform(envify({ _: 'purge', NODE_ENV: 'development' }), { global: true }).
