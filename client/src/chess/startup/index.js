@@ -10,5 +10,13 @@ RouteConfig.$inject = ['$routeProvider'];
 function RouteConfig($routeProvider) {
   $routeProvider.when('/', {
     templateUrl: 'startup/view.html'
+  })
+  .when('/login', {
+  	templateUrl: 'startup/login.html',
+  	controller : 'formAction'
+  })
+  .when('/chess', {
+    templateUrl: 'startup/chess.html',
+    controller: 'chessCntr'
   });
 }
