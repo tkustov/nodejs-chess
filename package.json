@@ -33,9 +33,13 @@
     "angular": "^1.5.0",
     "angular-resource": "^1.5.0",
     "angular-route": "^1.5.0",
+    "body-parser": "^1.15.0",
     "bootstrap": "^3.3.6",
+    "connect-mongo": "^1.1.0",
+    "cookie-parser": "^1.4.1",
     "express": "^4.13.4",
-    "mongoose": "^4.4.6",
+    "express-session": "^1.13.0",
+    "mongoose": "^4.4.8",
     "socket.io": "^1.4.5",
     "socket.io-client": "^1.4.5"
   }
