@@ -3,7 +3,7 @@ var gulp = require('gulp');
 var inject = require('gulp-inject');
 var config = require('../config');
 
-gulp.task('html', () => {
+gulp.task('html', ['js', 'partials', 'less'], () => {
   return gulp.src(config.html.src).
     pipe(inject(
       gulp.src(config.html.files, { read: false, cwd: config.assets }),

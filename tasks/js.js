@@ -12,7 +12,7 @@ var debug = process.env.NODE_ENV !== 'production';
 
 gulp.task('js', () => {
   return browserify({ entries: [config.js.src], debug: true }).
-    transform(envify({ _: 'purge', NODE_ENV: 'development' }), { global: true }).
+    transform(envify(Object.assign({ _: 'purge' }, config.env)), { global: true }).
     bundle().
     pipe(source(path.basename(config.js.dest))).
     pipe(buffer()).

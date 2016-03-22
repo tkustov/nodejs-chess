@@ -31,11 +31,17 @@ var html = {
   ]
 };
 
+var env = Object.assign({
+  NODE_ENV: 'development',
+  API_URL: '//localhost:8081/'
+}, process.env);
+
 module.exports = {
-  target: target,
-  assets: assets,
-  js: js,
-  partials: partials,
-  less: less,
-  html: html
+  target,
+  assets,
+  env,
+  js,
+  partials,
+  less,
+  html
 };
