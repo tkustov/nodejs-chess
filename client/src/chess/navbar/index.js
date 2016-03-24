@@ -15,6 +15,13 @@ function NavbarController(auth, $location) {
 
   $ctrl.logout = logout;
 
+  $ctrl.toggled = false;
+  $ctrl.toggle = toggle;
+
+  function toggle() {
+    $ctrl.toggled = !$ctrl.toggled;
+  }
+
   function logout() {
     auth.logout().
       then(
