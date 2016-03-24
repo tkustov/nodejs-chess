@@ -1,9 +1,10 @@
+var fs = require('fs');
 var angular = require('angular');
 
 module.exports = angular.module('chess.navbar', []).
 component('navbar', {
   controller: NavbarController,
-  templateUrl: 'navbar/navbar.component.html'
+  template: fs.readFileSync(__dirname + '/navbar.component.html', 'utf-8')
 });
 
 NavbarController.$inject = []

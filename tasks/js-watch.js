@@ -3,6 +3,7 @@ var gUtil = require('gulp-util');
 var sourceMaps = require('gulp-sourcemaps');
 var browserify = require('browserify');
 var watchify = require('watchify');
+var brfs = require('brfs');
 var envify = require('envify/custom');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
@@ -16,6 +17,7 @@ gulp.task('js-watch', () => {
       plugin: [watchify],
       debug: true
     }).
+    transform(brfs).
     transform(envify(Object.assign({ _: 'purge' }, config.env)), { global: true });
 
   stream.on('update', bundle);
