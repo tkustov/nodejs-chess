@@ -21,6 +21,7 @@ gulp.task('js-watch', () => {
   stream.on('update', bundle);
   stream.on('log', gUtil.log);
   stream.on('error', gUtil.log.bind(gUtil, 'browserify error'));
+  return bundle();
 
   function bundle() {
     return stream.bundle().
