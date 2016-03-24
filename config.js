@@ -10,12 +10,6 @@ var js = {
   dest: prefix + '.js'
 };
 
-var partials = {
-  module: 'chess',
-  src: path.resolve(__dirname, 'client/src/chess'),
-  dest: prefix + '-partials.js'
-};
-
 var less = {
   src: path.resolve(__dirname, 'client/src/index.less'),
   dest: prefix + '.css'
@@ -36,7 +30,6 @@ module.exports = {
   assets,
   env,
   js,
-  partials,
   less,
   html
 };
