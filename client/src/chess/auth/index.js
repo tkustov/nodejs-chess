@@ -28,7 +28,7 @@ controller('formAction', ['$scope', '$location', '$http', function($scope, $loca
       password : $scope.fields.password
     };
     /* post to server*/
-    var url = '/register';
+    var url = 'localhost/register';
     $http.post(url, data)
     .success(function (data, status, headers, config) {
       alert(status+": "+ data.message);
