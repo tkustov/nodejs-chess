@@ -1,6 +1,8 @@
+var fs = require('fs');
+
 module.exports = {
   controller: PingController,
-  templateUrl: 'ping/ping.component.html'
+  template: fs.readFileSync(__dirname + '/ping.component.html', 'utf-8')
 };
 
 PingController.$inject = ['Ping'];

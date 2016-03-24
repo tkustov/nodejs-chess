@@ -23,12 +23,7 @@ var less = {
 
 var html = {
   src: path.resolve(__dirname, 'client/src/index.html'),
-  dest: 'index.html',
-  files: [
-    js.dest,
-    partials.dest,
-    less.dest
-  ]
+  dest: 'index.html'
 };
 
 var env = Object.assign({
