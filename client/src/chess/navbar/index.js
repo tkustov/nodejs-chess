@@ -7,4 +7,13 @@ component('navbar', {
 });
 
 NavbarController.$inject = []
-function NavbarController() {}
+function NavbarController() {
+  var $ctrl = this;
+
+  $ctrl.toggled = false;
+  $ctrl.toggle = toggle;
+
+  function toggle() {
+    $ctrl.toggled = !$ctrl.toggled;
+  }
+}
