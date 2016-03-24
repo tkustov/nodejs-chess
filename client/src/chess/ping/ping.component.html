@@ -1,0 +1,39 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12 col-sm-4">
+      <button type="button" class="btn btn-default" ng-click="$ctrl.getPing()">Get Ping</button>
+    </div>
+    <div class="col-xs-12 col-sm-4">
+      <button type="button" class="btn btn-default" ng-click="$ctrl.postPing()">Post Ping</button>
+    </div>
+    <div class="col-xs-12 col-sm-4">
+      <form name="cookie"
+        class="form form-horizontal"
+        novalidate
+        ng-submit="cookie.$valid && $ctrl.setCookie()">
+        <div class="form-group" ng-class="{ 'has-error': coockie.name.$invalid }">
+          <label class="control-label">Name:</label>
+          <input type="text"
+            class="form-control"
+            name="name"
+            ng-model="$ctrl.cookie.name"
+            ng-required="true"/>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': coockie.value.$invalid }">
+          <label class="control-label">Value:</label>
+          <input type="text"
+            class="form-control"
+            name="value"
+            ng-model="$ctrl.cookie.value"
+            ng-required="true"/>
+        </div>
+        <div class="form-group">
+          <button type="submit"
+            class="btn btn-default">
+            Set Cookie
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
