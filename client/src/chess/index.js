@@ -1,10 +1,12 @@
 var angular = require('angular');
-var ngRoute = require('angular-route');
-var startup  =require('./startup');
+var navbar = require('./navbar');
+var startup = require('./startup');
 
 module.exports = angular.module('chess', [
-  ngRoute,
-  startup.name
+  require('angular-route'),
+  navbar.name,
+  startup.name,
+  require('./ping')
 ]).
 config(RouteConfig);
 
