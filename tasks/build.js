@@ -1,5 +1,3 @@
 var gulp = require('gulp');
 
-gulp.task('build', ['js', 'partials', 'less'], () => {
-  gulp.start('html');
-});
+gulp.task('build', ['html']);

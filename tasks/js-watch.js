@@ -16,12 +16,11 @@ gulp.task('js-watch', () => {
       plugin: [watchify],
       debug: true
     }).
-    transform(envify({ _: 'purge', NODE_ENV: 'development' }), { global: true });
+    transform(envify(Object.assign({ _: 'purge' }, config.env)), { global: true });
 
   stream.on('update', bundle);
   stream.on('log', gUtil.log);
   stream.on('error', gUtil.log.bind(gUtil, 'browserify error'));
-
   return bundle();
 
   function bundle() {
