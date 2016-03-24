@@ -11,7 +11,7 @@ controller('formAction', ['$scope', '$location', '$http', function($scope, $loca
       password : $scope.fields.password
     };
     /* post to server*/
-    var url = '/login';
+    var url = 'http://localhost:8081/login';
     $http.post(url, data)
     .success(function (data, status, headers, config) {
       $location.path( "/chess" );
