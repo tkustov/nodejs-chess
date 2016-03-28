@@ -11,7 +11,7 @@ controller('formAction', ['$scope', '$location', '$http', function($scope, $loca
       password : $scope.fields.password
     };
     /* post to server*/
-    var url = 'http://localhost:8081/login';
+    var url = process.env.API_URL + '/login';
     $http.post(url, data)
     .success(function (data, status, headers, config) {
       $location.path( "/chess" );
@@ -28,7 +28,7 @@ controller('formAction', ['$scope', '$location', '$http', function($scope, $loca
       password : $scope.fields.password
     };
     /* post to server*/
-    var url = 'http://localhost:8081/register';
+    var url = process.env.API_URL + '/register';
     $http.post(url, data)
     .success(function (data, status, headers, config) {
       alert(status+": "+ data.message);
@@ -39,7 +39,7 @@ controller('formAction', ['$scope', '$location', '$http', function($scope, $loca
   }
 }]).
 controller('chessCntr', ['$scope', '$location', '$http', function($scope, $location, $http) {
-  $http.get('http://localhost:8081/chess')
+  $http.get(process.env.API_URL + '/chess', null, { withCredentials: true })
     .success(function (data, status, headers, config) {
       $scope.username = data.username;
     })
@@ -47,7 +47,7 @@ controller('chessCntr', ['$scope', '$location', '$http', function($scope, $locat
       $location.path("/login");
     });
   $scope.logout = function(){
-    $http.post('http://localhost:8081/logout')
+    $http.post(process.env.API_URL + '/logout')
       .success(function (data, status, headers, config){
          $location.path("/");
       })
