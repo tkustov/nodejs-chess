@@ -12,15 +12,15 @@ controller('formAction', ['$scope', '$location', '$http', function($scope, $loca
     };
     /* post to server*/
     var url = process.env.API_URL + '/login';
-    $http.post(url, data)
+    $http.post(url, data, { withCredentials: true })
     .success(function (data, status, headers, config) {
       $location.path( "/chess" );
-      alert(status+": "+ data.message);
+      console.log(status+": "+ data.message);
     })
     .error(function (data, status, headers, config) {
       alert(status+": "+ data.message);
     });
-  }
+  };
 
   $scope.register = function() {
     var data = {
@@ -29,17 +29,17 @@ controller('formAction', ['$scope', '$location', '$http', function($scope, $loca
     };
     /* post to server*/
     var url = process.env.API_URL + '/register';
-    $http.post(url, data)
+    $http.post(url, data, {withCredentials: true })
     .success(function (data, status, headers, config) {
       alert(status+": "+ data.message);
     })
     .error(function (data, status, headers, config) {
       alert(status+": "+ data.message);
     });
-  }
+  };
 }]).
 controller('chessCntr', ['$scope', '$location', '$http', function($scope, $location, $http) {
-  $http.get(process.env.API_URL + '/chess')
+  $http.get(process.env.API_URL + '/api/chess', { withCredentials: true } )
     .success(function (data, status, headers, config) {
       $scope.username = data.username;
     })
@@ -47,22 +47,21 @@ controller('chessCntr', ['$scope', '$location', '$http', function($scope, $locat
       $location.path("/login");
     });
   $scope.logout = function(){
-    $http.post(process.env.API_URL + '/logout')
+    $http.post(process.env.API_URL + '/logout', null, {withCredentials: true})
       .success(function (data, status, headers, config){
          $location.path("/");
       })
       .error(function (data, status, headers, config) {
         console.log(data);
       });
-  }
+  };
 }]).
 config(RouteConfig);
 
-RouteConfig.$inject = ['$routeProvider', '$httpProvider'];
-function RouteConfig($routeProvider, $httpProvider) {
+RouteConfig.$inject = ['$routeProvider'];
+function RouteConfig($routeProvider) {
   $routeProvider.when('/login', {
   		templateUrl: 'auth/login.html',
   		controller : 'formAction'
   	});
-  $httpProvider.defaults.withCredentials = true;
 }
