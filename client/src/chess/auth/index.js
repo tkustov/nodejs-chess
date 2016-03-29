@@ -12,7 +12,7 @@ controller('formAction', ['$scope', '$location', '$http', function($scope, $loca
     };
     /* post to server*/
     var url = process.env.API_URL + '/login';
-    $http.post(url, data)
+    $http.post(url, data, {withCredentials: true})
     .success(function (data, status, headers, config) {
       $location.path( "/chess" );
       alert(status+": "+ data.message);
@@ -39,7 +39,7 @@ controller('formAction', ['$scope', '$location', '$http', function($scope, $loca
   }
 }]).
 controller('chessCntr', ['$scope', '$location', '$http', function($scope, $location, $http) {
-  $http.get(process.env.API_URL + '/chess')
+  $http.get(process.env.API_URL + '/chess', { withCredentials: true })
     .success(function (data, status, headers, config) {
       $scope.username = data.username;
     })
@@ -64,5 +64,5 @@ function RouteConfig($routeProvider, $httpProvider) {
   		templateUrl: 'auth/login.html',
   		controller : 'formAction'
   	});
-  $httpProvider.defaults.withCredentials = true;
+  //$httpProvider.defaults.withCredentials = true;
 }
