@@ -1,0 +1,13 @@
+<form name="loginForm" class="login-form" ng-submit="$ctrl.submitLoginForm()" method="post">
+    <div class="header">
+        <h1>Login Form</h1>
+    </div>
+    <div class="content">
+        <input ng-model="$ctrl.username" name="username" type="text" class="input username" placeholder="Username" required />
+        <input ng-model="$ctrl.password" name="password" type="password" class="input password" placeholder="Password" required />
+    </div>
+    <div class="footer"> 
+        <input type="submit" name="submit" value="Login" class="button" />
+        <input type="button" ng-click="$ctrl.submitRegisterForm()" name="register" value="Register" class="register" />
+    </div>
+</form>
