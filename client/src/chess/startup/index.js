@@ -23,7 +23,6 @@ function CheckAuth($http, $location) {
   var $ctrl = this;
 
   $ctrl.username = null;
-  console.log($ctrl.username)
 
   function showError(response) {
     $location.path("/login");
@@ -33,6 +32,5 @@ function CheckAuth($http, $location) {
   $http.get(process.env.API_URL + '/api/chess', {withCredentials: true}).
   then(function(response) {
     $ctrl.username = response.data.username;
-    console.log($ctrl.username);
   }, showError)
 }

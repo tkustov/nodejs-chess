@@ -15,7 +15,7 @@ function AuthFactory($http) {
     });
   }
   function register(data) {
-  	return $http.post(process.env.API_URL + '/register', data, {withCredentials: true}).
+  	return $http.post(process.env.API_URL + '/register', data).
   	then(function (response) {
   		return response.status + ' ' + response.statusText;
   	});
