@@ -13,6 +13,6 @@ factory('auth', AuthFactory);
 RouteConfig.$inject = ['$routeProvider'];
 function RouteConfig($routeProvider) {
   $routeProvider.when('/login', {
-  		template: '<auth>'
-  	});
+		template: '<auth>'
+	});
 };

@@ -24,7 +24,7 @@ function AuthController($location, auth) {
     .then(
       function (message) {
         $location.path( "/chess" );
-        alert('Welcome' + ' ' + data.username)
+        console.log('Welcome' + ' ' + data.username);
       },
     showError)
   }
@@ -36,9 +36,8 @@ function AuthController($location, auth) {
     auth.register(data)
     .then(
       function (message) {
-        alert(message);
+        console.log(message);
       },
     showError)
   }
 };
-

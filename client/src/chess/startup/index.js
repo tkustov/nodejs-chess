@@ -1,49 +1,38 @@
 var angular = require('angular');
 var ngRoute = require('angular-route');
-var AuthComponent = require('../auth/auth.component');
 
 module.exports = angular.module('chess.startup', [
   ngRoute
 ]).
-config(RouteConfig).
-component('logout', {
-  controller: AuthController,
-  templateUrl: 'startup/chess.html'
-});
+config(RouteConfig);
 
 RouteConfig.$inject = ['$routeProvider'];
 function RouteConfig($routeProvider) {
-  $routeProvider.when('/', {
+  $routeProvider
+  .when('/', {
     templateUrl: 'startup/view.html'
   })
   .when('/chess', {
-    template: '<logout>'
+    controller: CheckAuth,
+    templateUrl: 'startup/chess.html'
   });
 }
 
-// *********** перенести в => auth
-
-AuthController.$inject = ['$location', '$http'];
-function AuthController($location, $http) {
+CheckAuth.$inject = ['$http', '$location']
+function CheckAuth($http, $location) {
   var $ctrl = this;
 
-  $ctrl.logout = logout;
   $ctrl.username = null;
+  console.log($ctrl.username)
 
   function showError(response) {
     $location.path("/login");
-    alert('You must login');
+    console.log('You must login');
   }
 
   $http.get(process.env.API_URL + '/api/chess', {withCredentials: true}).
   then(function(response) {
     $ctrl.username = response.data.username;
+    console.log($ctrl.username);
   }, showError)
-
-  function logout() {
-    $http.post(process.env.API_URL + '/logout', null, {withCredentials: true}).
-    then(function (data, status, headers, config){
-      $location.path("/");
-    }, showError)
-  }
 }
