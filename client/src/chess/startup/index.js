@@ -30,7 +30,7 @@ function CheckAuth($http, $location) {
 
   function showError(response) {
     $location.path("/login");
-    console.log('You must login');
+    alert('You must login');
   }
 
   $http.get(process.env.API_URL + '/api/chess', {withCredentials: true}).
