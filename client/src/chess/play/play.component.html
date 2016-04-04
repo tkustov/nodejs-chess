@@ -1,0 +1,25 @@
+<div id="content" ng-controller="chessController as chess">
+  <div id="view">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-8 col-md-8 col-lg-8">
+          <chess-canvas pieces="chess.pieces" black="chess.black" white="chess.white"></chess-canvas>
+        </div>
+        <div class="col-sm-2 col-md-2 col-lg-2">
+          <table id="coordFrom">
+            <tr>
+              <td>From</td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-sm-2 col-md-2 col-lg-2">
+          <table id="coordTo">
+            <tr>
+              <td>To</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

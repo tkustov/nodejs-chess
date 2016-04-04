@@ -1,14 +1,17 @@
 var angular = require('angular');
 var navbar = require('./navbar');
-var startup = require('./startup');
 var auth = require('./auth');
+var home = require('./home');
+var play = require('./play');
 
 module.exports = angular.module('chess', [
   require('angular-route'),
   navbar.name,
-  startup.name,
   auth.name,
-  require('./ping')
+  home.name,
+  auth.name,
+  play.name
+  //require('./ping')
 ]).
 config(RouteConfig);
 
