@@ -10,8 +10,9 @@ module.exports = angular.module('chess', [
   auth.name,
   home.name,
   auth.name,
-  play.name
-  //require('./ping')
+  play.name,
+  require('./ping'),
+  require('./board')
 ]).
 config(RouteConfig);
 

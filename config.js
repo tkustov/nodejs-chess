@@ -3,6 +3,7 @@ var pkg = require('./package.json');
 
 var target = path.join(__dirname, 'lib/client');
 var assets = path.join(target, 'assets');
+var images = path.join(assets, 'images');
 var prefix = pkg.name + '-' + pkg.version;
 
 var js = {
