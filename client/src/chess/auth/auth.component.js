@@ -30,7 +30,7 @@ function AuthController($location, auth) {
     .then(
       function (message) {
         $location.path( "/chess" );
-        console.log('Welcome' + ' ' + data.username);
+        console.log(message);
       },
     showError)
   }
