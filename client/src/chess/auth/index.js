@@ -7,12 +7,18 @@ module.exports = angular.module('chess.auth', [
   ngRoute
 ]).
 config(RouteConfig).
-component('auth', AuthComponent).
-factory('auth', AuthFactory);
+component('auth', AuthComponent.login).
+factory('auth', AuthFactory).
+component('register', AuthComponent.register).
+factory('register', AuthFactory);
 
 RouteConfig.$inject = ['$routeProvider'];
 function RouteConfig($routeProvider) {
-  $routeProvider.when('/login', {
-		template: '<auth>'
-	});
+  $routeProvider
+  .when('/login', {
+		template: '<auth></auth>'
+	})
+  .when('/register', {
+    template: '<register></register>'
+  });
 };
