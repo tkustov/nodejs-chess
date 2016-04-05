@@ -9,7 +9,7 @@ module.exports = angular.module('chess.startup', [
 config(RouteConfig).
 factory('Socket', SocketFactory).
 component('check', {
-  controller: CheckAuth,
+  controller: FindUser,
   templateUrl: 'startup/chess.html'
 });
 
@@ -25,14 +25,13 @@ function RouteConfig($routeProvider) {
   });
 }
 
-CheckAuth.$inject = ['$http', '$location']
-function CheckAuth($http, $location) {
+FindUser.$inject = ['$http']
+function FindUser($http) {
   var $ctrl = this;
 
   $ctrl.username = null;
 
   function showError(response) {
-    $location.path("/login");
     alert('You must login');
   }
 
