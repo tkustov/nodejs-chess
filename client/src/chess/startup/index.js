@@ -1,15 +1,19 @@
 var angular = require('angular');
 var ngRoute = require('angular-route');
 
+var SocketFactory = require('../socket/socket.factory');
+
 module.exports = angular.module('chess.startup', [
   ngRoute
 ]).
-config(RouteConfig);
+config(RouteConfig).
+factory('Socket', SocketFactory);
 
 RouteConfig.$inject = ['$routeProvider'];
 function RouteConfig($routeProvider) {
   $routeProvider
   .when('/', {
+    controller: StartupCtrl,
     templateUrl: 'startup/view.html'
   })
   .when('/chess', {
@@ -34,3 +38,25 @@ function CheckAuth($http, $location) {
     $ctrl.username = response.data.username;
   }, showError)
 }
+
+StartupCtrl.$inject = ['Socket'];
+function StartupCtrl (Socket){
+  var generalBUS = Socket();
+  var userSocket = Socket('someNS');
+
+  generalBUS.on('connect', function () {
+    console.log('connected to generalBUS!');
+  });
+
+  generalBUS.on('msg', function (data) {
+    console.log('data from generalBUS: ', data);
+  });
+  
+  userSocket.on('connect', function () {
+    console.log('connected to someNS!');
+  });
+
+  userSocket.on('msg', function (data) {
+    console.log('data from someNS: ', data);
+  });
+};
