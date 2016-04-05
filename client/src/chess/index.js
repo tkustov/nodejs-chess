@@ -8,7 +8,8 @@ module.exports = angular.module('chess', [
   navbar.name,
   startup.name,
   auth.name,
-  require('./ping')
+  require('./ping'),
+  require('./board')
 ]).
 config(RouteConfig);
 
