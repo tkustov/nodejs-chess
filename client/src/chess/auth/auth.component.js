@@ -1,6 +1,12 @@
 module.exports = {
-  controller: AuthController,
-  templateUrl: 'auth/auth.component.html'
+  login : {
+    controller: AuthController,
+    templateUrl: 'auth/login.component.html'
+  },
+  register: {
+    controller: AuthController,
+    templateUrl: 'auth/register.component.html'
+  }
 };
 
 AuthController.$inject = ['$location', 'auth'];
@@ -30,12 +36,15 @@ function AuthController($location, auth) {
   }
   function submitRegisterForm() {
     var data = {
+      email: $ctrl.email,
       username : $ctrl.username,
       password : $ctrl.password
     };
     auth.register(data)
     .then(
       function (message) {
+        $location.path( "/login" );
+        console.log('User' + ' ' + data.username + ' ' + ' registered');
         console.log(message);
       },
     showError)
