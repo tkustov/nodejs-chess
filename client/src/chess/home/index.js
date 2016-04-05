@@ -1,10 +1,15 @@
 var angular = require('angular');
 var ngRoute = require('angular-route');
+var FindUser = require('../user')
 
 module.exports = angular.module('chess.home', [
   ngRoute
 ]).
-config(RouteConfig);
+config(RouteConfig).
+component('check', {
+  controller: FindUser,
+  templateUrl: 'startup/chess.html'
+});
 
 RouteConfig.$inject = ['$routeProvider'];
 function RouteConfig($routeProvider) {
@@ -15,22 +20,7 @@ function RouteConfig($routeProvider) {
   .when('/play', {
     controller: CheckAuth,
     templateUrl: 'play/play.component.html'
+  .when('/chess', {
+    template: '<check></check>'
   });
-}
-
-CheckAuth.$inject = ['$http', '$location']
-function CheckAuth($http, $location) {
-  var $ctrl = this;
-
-  $ctrl.username = null;
-
-  function showError(response) {
-    $location.path("/login");
-    console.log('You must login');
-  }
-
-  $http.get(process.env.API_URL + '/api/chess', {withCredentials: true}).
-  then(function(response) {
-    $ctrl.username = response.data.username;
-  }, showError)
 }
