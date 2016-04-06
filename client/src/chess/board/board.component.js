@@ -81,7 +81,7 @@ function chessBoardController(){
         ctx.stroke();
     }
   }
-     
+    ctrl.fromNotAdded = true;
     ctrl.getPosition = function (){
       var offsetLeft = event.currentTarget.offsetLeft + event.currentTarget.offsetParent.offsetLeft;
       var offsetTop = event.currentTarget.offsetTop + event.currentTarget.offsetParent.offsetTop;
@@ -90,21 +90,12 @@ function chessBoardController(){
       ctrl.elementRanges.forEach(function(item){
         if(clickX > item.rangeX.firstX && clickX < item.rangeX.lastX 
           && clickY > item.rangeY.firstY && clickY < item.rangeY.lastY){
-          var coordinatesFrom = document.getElementById("coordFrom");
-          var coordinatesTo = document.getElementById("coordTo");
-          var fromRows = coordinatesFrom.children[0].childElementCount;
-          var toRows = coordinatesTo.children[0].childElementCount;
-          var row;
-          if(fromRows <= toRows && item.name !== "empty"){
-            row = coordinatesFrom.insertRow();
-            row.innerHTML = '<tr><td>'  + item.position + '</td></tr>';
-            var form = item.position;
-            console.log(form);
-          }else if(fromRows > toRows){
-            row = coordinatesTo.insertRow();
-            row.innerHTML = '<tr><td>'  + item.position + '</td></tr>';
-            var to = item.position;
-            console.log(to);
+          if(ctrl.fromNotAdded && item.name !== "empty"){
+            ctrl.fromNotAdded = false;
+            console.log("From: "+ item.position);
+          }else if(!ctrl.fromNotAdded){
+            ctrl.fromNotAdded = true;
+            console.log("To: "+item.position);
           } 
         }
       });
