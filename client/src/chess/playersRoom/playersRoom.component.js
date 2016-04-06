@@ -11,13 +11,14 @@ function PlayersRoomController(PlayersRoom, Socket, $http, $location) {
   $ctrl.incommingInvites = [];
   $ctrl.status = "Server is not running or your internet connection is bad :(";
 
-  $ctrl.usersOnlineRefresh = function(){
-    console.log('usersOnlineRefresh');
+  $ctrl.getUsersOnline = function(){
+    console.log('getUsersOnline');
     $http.get(process.env.API_URL + '/api/usersonline/', {withCredentials: true})
     .then(function(response) {
       $ctrl.usersOnline = response.data;
     });
   };
+  $ctrl.getUsersOnline();
 
   $ctrl.sendInvite = function(opponentID){
     $http.get(process.env.API_URL + '/api/user/invite/send/'+ opponentID, {withCredentials: true})
@@ -34,6 +35,11 @@ function PlayersRoomController(PlayersRoom, Socket, $http, $location) {
   }
 
   var userSocket;
+  var generalBUS = Socket();
+
+  generalBUS.on('updateUsersList', function (data) {
+    $ctrl.getUsersOnline();
+  });
 
   $http.get(process.env.API_URL + '/api/user/namespace/', {withCredentials: true})
   .then(function(response) {
@@ -51,6 +57,10 @@ function PlayersRoomController(PlayersRoom, Socket, $http, $location) {
       console.log('data from user namespace: ', data);
       userSocket.emit('some', 'HI!!!')
     });
+
+    // userSocket.on('updateUsersList', function (data) {
+    //   $ctrl.usersOnline = data;
+    // });
 
     userSocket.on('incommingInvite', function (data) {
       $ctrl.incommingInvites.push(data);
