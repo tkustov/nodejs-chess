@@ -8,7 +8,7 @@ module.exports = angular.module('chess.startup', [
 config(RouteConfig).
 component('check', {
   controller: FindUser,
-  templateUrl: 'startup/chess.html'
+  templateUrl: 'board/board.component.html'
 });
 
 RouteConfig.$inject = ['$routeProvider'];
@@ -17,7 +17,7 @@ function RouteConfig($routeProvider) {
   .when('/', {
     templateUrl: 'startup/view.html'
   })
-  .when('/chess', {
+  .when('/board', {
     template: '<check></check>'
   });
 }
