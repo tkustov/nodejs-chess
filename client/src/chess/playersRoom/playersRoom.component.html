@@ -2,14 +2,16 @@
   <div class="row text-center">
     <h1>Players room</h1>
   </div>
-  
+
+  <button ng-click="$ctrl.usersOnlineRefresh()">Refresh</button>
+
   <div class="row">
     <div class="col-xs-6">
       <table class="table">
         <caption class="text-center">Players online</caption>
-        <tr ng-repeat="user in usersOnline">
+        <tr ng-repeat="user in $ctrl.usersOnline">
           <td><span>{{user.name}}</span></td>
-          <td><button ng-click='invite(user.id)'>Invite</button></td>
+          <td><button ng-click='$ctrl.sendInvite(user.id)'>Invite</button></td>
         </tr>
       </table>
     </div>
