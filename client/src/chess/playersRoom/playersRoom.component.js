@@ -3,12 +3,12 @@ module.exports = {
   templateUrl: 'playersRoom/playersRoom.component.html'
 };
 
-PlayersRoomController.$inject = ['PlayersRoom', 'Socket', '$http'];
-function PlayersRoomController(PlayersRoom, Socket, $http) {
+PlayersRoomController.$inject = ['PlayersRoom', 'Socket', '$http', '$location'];
+function PlayersRoomController(PlayersRoom, Socket, $http, $location) {
   var $ctrl = this;
 
   $ctrl.usersOnline = [];
-
+  $ctrl.incommingInvites = [];
   $ctrl.status = "Server is not running or your internet connection is bad :(";
 
   $ctrl.usersOnlineRefresh = function(){
@@ -25,6 +25,13 @@ function PlayersRoomController(PlayersRoom, Socket, $http) {
       if (response.status == 200) { console.log('Invite sent...');}
     });
   };
+
+  $ctrl.accept = function (opponentID) {
+    $http.get(process.env.API_URL + '/api/user/invite/accept/'+ opponentID, {withCredentials: true})
+    .then(function(response) {
+      if (response.status == 200) { console.log('Invite accept');}
+    });
+  }
 
   var userSocket;
 
@@ -46,7 +53,14 @@ function PlayersRoomController(PlayersRoom, Socket, $http) {
     });
 
     userSocket.on('incommingInvite', function (data) {
+      $ctrl.incommingInvites.push(data);
       console.log('incommingInvite: ', data);
+    });
+
+    userSocket.on('startGame', function (data) {
+      // save data.gameID to Game Service
+      console.log('incommingInvite: ', data);
+      $location.path('/chess')
     });
 
     userSocket.on('disconnect', function (data) {

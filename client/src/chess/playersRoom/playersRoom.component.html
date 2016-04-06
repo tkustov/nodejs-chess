@@ -19,9 +19,9 @@
     <div class="col-xs-6">
       <table class="table">
         <caption class="text-center">Incoming invites</caption>
-        <tr ng-repeat="invite in usersInvites">
+        <tr ng-repeat="invite in $ctrl.incommingInvites">
           <td><span>{{invite.userName}}</span></td>
-          <td><button ng-click='accept(invite.userId)'>Accept</button></td>
+          <td><button ng-click='$ctrl.accept(invite.userID)'>Accept</button></td>
         </tr>
       </table>
     </div>
