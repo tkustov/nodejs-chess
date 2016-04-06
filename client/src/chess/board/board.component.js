@@ -3,15 +3,18 @@ module.exports = {
   templateUrl: 'board/board.component.html'
 };
 
-var Board = require('../../../../lib/common/Board');
+//var Board = require('../../../../lib/common/Board');
 chessBoardController.$inject = ['Game'];
 function chessBoardController(Game){
   var ctrl = this;
   ctrl.white = "#fff";
   ctrl.black = "#cc6600";
   ctrl.pieces = Game.getState();
-  Game.move("a2", "a3");
+
   
+  var isFrom = true;
+  var form;
+
 	ctrl.elementRanges = [];
 	ctrl.canvas = document.getElementById('chess');
 	ctrl.ctx = ctrl.canvas.getContext('2d');
@@ -52,24 +55,91 @@ function chessBoardController(Game){
   }
     ctrl.fromNotAdded = true;
     ctrl.getPosition = function (){
+      //console.log("event :",event);
       var offsetLeft = event.currentTarget.offsetLeft + event.currentTarget.offsetParent.offsetLeft;
       var offsetTop = event.currentTarget.offsetTop + event.currentTarget.offsetParent.offsetTop;
       var clickX = event.clientX - offsetLeft;
       var clickY = event.clientY - offsetTop;
+      //console.log(ctrl.elementRanges);
+      for (var i=0;i< ctrl.elementRanges.length;i++){
+        //console.log(ctrl.elementRanges[i]);
+        if(clickX > ctrl.elementRanges[i].rangeX.firstX && clickX < ctrl.elementRanges[i].rangeX.lastX 
+          && clickY > ctrl.elementRanges[i].rangeY.firstY && clickY < ctrl.elementRanges[i].rangeY.lastY){
+          
+          if (isFrom){
+
+            form = ctrl.elementRanges[i].position;
+            console.log("From :",form);
+            isFrom = false;
+            break;
+          }
+          else
+          {
+            
+            console.log("To:",ctrl.elementRanges[i].position);
+            
+            if(Game.move(form,ctrl.elementRanges[i].position)){
+              console.log("Moved To: " + ctrl.elementRanges[i].position);
+              
+              ctrl.pieces = Game.getState();
+              ctrl.$onInit();
+              
+            }
+            isFrom = true;
+            break;
+          }
+        }
+      }
+/*
       ctrl.elementRanges.forEach(function(item){
+
         if(clickX > item.rangeX.firstX && clickX < item.rangeX.lastX 
           && clickY > item.rangeY.firstY && clickY < item.rangeY.lastY){
+          
+          if (form == 0){
+            form = item.position;
+            console.log("From :",form);
+            
+            
+          }
+          else
+          {
+            console.log("To:",item.position);
+            
+            if(Game.move(form,item.position)){
+              console.log("Moved To: " + item.position);
+              form = 0;
+              ctrl.pieces = Game.getState();
+              ctrl.$onInit();
+              return;
+            }
+
+            form = null;
+          }
+
           if(ctrl.fromNotAdded && item.name !== "empty"){
             ctrl.fromNotAdded = false;
-            var form = item.position;
+            
             console.log("From: "+ item.position);
+            
+            form = item.position;
+            return;
           }else if(!ctrl.fromNotAdded){
             ctrl.fromNotAdded = true;
             var to = item.position;
             console.log("To: " + item.position);
+            
+            if(Game.move(form,item.position)){
+              console.log("Moved To: " + item.position);
+              ctrl.pieces = Game.getState();
+              ctrl.drawBoard(ctrl.ctx,ctrl.canvasParams);
+              ctrl.drawPieces(ctrl.ctx,ctrl.pieces);
+              
+            }
+            
           } 
         }
-      });
+      });*/
   }
   
   ctrl.drawPieces = function (ctx, pieces) {
