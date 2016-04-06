@@ -9,6 +9,8 @@ function PlayersRoomController(PlayersRoom, Socket, $http) {
 
   $ctrl.usersOnline = [];
 
+  $ctrl.status = "Server is not running or your internet connection is bad :(";
+
   $ctrl.usersOnlineRefresh = function(){
     console.log('usersOnlineRefresh');
     $http.get(process.env.API_URL + '/api/usersonline/', {withCredentials: true})
@@ -35,6 +37,7 @@ function PlayersRoomController(PlayersRoom, Socket, $http) {
   .then(function(){
     userSocket.on('connect', function () {
       console.log('connected to user namespace!');
+      $ctrl.status = "Connected"
     });
 
     userSocket.on('msg', function (data) {
@@ -44,6 +47,11 @@ function PlayersRoomController(PlayersRoom, Socket, $http) {
 
     userSocket.on('incommingInvite', function (data) {
       console.log('incommingInvite: ', data);
+    });
+
+    userSocket.on('disconnect', function (data) {
+      // add force socket disconnest
+      $ctrl.status = "Disconnected. Please, refrash page or check your internet connection."
     });
 
   })
