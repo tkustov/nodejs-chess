@@ -42,7 +42,6 @@ function CheckAuth($http, $location) {
 StartupCtrl.$inject = ['Socket'];
 function StartupCtrl (Socket){
   var generalBUS = Socket();
-  var userSocket = Socket('someNS');
 
   generalBUS.on('connect', function () {
     console.log('connected to generalBUS!');
@@ -51,12 +50,5 @@ function StartupCtrl (Socket){
   generalBUS.on('msg', function (data) {
     console.log('data from generalBUS: ', data);
   });
-  
-  userSocket.on('connect', function () {
-    console.log('connected to someNS!');
-  });
 
-  userSocket.on('msg', function (data) {
-    console.log('data from someNS: ', data);
-  });
 };
