@@ -1,8 +1,8 @@
 var angular = require('angular');
 var ngRoute = require('angular-route');
-var FindUser = require('../user')
+var FindUser = require('../user');
 
-module.exports = angular.module('chess.home', [
+module.exports = angular.module('chess.startup', [
   ngRoute
 ]).
 config(RouteConfig).
@@ -15,13 +15,9 @@ RouteConfig.$inject = ['$routeProvider'];
 function RouteConfig($routeProvider) {
   $routeProvider
   .when('/', {
-    templateUrl: 'home/home.html'
-  });
-  /*.when('/play', {
-    controller: CheckAuth,
-    templateUrl: 'play/play.component.html
-  .when('/play', {
-    controller: CheckAuth,
+    templateUrl: 'startup/view.html'
+  })
+  .when('/chess', {
     template: '<check></check>'
-  });'*/
+  });
 }
