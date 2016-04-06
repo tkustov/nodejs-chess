@@ -13,7 +13,13 @@ NavbarController.$inject = ['auth', '$location'];
 function NavbarController(auth, $location) {
   var $ctrl = this;
 
+  $ctrl.toggled = false;
+  $ctrl.toggle = toggle;
   $ctrl.logout = logout;
+
+  function toggle() {
+    $ctrl.toggled = !$ctrl.toggled;
+  }
 
   function logout() {
     auth.logout().
