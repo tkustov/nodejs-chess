@@ -11,7 +11,7 @@ config(RouteConfig).
 factory('Socket', SocketFactory).
 component('check', {
   controller: FindUser,
-  templateUrl: 'startup/chess.html'
+  templateUrl: 'board/board.component.html'
 });
 
 RouteConfig.$inject = ['$routeProvider'];
@@ -21,7 +21,7 @@ function RouteConfig($routeProvider) {
     controller: StartupCtrl,
     templateUrl: 'startup/view.html'
   })
-  .when('/chess', {
+  .when('/board', {
     template: '<check></check>'
   });
 }
