@@ -10,38 +10,38 @@ function chessBoardController(){
   ctrl.black = "#cc6600";
 
   ctrl.pieces = [ 
-    { id: 1, name: 'rook', color: 'white', position: 'a1' },
-    { id: 2, name: 'knight', color: 'white', position: 'b1' },
-    { id: 3, name: 'bishop', color: 'white', position: 'c1' },
-    { id: 4, name: 'queen', color: 'white', position: 'd1' },
-    { id: 5, name: 'king', color: 'white', position: 'e1' },
-    { id: 6, name: 'bishop', color: 'white', position: 'f1' },
-    { id: 7, name: 'knight', color: 'white', position: 'g1' },
-    { id: 8, name: 'rook', color: 'white', position: 'h1' },
-    { id: 9, name: 'pawn', color: 'white', position: 'h2' },
-    { id: 10, name: 'pawn', color: 'white', position: 'g2' },
-    { id: 11, name: 'pawn', color: 'white', position: 'f2' },
-    { id: 12, name: 'pawn', color: 'white', position: 'e2' },
-    { id: 13, name: 'pawn', color: 'white', position: 'd2' },
-    { id: 14, name: 'pawn', color: 'white', position: 'c2' },
-    { id: 15, name: 'pawn', color: 'white', position: 'b2' },
-    { id: 16, name: 'pawn', color: 'white', position: 'a2' },
-    { id: 17, name: 'pawn', color: 'black', position: 'a7' },
-    { id: 18, name: 'pawn', color: 'black', position: 'b7' },
-    { id: 19, name: 'pawn', color: 'black', position: 'c7' },
-    { id: 20, name: 'pawn', color: 'black', position: 'd7' },
-    { id: 21, name: 'pawn', color: 'black', position: 'e7' },
-    { id: 22, name: 'pawn', color: 'black', position: 'f7' },
-    { id: 23, name: 'pawn', color: 'black', position: 'g7' },
-    { id: 24, name: 'pawn', color: 'black', position: 'h7' },
-    { id: 25, name: 'rook', color: 'black', position: 'h8' },
-    { id: 26, name: 'knight', color: 'black', position: 'g8' },
-    { id: 27, name: 'bishop', color: 'black', position: 'f8' },
-    { id: 28, name: 'king', color: 'black', position: 'e8' },
-    { id: 29, name: 'queen', color: 'black', position: 'd8' },
-    { id: 30, name: 'bishop', color: 'black', position: 'c8' },
-    { id: 31, name: 'knight', color: 'black', position: 'b8' },
-    { id: 32, name: 'rook', color: 'black', position: 'a8' } 
+    {name: 'rook', color: 'white', position: 'a1' },
+    {name: 'knight', color: 'white', position: 'b1' },
+    {name: 'bishop', color: 'white', position: 'c1' },
+    {name: 'queen', color: 'white', position: 'd1' },
+    {name: 'king', color: 'white', position: 'e1' },
+    {name: 'bishop', color: 'white', position: 'f1' },
+    {name: 'knight', color: 'white', position: 'g1' },
+    {name: 'rook', color: 'white', position: 'h1' },
+    {name: 'pawn', color: 'white', position: 'h2' },
+    {name: 'pawn', color: 'white', position: 'g2' },
+    {name: 'pawn', color: 'white', position: 'f2' },
+    {name: 'pawn', color: 'white', position: 'e2' },
+    {name: 'pawn', color: 'white', position: 'd2' },
+    {name: 'pawn', color: 'white', position: 'c2' },
+    {name: 'pawn', color: 'white', position: 'b2' },
+    {name: 'pawn', color: 'white', position: 'a2' },
+    {name: 'pawn', color: 'black', position: 'a7' },
+    {name: 'pawn', color: 'black', position: 'b7' },
+    {name: 'pawn', color: 'black', position: 'c7' },
+    {name: 'pawn', color: 'black', position: 'd7' },
+    {name: 'pawn', color: 'black', position: 'e7' },
+    {name: 'pawn', color: 'black', position: 'f7' },
+    {name: 'pawn', color: 'black', position: 'g7' },
+    {name: 'pawn', color: 'black', position: 'h7' },
+    {name: 'rook', color: 'black', position: 'h8' },
+    {name: 'knight', color: 'black', position: 'g8' },
+    {name: 'bishop', color: 'black', position: 'f8' },
+    {name: 'king', color: 'black', position: 'e8' },
+    {name: 'queen', color: 'black', position: 'd8' },
+    {name: 'bishop', color: 'black', position: 'c8' },
+    {name: 'knight', color: 'black', position: 'b8' },
+    {name: 'rook', color: 'black', position: 'a8' } 
   ];
 	ctrl.elementRanges = [];
 	ctrl.canvas = document.getElementById('chess');
@@ -92,9 +92,11 @@ function chessBoardController(){
           && clickY > item.rangeY.firstY && clickY < item.rangeY.lastY){
           if(ctrl.fromNotAdded && item.name !== "empty"){
             ctrl.fromNotAdded = false;
+            var form = item.position;
             console.log("From: "+ item.position);
           }else if(!ctrl.fromNotAdded){
             ctrl.fromNotAdded = true;
+            var to = item.position;
             console.log("To: "+item.position);
           } 
         }
@@ -172,7 +174,7 @@ function chessBoardController(){
     }
   }
   
-  function letterToInt(let){
+  function letterToInt(lett){
     var letter = {
     'a': 0,
     'b': 1,
@@ -184,7 +186,7 @@ function chessBoardController(){
     'h': 7
     };
   
-    return letter[let]
+    return letter[lett]
   }
   
   function intToLetter(idx){
