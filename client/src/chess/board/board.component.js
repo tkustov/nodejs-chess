@@ -3,46 +3,15 @@ module.exports = {
   templateUrl: 'board/board.component.html'
 };
 
-chessBoardController.$inject = [];
-function chessBoardController(){
+var Board = require('../../../../lib/common/Board');
+chessBoardController.$inject = ['Game'];
+function chessBoardController(Game){
   var ctrl = this;
   ctrl.white = "#fff";
   ctrl.black = "#cc6600";
-
-  ctrl.pieces = [ 
-    {name: 'rook', color: 'white', position: 'a1' },
-    {name: 'knight', color: 'white', position: 'b1' },
-    {name: 'bishop', color: 'white', position: 'c1' },
-    {name: 'queen', color: 'white', position: 'd1' },
-    {name: 'king', color: 'white', position: 'e1' },
-    {name: 'bishop', color: 'white', position: 'f1' },
-    {name: 'knight', color: 'white', position: 'g1' },
-    {name: 'rook', color: 'white', position: 'h1' },
-    {name: 'pawn', color: 'white', position: 'h2' },
-    {name: 'pawn', color: 'white', position: 'g2' },
-    {name: 'pawn', color: 'white', position: 'f2' },
-    {name: 'pawn', color: 'white', position: 'e2' },
-    {name: 'pawn', color: 'white', position: 'd2' },
-    {name: 'pawn', color: 'white', position: 'c2' },
-    {name: 'pawn', color: 'white', position: 'b2' },
-    {name: 'pawn', color: 'white', position: 'a2' },
-    {name: 'pawn', color: 'black', position: 'a7' },
-    {name: 'pawn', color: 'black', position: 'b7' },
-    {name: 'pawn', color: 'black', position: 'c7' },
-    {name: 'pawn', color: 'black', position: 'd7' },
-    {name: 'pawn', color: 'black', position: 'e7' },
-    {name: 'pawn', color: 'black', position: 'f7' },
-    {name: 'pawn', color: 'black', position: 'g7' },
-    {name: 'pawn', color: 'black', position: 'h7' },
-    {name: 'rook', color: 'black', position: 'h8' },
-    {name: 'knight', color: 'black', position: 'g8' },
-    {name: 'bishop', color: 'black', position: 'f8' },
-    {name: 'king', color: 'black', position: 'e8' },
-    {name: 'queen', color: 'black', position: 'd8' },
-    {name: 'bishop', color: 'black', position: 'c8' },
-    {name: 'knight', color: 'black', position: 'b8' },
-    {name: 'rook', color: 'black', position: 'a8' } 
-  ];
+  ctrl.pieces = Game.getState();
+  Game.move("a2", "a3");
+  
 	ctrl.elementRanges = [];
 	ctrl.canvas = document.getElementById('chess');
 	ctrl.ctx = ctrl.canvas.getContext('2d');
@@ -97,7 +66,7 @@ function chessBoardController(){
           }else if(!ctrl.fromNotAdded){
             ctrl.fromNotAdded = true;
             var to = item.position;
-            console.log("To: "+item.position);
+            console.log("To: " + item.position);
           } 
         }
       });
