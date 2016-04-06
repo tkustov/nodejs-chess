@@ -13,7 +13,12 @@
 
     <div class="collapse navbar-collapse" ng-class="{ in: $ctrl.toggled }">
       <ul class="nav navbar-nav">
+        <li><a href="#/chess">Game</a></li>
         <li><a href="#/ping">Ping</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#/login">Login</a></li>
+        <li><a href="" ng-click="$ctrl.logout()">Logout</a></li>
       </ul>
     </div>
   </div>

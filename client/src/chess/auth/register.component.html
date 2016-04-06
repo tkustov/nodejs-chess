@@ -1,0 +1,14 @@
+<form name="registerForm" class="login-form" ng-submit="registerForm.$valid && $ctrl.submitRegisterForm()" method="post" novalidate>
+    <div class="header">
+        <h1>Registration Form</h1>
+    </div>
+    <div class="content">
+        <input ng-model="$ctrl.email" name="email" type="email" class="input username" placeholder="Your email address" required />
+        <input ng-model="$ctrl.username" name="username" type="text" class="input password" placeholder="Pick a username" required />
+        <input ng-model="$ctrl.password" name="password" type="password" class="input password" placeholder="Create password" required />
+    </div>
+    <div class="footer">
+        <input type="submit" name="submit" value="Register" class="button" />
+        <a href="#/login" class="register">Cancel</a>
+    </div>
+</form>
