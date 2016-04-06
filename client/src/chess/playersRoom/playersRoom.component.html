@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row text-center">
+    <h1>Players room</h1>
+  </div>
+  
+  <div class="row">
+    <div class="col-xs-6">
+      <table class="table">
+        <caption class="text-center">Players online</caption>
+        <tr ng-repeat="user in usersOnline">
+          <td><span>{{user.name}}</span></td>
+          <td><button ng-click='invite(user.id)'>Invite</button></td>
+        </tr>
+      </table>
+    </div>
+    <div class="col-xs-6">
+      <table class="table">
+        <caption class="text-center">Incoming invites</caption>
+        <tr ng-repeat="invite in usersInvites">
+          <td><span>{{invite.userName}}</span></td>
+          <td><button ng-click='accept(invite.userId)'>Accept</button></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+</div>

@@ -23,7 +23,7 @@ function AuthController($location, auth) {
     auth.login(data)
     .then(
       function (message) {
-        $location.path( "/chess" );
+        $location.path( "/players-room" );
         console.log('Welcome' + ' ' + data.username);
       },
     showError)
