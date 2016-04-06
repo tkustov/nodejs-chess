@@ -55,14 +55,14 @@ function chessBoardController(Game){
   }
     ctrl.fromNotAdded = true;
     ctrl.getPosition = function (){
-      //console.log("event :",event);
+      
       var offsetLeft = event.currentTarget.offsetLeft + event.currentTarget.offsetParent.offsetLeft;
       var offsetTop = event.currentTarget.offsetTop + event.currentTarget.offsetParent.offsetTop;
       var clickX = event.clientX - offsetLeft;
       var clickY = event.clientY - offsetTop;
-      //console.log(ctrl.elementRanges);
+      
       for (var i=0;i< ctrl.elementRanges.length;i++){
-        //console.log(ctrl.elementRanges[i]);
+        
         if(clickX > ctrl.elementRanges[i].rangeX.firstX && clickX < ctrl.elementRanges[i].rangeX.lastX 
           && clickY > ctrl.elementRanges[i].rangeY.firstY && clickY < ctrl.elementRanges[i].rangeY.lastY){
           
@@ -90,56 +90,6 @@ function chessBoardController(Game){
           }
         }
       }
-/*
-      ctrl.elementRanges.forEach(function(item){
-
-        if(clickX > item.rangeX.firstX && clickX < item.rangeX.lastX 
-          && clickY > item.rangeY.firstY && clickY < item.rangeY.lastY){
-          
-          if (form == 0){
-            form = item.position;
-            console.log("From :",form);
-            
-            
-          }
-          else
-          {
-            console.log("To:",item.position);
-            
-            if(Game.move(form,item.position)){
-              console.log("Moved To: " + item.position);
-              form = 0;
-              ctrl.pieces = Game.getState();
-              ctrl.$onInit();
-              return;
-            }
-
-            form = null;
-          }
-
-          if(ctrl.fromNotAdded && item.name !== "empty"){
-            ctrl.fromNotAdded = false;
-            
-            console.log("From: "+ item.position);
-            
-            form = item.position;
-            return;
-          }else if(!ctrl.fromNotAdded){
-            ctrl.fromNotAdded = true;
-            var to = item.position;
-            console.log("To: " + item.position);
-            
-            if(Game.move(form,item.position)){
-              console.log("Moved To: " + item.position);
-              ctrl.pieces = Game.getState();
-              ctrl.drawBoard(ctrl.ctx,ctrl.canvasParams);
-              ctrl.drawPieces(ctrl.ctx,ctrl.pieces);
-              
-            }
-            
-          } 
-        }
-      });*/
   }
   
   ctrl.drawPieces = function (ctx, pieces) {
