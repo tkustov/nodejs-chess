@@ -8,11 +8,7 @@ module.exports = angular.module('chess.startup', [
   ngRoute
 ]).
 config(RouteConfig).
-factory('Socket', SocketFactory).
-component('check', {
-  controller: FindUser,
-  templateUrl: 'board/board.component.html'
-});
+factory('Socket', SocketFactory);
 
 RouteConfig.$inject = ['$routeProvider'];
 function RouteConfig($routeProvider) {
@@ -20,10 +16,7 @@ function RouteConfig($routeProvider) {
   .when('/', {
     controller: StartupCtrl,
     templateUrl: 'startup/view.html'
-  })
-  .when('/board', {
-    template: '<check></check>'
-  });
+   });
 }
 
 StartupCtrl.$inject = ['Socket'];
