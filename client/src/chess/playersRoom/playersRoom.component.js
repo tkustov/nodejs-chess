@@ -70,7 +70,7 @@ function PlayersRoomController(PlayersRoom, Socket, $http, $location) {
     userSocket.on('startGame', function (data) {
       // save data.gameID to Game Service
       console.log('incommingInvite: ', data);
-      $location.path('/chess')
+      $location.path('/board')
     });
 
     userSocket.on('disconnect', function (data) {

@@ -4,8 +4,8 @@ module.exports = {
 };
 
 //var Board = require('../../../../lib/common/Board');
-chessBoardController.$inject = ['Game'];
-function chessBoardController(Game){
+chessBoardController.$inject = ['Game', '$http'];
+function chessBoardController(Game, $http){
   var ctrl = this;
   ctrl.white = "#fff";
   ctrl.black = "#cc6600";
@@ -80,7 +80,13 @@ function chessBoardController(Game){
             
             if(Game.move(form,ctrl.elementRanges[i].position)){
               console.log("Moved To: " + ctrl.elementRanges[i].position);
-              
+              tmp = {from: form, to: ctrl.elementRanges[i].position }
+
+              $http.get(process.env.API_URL + '/api/game/send-move/'+JSON.stringify(tmp), {withCredentials: true})
+              .then(function(response) {
+                // $ctrl.usersOnline = response.data;
+              });
+
               ctrl.pieces = Game.getState();
               ctrl.$onInit();
               
