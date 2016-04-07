@@ -4,14 +4,25 @@ module.exports = {
 };
 
 //var Board = require('../../../../lib/common/Board');
-chessBoardController.$inject = ['Game'];
-function chessBoardController(Game){
+chessBoardController.$inject = ['Game', '$http'];
+function chessBoardController(Game, $http){
   var ctrl = this;
   ctrl.white = "#fff";
   ctrl.black = "#cc6600";
   ctrl.pieces = Game.getState();
+/////
+  ctrl.username = null;
 
-  
+  function showError(response) {
+    alert('You must login');
+  }
+
+  $http.get(process.env.API_URL + '/api/chess', {withCredentials: true}).
+  then(function(response) {
+    ctrl.username = response.data.username;
+  }, showError);
+
+/////
   var isFrom = true;
   var form;
 
