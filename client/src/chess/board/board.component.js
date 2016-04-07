@@ -3,15 +3,18 @@ module.exports = {
   templateUrl: 'board/board.component.html'
 };
 
-var Board = require('../../../../lib/common/Board');
+//var Board = require('../../../../lib/common/Board');
 chessBoardController.$inject = ['Game'];
 function chessBoardController(Game){
   var ctrl = this;
   ctrl.white = "#fff";
   ctrl.black = "#cc6600";
   ctrl.pieces = Game.getState();
-  Game.move("a2", "a3");
+
   
+  var isFrom = true;
+  var form;
+
 	ctrl.elementRanges = [];
 	ctrl.canvas = document.getElementById('chess');
 	ctrl.ctx = ctrl.canvas.getContext('2d');
@@ -52,24 +55,41 @@ function chessBoardController(Game){
   }
     ctrl.fromNotAdded = true;
     ctrl.getPosition = function (){
+      
       var offsetLeft = event.currentTarget.offsetLeft + event.currentTarget.offsetParent.offsetLeft;
       var offsetTop = event.currentTarget.offsetTop + event.currentTarget.offsetParent.offsetTop;
       var clickX = event.clientX - offsetLeft;
       var clickY = event.clientY - offsetTop;
-      ctrl.elementRanges.forEach(function(item){
-        if(clickX > item.rangeX.firstX && clickX < item.rangeX.lastX 
-          && clickY > item.rangeY.firstY && clickY < item.rangeY.lastY){
-          if(ctrl.fromNotAdded && item.name !== "empty"){
-            ctrl.fromNotAdded = false;
-            var form = item.position;
-            console.log("From: "+ item.position);
-          }else if(!ctrl.fromNotAdded){
-            ctrl.fromNotAdded = true;
-            var to = item.position;
-            console.log("To: " + item.position);
-          } 
+      
+      for (var i=0;i< ctrl.elementRanges.length;i++){
+        
+        if(clickX > ctrl.elementRanges[i].rangeX.firstX && clickX < ctrl.elementRanges[i].rangeX.lastX 
+          && clickY > ctrl.elementRanges[i].rangeY.firstY && clickY < ctrl.elementRanges[i].rangeY.lastY){
+          
+          if (isFrom){
+
+            form = ctrl.elementRanges[i].position;
+            console.log("From :",form);
+            isFrom = false;
+            break;
+          }
+          else
+          {
+            
+            console.log("To:",ctrl.elementRanges[i].position);
+            
+            if(Game.move(form,ctrl.elementRanges[i].position)){
+              console.log("Moved To: " + ctrl.elementRanges[i].position);
+              
+              ctrl.pieces = Game.getState();
+              ctrl.$onInit();
+              
+            }
+            isFrom = true;
+            break;
+          }
         }
-      });
+      }
   }
   
   ctrl.drawPieces = function (ctx, pieces) {

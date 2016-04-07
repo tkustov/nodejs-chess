@@ -12,9 +12,10 @@ function RouteConfig($routeProvider) {
   .when('/', {
     templateUrl: 'startup/view.html'
   })
-  .when('/chess', {
+  .when('/', {
     controller: CheckAuth,
     templateUrl: 'startup/chess.html'
+
   });
 }
 
