@@ -3,7 +3,6 @@ var pkg = require('./package.json');
 
 var target = path.join(__dirname, 'lib/client');
 var assets = path.join(target, 'assets');
-var images = path.join(assets, 'images');
 var prefix = pkg.name + '-' + pkg.version;
 
 var js = {
@@ -20,6 +19,11 @@ var partials = {
 var less = {
   src: path.resolve(__dirname, 'client/src/index.less'),
   dest: prefix + '.css'
+};
+
+var images = {
+  src: path.resolve(__dirname, 'client/src/images/*'),
+  dest: path.join(assets, 'images')
 };
 
 var html = {
@@ -44,5 +48,6 @@ module.exports = {
   js,
   partials,
   less,
+  images,
   html
 };
