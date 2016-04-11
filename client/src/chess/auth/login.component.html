@@ -1,4 +1,5 @@
-<form name="loginForm" class="login-form" ng-submit="$ctrl.submitLoginForm()" method="post">
+<div ng-show="$ctrl.error" class="alert alert-danger">{{$ctrl.errorMessage}}</div>
+<form name="loginForm" class="login-form" ng-submit="loginForm.$valid && $ctrl.submitLoginForm()" method="post" novalidate>
     <div class="header">
         <h1>Login Form</h1>
     </div>

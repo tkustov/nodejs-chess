@@ -17,9 +17,11 @@ function AuthController($location, auth) {
   $ctrl.submitRegisterForm = submitRegisterForm;
   $ctrl.username = null;
   $ctrl.password = null;
+  $ctrl.error = null;
 
   function showError(response) {
-    alert('Error ' + response.status + ': ' + response.data.message);
+    $ctrl.error = true;
+    $ctrl.errorMessage = response.data.message;
   }
 	function submitLoginForm() {
 		var data = {
@@ -43,7 +45,7 @@ function AuthController($location, auth) {
     auth.register(data)
     .then(
       function (message) {
-        $location.path( "/login" );
+        $location.path( "/players-room" );
         console.log('User' + ' ' + data.username + ' ' + ' registered');
         console.log(message);
       },
