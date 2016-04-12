@@ -86,7 +86,7 @@
 
 ### Прийняття запрошення
 - `/api/user/invitation/accept/:opponentID`  
-*Далі див пункт 3 - Game system*
+*Далі див пункт 4-Basic principles of Game system*
 
 ### Відхилення запрошення
 - `/api/user/invitation/reject/:opponentID`
