@@ -15,7 +15,7 @@ function UserFactory($http) {
 
 
   function getUserStatus() {
-    $http.get(process.env.API_URL + '/api/chess', {withCredentials: true})
+    $http.get(process.env.API_URL + '/api/user/name/', {withCredentials: true})
     // handle success
     .success(function (response) {
       console.log(response.username);
@@ -33,7 +33,7 @@ function UserFactory($http) {
   }
 
   function getUserName() {
-    $http.get(process.env.API_URL + '/api/chess', {withCredentials: true})
+    $http.get(process.env.API_URL + '/api/user/name/', {withCredentials: true})
     .then(function(response) {
       factory.username = response.data.username;
       // console.log(response.data.username);
@@ -41,6 +41,4 @@ function UserFactory($http) {
       alert('some error');
     })
   }
-
-
 }

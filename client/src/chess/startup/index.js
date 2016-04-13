@@ -17,15 +17,7 @@ function RouteConfig($routeProvider) {
    });
 }
 
-StartupCtrl.$inject = ['Socket'];
-function StartupCtrl (Socket){
-  
-  // var generalBUS = Socket();
-  // generalBUS.on('connect', function () {
-  //   //console.log('connected to generalBUS!');
-  // });
-  // generalBUS.on('msg', function (data) {
-  //   //console.log('data from generalBUS: ', data);
-  // });
-
+StartupCtrl.$inject = [];
+function StartupCtrl (){
+  console.log('StartupCtrl');
 };
