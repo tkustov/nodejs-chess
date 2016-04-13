@@ -27,6 +27,7 @@ function chessBoardController(Game, user, $http){
 	}
 
 	ctrl.$onInit = function() {
+      ctrl.initPieces(ctrl.pieces);
     	ctrl.drawBoard(ctrl.ctx, ctrl.canvasParams);
     	ctrl.drawPieces(ctrl.ctx, ctrl.pieces);
 	};
@@ -69,7 +70,9 @@ function chessBoardController(Game, user, $http){
           && clickY > ctrl.elementRanges[i].rangeY.firstY && clickY < ctrl.elementRanges[i].rangeY.lastY){
 
           if (isFrom){
-
+            if(Game.isFreeCell(ctrl.elementRanges[i].position)){
+              break;
+            }
             form = ctrl.elementRanges[i].position;
             console.log("From :",form);
             isFrom = false;
@@ -86,11 +89,13 @@ function chessBoardController(Game, user, $http){
 
               $http.get(process.env.API_URL + '/api/game/send-move/'+JSON.stringify(tmp), {withCredentials: true})
               .then(function(response) {
-                // $ctrl.usersOnline = response.data;
+                
               });
 
               ctrl.pieces = Game.getState();
-              ctrl.$onInit();
+              ctrl.drawBoard(ctrl.ctx, ctrl.canvasParams);
+              ctrl.drawPieces(ctrl.ctx, ctrl.pieces);
+              
 
             }
             isFrom = true;
@@ -100,7 +105,7 @@ function chessBoardController(Game, user, $http){
       }
   }
 
-  ctrl.drawPieces = function (ctx, pieces) {
+  ctrl.initPieces = function (pieces){
     var filed = true;
     for (var i=0; i<pieces.length; i++){
       var position = pieces[i].position;
@@ -136,10 +141,25 @@ function chessBoardController(Game, user, $http){
       };
       ctrl.elementRanges.push(elementRange);
 
-      draw(ctx, x, y, pieces[i]);
     };
-
   }
+
+  ctrl.drawPieces = function (ctx, pieces) {
+    var filed = true;
+    for (var i=0; i<pieces.length; i++){
+      var position = pieces[i].position;
+      var columnLetter = position[0];
+      var col = letterToInt(columnLetter);
+      var row = Math.abs(parseInt(position[1]-8));
+
+      var tmp = ctrl.canvasParams.width/8;
+
+      var x = tmp * col;
+      var y = tmp * row;
+     
+      draw(ctx, x, y, pieces[i]);
+    };    
+  } 
 
   function draw(ctx, x, y, piece) {
     var base_image = new Image();
