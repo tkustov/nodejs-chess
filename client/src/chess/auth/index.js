@@ -3,7 +3,9 @@ var ngRoute = require('angular-route');
 var AuthComponent = require('./auth.component');
 var AuthFactory = require('./auth.factory');
 
-module.exports = angular.module('chess.auth', [
+module.exports = 'chess.auth';
+
+angular.module('chess.auth', [
   ngRoute
 ]).
 config(RouteConfig).

@@ -1,7 +1,5 @@
 var angular = require('angular');
 var ngRoute = require('angular-route');
-var FindUser = require('../user')
-
 var SocketFactory = require('../socket/socket.factory');
 
 module.exports = angular.module('chess.startup', [
@@ -24,11 +22,11 @@ function StartupCtrl (Socket){
   var generalBUS = Socket();
 
   generalBUS.on('connect', function () {
-    console.log('connected to generalBUS!');
+    //console.log('connected to generalBUS!');
   });
 
   generalBUS.on('msg', function (data) {
-    console.log('data from generalBUS: ', data);
+    //console.log('data from generalBUS: ', data);
   });
 
 };
