@@ -32,7 +32,6 @@ function AuthController($location, auth) {
     .then(
       function (message) {
         $location.path( "/players-room" );
-        console.log('Welcome' + ' ' + data.username);
       },
     showError)
   }
@@ -46,8 +45,6 @@ function AuthController($location, auth) {
     .then(
       function (message) {
         $location.path( "/players-room" );
-        console.log('User' + ' ' + data.username + ' ' + ' registered');
-        console.log(message);
       },
     showError)
   }

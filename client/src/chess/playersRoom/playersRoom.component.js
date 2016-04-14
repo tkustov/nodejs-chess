@@ -9,7 +9,7 @@ function PlayersRoomController(PlayersRoom, Socket, $http, $location) {
 
   $ctrl.usersOnline = [];
   $ctrl.incommingInvites = [];
-  $ctrl.status = "Server is not running or your internet connection is bad :(";
+  $ctrl.status = "Can not connect ot Socket! Server is not running or your internet connection is bad :(";
 
   $ctrl.getUsersOnline = function(){
     console.log('getUsersOnline');
@@ -34,49 +34,49 @@ function PlayersRoomController(PlayersRoom, Socket, $http, $location) {
     });
   }
 
-  var userSocket;
-  var generalBUS = Socket();
+  // var userSocket;
+  // var generalBUS = Socket();
 
-  generalBUS.on('updateUsersList', function (data) {
-    $ctrl.getUsersOnline();
-  });
+  // generalBUS.on('updateUsersList', function (data) {
+  //   $ctrl.getUsersOnline();
+  // });
 
   $http.get(process.env.API_URL + '/api/user/namespace/', {withCredentials: true})
   .then(function(response) {
     var ns = response.data.namespace.toString();
     console.log('user namespace: ', ns);
-    userSocket = Socket(ns);
+    // userSocket = Socket(ns);
   })
   .then(function(){
-    userSocket.on('connect', function () {
-      console.log('connected to user namespace!');
-      $ctrl.status = "Connected"
-    });
+    // userSocket.on('connect', function () {
+    //   console.log('connected to user namespace!');
+    //   $ctrl.status = "Connected"
+    // });
 
-    userSocket.on('msg', function (data) {
-      console.log('data from user namespace: ', data);
-      userSocket.emit('some', 'HI!!!')
-    });
+    // userSocket.on('msg', function (data) {
+    //   console.log('data from user namespace: ', data);
+    //   userSocket.emit('some', 'HI!!!')
+    // });
 
     // userSocket.on('updateUsersList', function (data) {
     //   $ctrl.usersOnline = data;
     // });
 
-    userSocket.on('incommingInvite', function (data) {
-      $ctrl.incommingInvites.push(data);
-      console.log('incommingInvite: ', data);
-    });
+    // userSocket.on('incommingInvite', function (data) {
+    //   $ctrl.incommingInvites.push(data);
+    //   console.log('incommingInvite: ', data);
+    // });
 
-    userSocket.on('startGame', function (data) {
-      // save data.gameID to Game Service
-      console.log('incommingInvite: ', data);
-      $location.path('/board')
-    });
+    // userSocket.on('startGame', function (data) {
+    //   // save data.gameID to Game Service
+    //   console.log('incommingInvite: ', data);
+    //   $location.path('/board')
+    // });
 
-    userSocket.on('disconnect', function (data) {
-      // add force socket disconnest
-      $ctrl.status = "Disconnected. Please, refrash page or check your internet connection."
-    });
+    // userSocket.on('disconnect', function (data) {
+    //   // add force socket disconnest
+    //   $ctrl.status = "Disconnected. Please, refrash page or check your internet connection."
+    // });
 
   })
 }
