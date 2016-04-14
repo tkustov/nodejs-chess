@@ -3,11 +3,13 @@ var ngRoute = require('angular-route');
 var BoardComponent = require('./board.component');
 var BoardFactory = require('./board.factory');
 var GameFactory = require('../game/game.factory');
+var user = require('../user');
 
 module.exports = 'chess.board';
 
 angular.module('chess.board', [
-  ngRoute
+  ngRoute,
+  user
 ]).
 config(RouteConfig).
 factory('Board', BoardFactory).

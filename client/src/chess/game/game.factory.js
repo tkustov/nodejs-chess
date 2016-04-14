@@ -17,10 +17,15 @@ function GameFactory($http)  {
     function move(form, to) {
         return board.move(form, to);
     }
+    function isFreeCell(form) {
+        return board.isFreeCell(form);
+    }
+
     return {
         getMoves: getMoves,
         tryMove: tryMove,
         move: move,
-        getState: getState
+        getState: getState,
+        isFreeCell:isFreeCell
     };
 }

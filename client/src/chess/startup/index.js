@@ -1,7 +1,8 @@
 var angular = require('angular');
 var ngRoute = require('angular-route');
-//var SocketFactory = require('../socket/socket.factory');
 module.exports =angular.module('chess.startup',['ui.bootstrap']);
+var SocketFactory = require('../socket/socket.factory');
+
 
 module.exports = angular.module('chess.startup', [
   ngRoute
@@ -36,4 +37,5 @@ function StartupCtrl (){
       image: 'http://floristschennai.com/images/rose-cat.jpg'
     }
   ];*/
+  console.log('StartupCtrl');
 };
