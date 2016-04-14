@@ -9,14 +9,17 @@ config(RouteConfig);
 RouteConfig.$inject = ['$routeProvider'];
 function RouteConfig($routeProvider) {
   $routeProvider.when('/scores', {
+    controller: ScoresController,
     templateUrl: 'scores/scores.component.html'
-    //controller: ScoresController
   });
 };
-/*ScoresController.$inject = ['$http'];
-function AuthController($location, auth) {
-	$http.get('/api/records')
-	.then(function(response) {
-	$scope.records = response.data;
-});
-}*/
+function ScoresController(){
+  var ctrl = this;
+  ctrl.scores = document.getElementsByTagName("td"); 
+
+	for (var i = 0; i < ctrl.scores.length; i++) {
+		if(ctrl.scores[i].innerHTML === "Available"){
+			ctrl.scores[i].classList.add("checked");
+		}
+	}
+}

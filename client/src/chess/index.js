@@ -4,6 +4,7 @@ var startup = require('./startup');
 var auth = require('./auth');
 var scores = require('./scores');
 var help = require('./help');
+var settings = require('./settings');
 
 module.exports = angular.module('chess', [
   require('angular-route'),
@@ -12,6 +13,7 @@ module.exports = angular.module('chess', [
   auth.name,
   scores.name,
   help.name,
+  settings.name,
   require('./ping'),
   require('./playersRoom'),
   require('./board')
