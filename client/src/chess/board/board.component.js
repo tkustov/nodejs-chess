@@ -24,7 +24,7 @@ function chessBoardController(Game, user, $http){
 	ctrl.canvasParams = {
   		width : ctrl.canvas.width,
   		height : ctrl.canvas.height
-	}
+	};
 
 	ctrl.$onInit = function() {
       ctrl.initPieces(ctrl.pieces);
@@ -55,7 +55,7 @@ function chessBoardController(Game, user, $http){
         ctx.lineTo(i * (params.width / 8), params.height);
         ctx.stroke();
     }
-  }
+  };
     ctrl.fromNotAdded = true;
     ctrl.getPosition = function (){
 
@@ -85,25 +85,22 @@ function chessBoardController(Game, user, $http){
 
             if(Game.move(form,ctrl.elementRanges[i].position)){
               console.log("Moved To: " + ctrl.elementRanges[i].position);
-              tmp = {from: form, to: ctrl.elementRanges[i].position }
+              tmp = {from: form, to: ctrl.elementRanges[i].position };
 
               $http.get(process.env.API_URL + '/api/game/send-move/'+JSON.stringify(tmp), {withCredentials: true})
               .then(function(response) {
                 
               });
-
               ctrl.pieces = Game.getState();
               ctrl.drawBoard(ctrl.ctx, ctrl.canvasParams);
               ctrl.drawPieces(ctrl.ctx, ctrl.pieces);
-              
-
             }
             isFrom = true;
             break;
           }
         }
       }
-  }
+  };
 
   ctrl.initPieces = function (pieces){
     var filed = true;
@@ -141,11 +138,10 @@ function chessBoardController(Game, user, $http){
       };
       ctrl.elementRanges.push(elementRange);
 
-    };
-  }
+    }
+  };
 
   ctrl.drawPieces = function (ctx, pieces) {
-    var filed = true;
     for (var i=0; i<pieces.length; i++){
       var position = pieces[i].position;
       var columnLetter = position[0];
@@ -158,18 +154,17 @@ function chessBoardController(Game, user, $http){
       var y = tmp * row;
      
       draw(ctx, x, y, pieces[i]);
-    };    
-  } 
+    }    
+  };
 
   function draw(ctx, x, y, piece) {
     var base_image = new Image();
-    var srcArr = [];
     base_image.src = piece.color === 'white'
                 ? ctrl.piecesPaths.white[piece.name]
                 : ctrl.piecesPaths.black[piece.name];
     base_image.onload = function(){
       ctx.drawImage(base_image, x, y);
-    }
+    };
   }
 
   ctrl.piecesPaths = {
@@ -189,7 +184,7 @@ function chessBoardController(Game, user, $http){
       knight: "assets/images/knight_b.png",
       pawn: "assets/images/pawn_b.png"
     }
-  }
+  };
 
   function letterToInt(lett){
     var letter = {
@@ -203,7 +198,7 @@ function chessBoardController(Game, user, $http){
     'h': 7
     };
 
-    return letter[lett]
+    return letter[lett];
   }
 
   function intToLetter(idx){
