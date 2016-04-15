@@ -152,7 +152,6 @@ function chessBoardController(Game, auth, $http){
       var x = tmp * col;
       var y = tmp * row;
 
-
       draw(ctx, x, y, pieces[i]);
     }
   };
