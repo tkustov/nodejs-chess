@@ -4,15 +4,15 @@ module.exports = {
 };
 
 //var Board = require('../../../../lib/common/Board');
-chessBoardController.$inject = ['Game', 'user', '$http'];
-function chessBoardController(Game, user, $http){
+chessBoardController.$inject = ['Game', 'auth', '$http'];
+function chessBoardController(Game, auth, $http){
   var ctrl = this;
   ctrl.white = "#fff";
   ctrl.black = "#cc6600";
   ctrl.pieces = Game.getState();
 
 //// send request for Auth status. Redirect to /login if 401
-  user.getUserStatus();
+  auth.checkAuth();
 ////
   var isFrom = true;
   var form;
@@ -24,9 +24,10 @@ function chessBoardController(Game, user, $http){
 	ctrl.canvasParams = {
   		width : ctrl.canvas.width,
   		height : ctrl.canvas.height
-	}
+	};
 
 	ctrl.$onInit = function() {
+      ctrl.initPieces(ctrl.pieces);
     	ctrl.drawBoard(ctrl.ctx, ctrl.canvasParams);
     	ctrl.drawPieces(ctrl.ctx, ctrl.pieces);
 	};
@@ -54,53 +55,52 @@ function chessBoardController(Game, user, $http){
         ctx.lineTo(i * (params.width / 8), params.height);
         ctx.stroke();
     }
-  }
+  };
     ctrl.fromNotAdded = true;
+    var color = 'white';
     ctrl.getPosition = function (){
-
+      ctrl.initPieces(ctrl.pieces);
       var offsetLeft = event.currentTarget.offsetLeft + event.currentTarget.offsetParent.offsetLeft;
       var offsetTop = event.currentTarget.offsetTop + event.currentTarget.offsetParent.offsetTop;
       var clickX = event.clientX - offsetLeft;
       var clickY = event.clientY - offsetTop;
-
       for (var i=0;i< ctrl.elementRanges.length;i++){
-
         if(clickX > ctrl.elementRanges[i].rangeX.firstX && clickX < ctrl.elementRanges[i].rangeX.lastX
           && clickY > ctrl.elementRanges[i].rangeY.firstY && clickY < ctrl.elementRanges[i].rangeY.lastY){
-
-          if (isFrom){
-
-            form = ctrl.elementRanges[i].position;
-            console.log("From :",form);
-            isFrom = false;
-            break;
-          }
-          else
-          {
-
-            console.log("To:",ctrl.elementRanges[i].position);
-
-            if(Game.move(form,ctrl.elementRanges[i].position)){
-              console.log("Moved To: " + ctrl.elementRanges[i].position);
-              tmp = {from: form, to: ctrl.elementRanges[i].position }
-
-              $http.get(process.env.API_URL + '/api/game/send-move/'+JSON.stringify(tmp), {withCredentials: true})
-              .then(function(response) {
-                // $ctrl.usersOnline = response.data;
-              });
-
-              ctrl.pieces = Game.getState();
-              ctrl.$onInit();
-
+            if (isFrom){
+              if(ctrl.elementRanges[i].color === color){
+                if(Game.isFreeCell(ctrl.elementRanges[i].position)){
+                  break;
+                }
+                form = ctrl.elementRanges[i].position;
+                console.log("From :",form);
+                isFrom = false;
+                color = color === 'black'?'white':'black';
+                break;
+              }else{
+                console.log('don`t go');
+              }
             }
-            isFrom = true;
-            break;
+            else{
+              console.log("To:",ctrl.elementRanges[i].position);
+              if(Game.move(form,ctrl.elementRanges[i].position)){
+                console.log("Moved To: " + ctrl.elementRanges[i].position);
+                tmp = {from: form, to: ctrl.elementRanges[i].position };
+                $http.get(process.env.API_URL + '/api/game/send-move/'+JSON.stringify(tmp), {withCredentials: true})
+                .then(function(response) {
+                });
+                ctrl.pieces = Game.getState();
+                ctrl.drawBoard(ctrl.ctx, ctrl.canvasParams);
+                ctrl.drawPieces(ctrl.ctx, ctrl.pieces);
+              }
+              isFrom = true;
+              break;
           }
         }
-      }
-  }
+    }
+  };
 
-  ctrl.drawPieces = function (ctx, pieces) {
+  ctrl.initPieces = function (pieces){
     var filed = true;
     for (var i=0; i<pieces.length; i++){
       var position = pieces[i].position;
@@ -124,32 +124,47 @@ function chessBoardController(Game, user, $http){
               name: "empty"
             };
             ctrl.elementRanges.push(elementRange);
+            }
           }
+          filed = false;
         }
-        filed = false;
-      }
       var elementRange = {
         rangeX: {firstX:x,lastX:x+tmp},
         rangeY: {firstY:y,lastY:y+tmp},
         position: position,
-        name: pieces[i].name
+        name: pieces[i].name,
+        color: pieces[i].color
       };
       ctrl.elementRanges.push(elementRange);
 
-      draw(ctx, x, y, pieces[i]);
-    };
+    }
+  };
 
-  }
+  ctrl.drawPieces = function (ctx, pieces) {
+    for (var i=0; i<pieces.length; i++){
+      var position = pieces[i].position;
+      var columnLetter = position[0];
+      var col = letterToInt(columnLetter);
+      var row = Math.abs(parseInt(position[1]-8));
+
+      var tmp = ctrl.canvasParams.width/8;
+
+      var x = tmp * col;
+      var y = tmp * row;
+
+
+      draw(ctx, x, y, pieces[i]);
+    }
+  };
 
   function draw(ctx, x, y, piece) {
     var base_image = new Image();
-    var srcArr = [];
     base_image.src = piece.color === 'white'
                 ? ctrl.piecesPaths.white[piece.name]
                 : ctrl.piecesPaths.black[piece.name];
     base_image.onload = function(){
       ctx.drawImage(base_image, x, y);
-    }
+    };
   }
 
   ctrl.piecesPaths = {
@@ -169,7 +184,7 @@ function chessBoardController(Game, user, $http){
       knight: "assets/images/knight_b.png",
       pawn: "assets/images/pawn_b.png"
     }
-  }
+  };
 
   function letterToInt(lett){
     var letter = {
@@ -183,11 +198,11 @@ function chessBoardController(Game, user, $http){
     'h': 7
     };
 
-    return letter[lett]
+    return letter[lett];
   }
 
   function intToLetter(idx){
     var letter = ['a','b','c','d','e','f','g','h'];
-    return letter[idx]
+    return letter[idx];
   }
 }

@@ -1,32 +1,23 @@
 var angular = require('angular');
 var ngRoute = require('angular-route');
-var SocketFactory = require('../socket/socket.factory');
+var startupComponent = require('./startup.component')
+var ui = require('angular-ui-bootstrap');
+var ngAimate = require('angular-animate');
 
 module.exports = angular.module('chess.startup', [
-  ngRoute
+  ngRoute,
+  ui,
+  ngAimate
+
 ]).
 config(RouteConfig).
-factory('Socket', SocketFactory);
+component('startup', startupComponent);
+
 
 RouteConfig.$inject = ['$routeProvider'];
 function RouteConfig($routeProvider) {
   $routeProvider
   .when('/', {
-    controller: StartupCtrl,
-    templateUrl: 'startup/view.html'
-   });
+    template: '<startup></startup>'
+  });
 }
-
-StartupCtrl.$inject = ['Socket'];
-function StartupCtrl (Socket){
-  var generalBUS = Socket();
-
-  generalBUS.on('connect', function () {
-    //console.log('connected to generalBUS!');
-  });
-
-  generalBUS.on('msg', function (data) {
-    //console.log('data from generalBUS: ', data);
-  });
-
-};

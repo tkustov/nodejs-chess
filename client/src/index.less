@@ -5,8 +5,7 @@
 /*******************
 LOGIN FORM
 *******************/
-
-.login-form {
+.form{
 	width: 300px;
 	margin: 0 auto;
 	position: relative;
@@ -17,29 +16,30 @@ LOGIN FORM
 	box-shadow: 0 1px 3px rgba(0,0,0,0.5);
 	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
 	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	padding:0;
 }
 
 /*******************
 HEADER
 *******************/
-
-.login-form .header {
-	padding: 40px 30px 30px 30px;
+.panel .header{
+	padding: 40px 0 0 0;
+	border:none;
+	background: #f3f3f3;
 }
 
-.login-form .header h1 {
+.panel .panel-heading h1 {
 	font-family: 'Bree Serif', serif;
 	font-weight: 300;
 	font-size: 28px;
-	line-height:34px;
 	color: #414848;
 	text-shadow: 1px 1px 0 rgba(256,256,256,1.0);
-	margin-bottom: 10px;
+	float: left;
+	padding: 0 0 30px 30px;
 }
 
-.login-form .header span {
+.panel .panel-heading span {
 	font-size: 11px;
-	line-height: 16px;
 	color: #678889;
 	text-shadow: 1px 1px 0 rgba(256,256,256,1.0);
 }
@@ -48,14 +48,15 @@ HEADER
 CONTENT
 *******************/
 
-.login-form .content {
-	padding: 0 30px 25px 30px;
+.panel .content{
+	padding: 25px 30px 25px 30px;
 }
 
 /* Input field */
-.login-form .content .input {
+.panel .panel-body .input {
 	width: 100%;
-	padding: 15px 25px;
+	padding: 20px;
+	margin: 0 0 15px 0;
 	outline:none;
 	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 	font-weight: 400;
@@ -70,17 +71,12 @@ CONTENT
 	-webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,0.50);
 }
 
-/* Second input field */
-.login-form .content .password, .login-form .content .pass-icon {
-	margin-top: 25px;
-}
-
-.login-form .content .input:hover {
+.panel .panel-body .input:hover {
 	background: #dfe9ec;
 	color: #414848;
 }
 
-.login-form .content .input:focus {
+.panel .panel-body .input:focus {
 	background: #dfe9ec;
 	color: #414848;
 	box-shadow: inset 0 1px 2px rgba(0,0,0,0.25);
@@ -92,7 +88,7 @@ CONTENT
 FOOTER
 *******************/
 
-.login-form .footer {
+.panel .footer {
 	padding: 30px;
 	overflow: auto;
 	background: #d4dedf;
@@ -103,7 +99,7 @@ FOOTER
 }
 
 /* Login button */
-.login-form .footer .button {
+.panel .panel-footer .button {
 	float:right;
 	padding: 11px 25px;
 	outline:none;
@@ -121,7 +117,7 @@ FOOTER
 	-webkit-box-shadow: inset 0 0 2px rgba(256,256,256,0.75);
 }
 
-.login-form .footer .button:hover {
+.panel .panel-footer .button:hover {
 	background: #3f9db8;
 	border: 1px solid rgba(256,256,256,0.75);
 	box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
@@ -129,7 +125,7 @@ FOOTER
 	-webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
 }
 
-.login-form .footer .button:focus {
+.panel .panel-footer .button:focus {
 	position: relative;
 	bottom: -1px;
 	background: #56c2e1;
@@ -139,7 +135,7 @@ FOOTER
 }
 
 /* Register button */
-.login-form .footer .register {
+.panel .panel-footer .register {
 	display: block;
 	float: right;
 	padding: 10px;
@@ -154,18 +150,152 @@ FOOTER
 	text-shadow: 0px 1px 0 rgba(256,256,256,0.5);
 }
 
-.login-form .footer .register:hover {
+.panel .panel-footer .register:hover {
 	color: #3f9db8;
 }
 
-.login-form .footer .register:focus {
+.panel .panel-footer .register:focus {
 	position: relative;
 	bottom: -1px;
 }
 
-.login-form .ng-invalid.ng-dirty {
+.panel .ng-invalid .ng-dirty {
     border-color: red;
 }
-.login-form .ng-valid.ng-dirty {
+.panel .ng-valid .ng-dirty {
     border-color: green;
+}
+
+/*******************
+CAROUSEL
+*******************/
+
+body {
+  padding: 0px;
+  margin: 0px;
+}
+.row-content {
+  margin: 0px auto;
+  padding: 0px;
+}
+
+#carousel {
+  margin-top: -20px;
+}
+#carousel img {
+  height: 400px;
+  margin: 0px auto;
+}
+    .checked{
+    	background-image: -moz-linear-gradient(top, #E0FFFF, #87CEFA);
+background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.00, #E0FFFF), color-stop(1.0, #87CEFA));
+    	cursor: pointer;
+    }
+    .checked:hover{
+background-image: -moz-linear-gradient(top, #6495ED, #AFEEEE);
+background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.00, #6495ED), color-stop(1.0, #AFEEEE));
+		font-weight: bold;
+    }
+    .panel-heading{
+    	text-align: center;
+    }
+    .col-md-7, .col-md-2, .col-md-3{
+    	margin-top: 5%;
+    }
+    .progress-bar{
+background-image: -moz-linear-gradient(top, #87CEFA, #AFEEEE);
+background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.00, #87CEFA), color-stop(1.0, #AFEEEE));
+color: #000;
+    }
+    .badge{
+    	background-color: #87CEFA;
+    }
+    .right-panel{
+    	padding: 5%;
+    }
+    
+    .form-group{
+    	margin: 0;
+    }
+    #photo, #pass{
+        display: none;
+        margin: 1%;
+    }
+
+.panel .panel-heading .panel-title h2 {
+	font-family: 'Bree Serif', serif;
+	font-weight: 300;
+	font-size: 28px;
+	color: #414848;
+	text-shadow: 1px 1px 0 rgba(256,256,256,1.0);
+	float: left;
+	padding: 0 0 30px 30px;
+}
+.help-form{
+	margin: 0 auto;
+}
+
+/*******************
+SCORES
+*******************/
+.scoresPanel{
+	width: 100%;
+}
+.checked{
+    background-image: -moz-linear-gradient(top, #E0FFFF, #87CEFA);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.00, #E0FFFF), color-stop(1.0, #87CEFA));
+    cursor: pointer;
+}
+.checked:hover{
+    background-image: -moz-linear-gradient(top, #6495ED, #AFEEEE);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.00, #6495ED), color-stop(1.0, #AFEEEE));
+	font-weight: bold;
+}
+.panel-heading{
+    text-align: center;
+}
+.col-md-7, .col-md-2, .col-md-3{
+    margin-top: 5%;
+}
+.progress-bar{
+    background-image: -moz-linear-gradient(top, #87CEFA, #AFEEEE);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.00, #87CEFA), color-stop(1.0, #AFEEEE));
+    color: #000;
+}
+.badge{
+    background-color: #87CEFA;
+}
+.right-panel{
+    padding: 5%;
+}
+
+/*******************
+SETTINGS
+*******************/
+
+.form-group{
+    margin: 0;
+}
+#photo, #password_modal{
+    margin: 1%;
+}
+
+.inputPass{
+	display: block;
+}
+#settings-header{
+	margin: 20px 0;
+}
+#userscores{
+	color: #fff;
+    background-color: #333;
+    text-shadow: #fff 0 -1px 4px, #ff0 0 -2px 10px, #ff8000 0 -10px 20px, red 0 -18px 40px;
+    height: 50px;
+    border-radius: 20px;
+    width: 200px;
+    font-size: 20px;
+    padding-top: 7px;
+}
+.modal-footer{
+	text-align: center;
 }

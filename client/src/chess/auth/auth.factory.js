@@ -5,7 +5,8 @@ function AuthFactory($http) {
 	return {
     login: login,
     register: register,
-    logout: logout
+    logout: logout,
+    checkAuth: checkAuth
 	};
 
   function login(data) {
@@ -23,6 +24,12 @@ function AuthFactory($http) {
   function logout() {
     return $http.post(process.env.API_URL + '/logout', null, {withCredentials: true}).
     then(function (response) {
+      return response.status + ' ' + response.statusText;
+    });
+  }
+  function checkAuth() {
+    return $http.get(process.env.API_URL + '/api/user/name/', {withCredentials: true}).
+    success(function (response) {
       return response.status + ' ' + response.statusText;
     });
   }
