@@ -1,0 +1,11 @@
+
+<div class="row row-content" id="carousel">
+  <div class="col-md-12">
+      <uib-carousel active="$ctrl.active" interval="$ctrl.myInterval">
+        <uib-slide ng-repeat="slide in $ctrl.slides track by slide.id" index="slide.id">
+          <img ng-src="{{slide.image}}?{{$index}}">
+        </uib-slide>
+      </uib-carousel>
+  </div>
+</div>
+<h1>Home page</h1>
