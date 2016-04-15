@@ -57,49 +57,47 @@ function chessBoardController(Game, user, $http){
     }
   };
     ctrl.fromNotAdded = true;
+    var color = 'white';
     ctrl.getPosition = function (){
-
+      ctrl.initPieces(ctrl.pieces);
       var offsetLeft = event.currentTarget.offsetLeft + event.currentTarget.offsetParent.offsetLeft;
       var offsetTop = event.currentTarget.offsetTop + event.currentTarget.offsetParent.offsetTop;
       var clickX = event.clientX - offsetLeft;
       var clickY = event.clientY - offsetTop;
-
       for (var i=0;i< ctrl.elementRanges.length;i++){
-
         if(clickX > ctrl.elementRanges[i].rangeX.firstX && clickX < ctrl.elementRanges[i].rangeX.lastX
           && clickY > ctrl.elementRanges[i].rangeY.firstY && clickY < ctrl.elementRanges[i].rangeY.lastY){
-
-          if (isFrom){
-            if(Game.isFreeCell(ctrl.elementRanges[i].position)){
+            if (isFrom){
+              if(ctrl.elementRanges[i].color === color){
+                if(Game.isFreeCell(ctrl.elementRanges[i].position)){
+                  break;
+                }
+                form = ctrl.elementRanges[i].position;
+                console.log("From :",form);
+                isFrom = false;
+                color = color === 'black'?'white':'black'; 
+                break;
+              }else{
+                console.log('don`t go');
+              }
+            }
+            else{
+              console.log("To:",ctrl.elementRanges[i].position);
+              if(Game.move(form,ctrl.elementRanges[i].position)){
+                console.log("Moved To: " + ctrl.elementRanges[i].position);
+                tmp = {from: form, to: ctrl.elementRanges[i].position };
+                $http.get(process.env.API_URL + '/api/game/send-move/'+JSON.stringify(tmp), {withCredentials: true})
+                .then(function(response) {
+                });
+                ctrl.pieces = Game.getState();
+                ctrl.drawBoard(ctrl.ctx, ctrl.canvasParams);
+                ctrl.drawPieces(ctrl.ctx, ctrl.pieces);
+              }
+              isFrom = true;
               break;
-            }
-            form = ctrl.elementRanges[i].position;
-            console.log("From :",form);
-            isFrom = false;
-            break;
-          }
-          else
-          {
-
-            console.log("To:",ctrl.elementRanges[i].position);
-
-            if(Game.move(form,ctrl.elementRanges[i].position)){
-              console.log("Moved To: " + ctrl.elementRanges[i].position);
-              tmp = {from: form, to: ctrl.elementRanges[i].position };
-
-              $http.get(process.env.API_URL + '/api/game/send-move/'+JSON.stringify(tmp), {withCredentials: true})
-              .then(function(response) {
-                
-              });
-              ctrl.pieces = Game.getState();
-              ctrl.drawBoard(ctrl.ctx, ctrl.canvasParams);
-              ctrl.drawPieces(ctrl.ctx, ctrl.pieces);
-            }
-            isFrom = true;
-            break;
           }
         }
-      }
+    }
   };
 
   ctrl.initPieces = function (pieces){
@@ -126,15 +124,16 @@ function chessBoardController(Game, user, $http){
               name: "empty"
             };
             ctrl.elementRanges.push(elementRange);
+            }
           }
+          filed = false;
         }
-        filed = false;
-      }
       var elementRange = {
         rangeX: {firstX:x,lastX:x+tmp},
         rangeY: {firstY:y,lastY:y+tmp},
         position: position,
-        name: pieces[i].name
+        name: pieces[i].name,
+        color: pieces[i].color
       };
       ctrl.elementRanges.push(elementRange);
 
@@ -203,6 +202,6 @@ function chessBoardController(Game, user, $http){
 
   function intToLetter(idx){
     var letter = ['a','b','c','d','e','f','g','h'];
-    return letter[idx]
+    return letter[idx];
   }
 }
