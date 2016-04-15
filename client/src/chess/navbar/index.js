@@ -15,12 +15,11 @@ NavbarController.$inject = ['auth', 'user', '$location'];
 function NavbarController(auth, user, $location) {
   var $ctrl = this;
 
+
   $ctrl.logout = logout;
   $ctrl.username = user.username;
   $ctrl.toggled = false;
   $ctrl.toggle = toggle;
-  //console.log($ctrl.username);
-  //user.getUserName();
   function toggle() {
     $ctrl.toggled = !$ctrl.toggled;
   }
