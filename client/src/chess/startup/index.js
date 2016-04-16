@@ -1,41 +1,23 @@
 var angular = require('angular');
 var ngRoute = require('angular-route');
-module.exports =angular.module('chess.startup',['ui.bootstrap']);
-var SocketFactory = require('../socket/socket.factory');
-
+var startupComponent = require('./startup.component')
+var ui = require('angular-ui-bootstrap');
+var ngAimate = require('angular-animate');
 
 module.exports = angular.module('chess.startup', [
-  ngRoute
+  ngRoute,
+  ui,
+  ngAimate
+
 ]).
-config(RouteConfig);
-//factory('Socket', SocketFactory);
+config(RouteConfig).
+component('startup', startupComponent);
+
 
 RouteConfig.$inject = ['$routeProvider'];
 function RouteConfig($routeProvider) {
   $routeProvider
   .when('/', {
-    controller: StartupCtrl,
-    templateUrl: 'startup/view.html'
-   });
+    template: '<startup></startup>'
+  });
 }
-
-StartupCtrl.$inject = [];
-function StartupCtrl (){
-  /*var $ctrl = this;
-  $ctrl.myInterval = 3000;
-  $ctrl.slides = [
-    {
-      image: 'https://www.flowersmadeeasy.com/images/Untitled-3.jpg'
-    },
-    {
-      image: 'http://www.polyvore.com/cgi/img-thing?.out=jpg&size=l&tid=44977624'
-    },
-    {
-      image: 'http://www.flower-arrangement-advisor.com/images/pink_hyacinth_flower.jpg'
-    },
-    {
-      image: 'http://floristschennai.com/images/rose-cat.jpg'
-    }
-  ];*/
-  console.log('StartupCtrl');
-};

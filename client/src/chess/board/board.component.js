@@ -4,15 +4,15 @@ module.exports = {
 };
 
 //var Board = require('../../../../lib/common/Board');
-chessBoardController.$inject = ['Game', 'user', '$http'];
-function chessBoardController(Game, user, $http){
+chessBoardController.$inject = ['Game', 'auth', '$http'];
+function chessBoardController(Game, auth, $http){
   var ctrl = this;
   ctrl.white = "#fff";
   ctrl.black = "#cc6600";
   ctrl.pieces = Game.getState();
 
 //// send request for Auth status. Redirect to /login if 401
-  user.getUserStatus();
+  auth.checkAuth();
 ////
   var isFrom = true;
   var form;
@@ -75,7 +75,7 @@ function chessBoardController(Game, user, $http){
                 form = ctrl.elementRanges[i].position;
                 console.log("From :",form);
                 isFrom = false;
-                color = color === 'black'?'white':'black'; 
+                color = color === 'black'?'white':'black';
                 break;
               }else{
                 console.log('don`t go');
@@ -151,9 +151,9 @@ function chessBoardController(Game, user, $http){
 
       var x = tmp * col;
       var y = tmp * row;
-     
+
       draw(ctx, x, y, pieces[i]);
-    }    
+    }
   };
 
   function draw(ctx, x, y, piece) {
