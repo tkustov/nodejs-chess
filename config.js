@@ -26,6 +26,11 @@ var images = {
   dest: path.join(assets, 'images')
 };
 
+var fonts = {
+  src: path.resolve(__dirname, 'client/src/fonts/*'),
+  dest: path.join(assets, 'fonts')
+};
+
 var html = {
   src: path.resolve(__dirname, 'client/src/index.html'),
   dest: 'index.html',
@@ -49,5 +54,6 @@ module.exports = {
   partials,
   less,
   images,
+  fonts,
   html
 };
