@@ -9,6 +9,6 @@ function PlayersRoomController(PlayersRoom, Socket, $http, $location) {
 
   $ctrl.usersOnline = [];
   $ctrl.incommingInvites = [];
-  $ctrl.status = "Can not connect ot Socket! Server is not running or your internet connection is bad :(";
+  $ctrl.status = "Can't connect to Socket! Server is not running or your internet connection is bad :(";
 
 };
