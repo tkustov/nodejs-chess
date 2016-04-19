@@ -3,12 +3,12 @@ var ngRoute = require('angular-route');
 var SocketFactory = require('../socket/socket.factory');
 
 module.exports = angular.module('chess.chat', [
-  'ngCookies',
+ /* 'ngCookies',
   'ngResource',
   'ngSanitize',
-  'btford.socket-io'
+  'btford.socket-io'*/
 ]).
-.value('nickName', 'anonymous');
+//.value('nickName', 'anonymous');
 //config(RouteConfig).
 component('chat', {
   controller: ChatController,
@@ -18,7 +18,7 @@ component('chat', {
 function ChatController(socket){
 	console.log('Chat Controller');
 	
-	socket.on('init', function (data) {
+	/*socket.on('init', function (data) {
     $scope.name = data.name;
     $scope.users = data.users;
   });
@@ -54,5 +54,5 @@ function ChatController(socket){
 
     // clear message box
     $scope.message = '';
-  };
+  };*/
 }
