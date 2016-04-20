@@ -7,6 +7,8 @@ var help = require('./help');
 var settings = require('./settings');
 var user = require('./user');
 var ui = require('angular-ui-bootstrap');
+var chat = require('./chat');
+var game = require('./game');
 
 module.exports = angular.module('chess', [
   require('angular-route'),
@@ -19,6 +21,8 @@ module.exports = angular.module('chess', [
   scores.name,
   help.name,
   settings.name,
+  chat.name,
+  game.name,
   require('./ping'),
   require('./playersRoom'),
   require('./board')
