@@ -1,61 +1,34 @@
-<!-- <div class="container">
+<div class="container">
   <div class="row">
     <div class="col-md-5">
       <div class="panel panel-default panel-chat">
         <div class="panel-heading">
           <span class="glyphicon glyphicon-comment"></span> Chat
         </div>
-        <div class="panel-body chatbody" ng-submit='sendMessage()'>
+        <div class="panel-body chatbody">
           <ul class="chat">
             <li>
-              <div class="chat-body clearfix">
+              <div ng-repeat="message in $ctrl.messages" class="chat-body clearfix">
                 <div class="header">
-                  <strong class="primary-font">
-                    {{$ctrl.name}}
-                  </strong> 
+                    <strong class="primary-font">
+                      {{message.user}}
+                    </strong> 
                 </div>
                 <p>
-                  {{$ctrl.message}}
+                  {{message.text}}
                 </p>
               </div>
             </li>
           </ul>
         </div>
         <div class="panel-footer">
-          <div class="input-group">
-            <input id="btn-input" type="text" ng-model='message' class="form-control input-sm" placeholder="Type your message here..." />
+          <form ng-submit="$ctrl.sendMessage()" class="input-group">
+            <input id="btn-input" type="text" ng-model="$ctrl.message" class="form-control input-sm" placeholder="Type your message here..." />
             <span class="input-group-btn">
-              <button class="btn btn-warning btn-sm" id="btn-chat"  >Send</button>
+              <input type="submit" class="btn btn-warning btn-sm" id="btn-chat" value="Send" />
             </span>
-          </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
-</div> -->
-<div class="col">
-   <h3>Messages</h3>
-<div class="overflowable">
-  <p >: {{$ctrl.chatmessages}}</p>
-</div> 
-</div> 
-<!-- <div class='row'>
-      <div class='col-md-9'>
-        <textarea style='width: 100%; height: 200px' 
-             ng-disable='true' ng-model='messageLog'>
-             {{ctrl.chatmessages}}
-        </textarea>
-      </div>
-</div> -->
-<div class="col">
-<!--<h3>Users</h3>
-<div class="overflowable">
-  <p ng-repeat="user in $ctrl.users"> </p>
-</div>
-</div> -->
-<div class="clr">
-  <form ng-submit="$ctrl.sendMessage()">Message: 
-    <input size="60" ng-model="$ctrl.message"/>
-    <input type="submit" value="Send"/>
-  </form>
-</div>
