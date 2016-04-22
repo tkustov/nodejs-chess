@@ -48,10 +48,10 @@ function ChatController(Socket, $http, $location){
 		    chatSocket.emit('send:message', {    	
 		      	message: $ctrl.message
 			});
-			$ctrl.messages.push({
+			/*$ctrl.messages.push({
 		      user: $ctrl.name,
 		      text: $ctrl.message
-		    });
+		    });*/
 		    $ctrl.message = '';
 		};
 	});
