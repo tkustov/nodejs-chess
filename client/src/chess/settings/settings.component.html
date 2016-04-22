@@ -1,22 +1,13 @@
 <div class="row" class="settings">
   <div class="col-sm-4 text-center">
-    <p>Hello {{$ctrl.user.username}}!</p>
-    <!--<img src="{{$ctrl.user.avatar}}" class="img-responsive img-rounded avatar center-block" alt="avatar">-->
-    <!--<button class="btn btn-primary" type="button">-->
-    <!--  Your score: <span class="badge">{{$ctrl.user.score}}</span>-->
-    <!--</button>-->
+    <p>Hello {{$ctrl.user.name}}!</p>
+    <button class="btn btn-primary" type="button">
+      Your score: <span class="badge">{{$ctrl.user.score}}</span>
+    </button>
   </div>
   
   <div class="col-sm-6 col-sm-offset-2">
      <uib-accordion>
-        <uib-accordion-group>
-          <uib-accordion-heading class="text-left">{{$ctrl.group1.title}}</uib-accordion-heading>
-          <div>
-            <input type='file'>
-            <button type="button" class="btn btn-success">{{$ctrl.group1.upload}}</button>
-          </div>
-        </uib-accordion-group>
-        
         <uib-accordion-group heading="{{$ctrl.group2.title}}">
           <form class="form-horizontal">
             <div class="form-group">

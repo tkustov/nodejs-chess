@@ -10,6 +10,7 @@ module.exports = angular.module('chess.startup', [
   ui
 ]).
 config(RouteConfig).
+run(RunFunction).
 component('startup', StartupComponent);
 
 
@@ -19,4 +20,9 @@ function RouteConfig($routeProvider) {
   .when('/', {
     template: '<startup></startup>'
   });
+}
+
+RunFunction.$inject = ['user'];
+function RunFunction(user) {
+  user.getUserInfo();
 }
