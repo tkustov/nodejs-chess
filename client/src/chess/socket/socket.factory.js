@@ -13,17 +13,18 @@ function SocketFactory($rootScope, $cacheFactory) {
       sockets.put(ns, io.connect(process.env.API_URL+ns));
     }
     socket = sockets.get(ns);
-    socket.on('disconnect', function () { sockets.remove(ns); })
+    // socket.on('disconnect', function () { sockets.remove(ns); })
     return {
       on: on.bind(null, socket),
-      emit: emit.bind(null, socket)
+      emit: emit.bind(null, socket),
+      disconnect: disconnect.bind(null, socket)
     };
   };
 
   function on(socket, event, callback) {
     socket.on(event, function () {  
       var args = arguments;
-      $rootScope.$apply(function () {
+      $rootScope.$applyAsync(function () {
         callback.apply(socket, args);
       });
     })
@@ -32,11 +33,15 @@ function SocketFactory($rootScope, $cacheFactory) {
   function emit(socket, eventName, data, callback) {
     socket.emit(eventName, data, function () {
       var args = arguments;
-      $rootScope.$apply(function () {
+      $rootScope.$applyAsync(function () {
         if (callback) {
           callback.apply(socket, args);
         }
       });
     })
+  }
+  
+  function disconnect(socket) {
+    socket.disconnect();
   }
 };
