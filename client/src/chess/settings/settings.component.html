@@ -1,11 +1,11 @@
 <div class="row" class="settings">
   <div class="col-sm-4 text-center">
-    <p>Hello {{$ctrl.user.name}}!</p>
+    <p>Hello {{$ctrl.user.username}}!</p>
     <button class="btn btn-primary" type="button">
-      Your score: <span class="badge">{{$ctrl.user.score}}</span>
+      Your score: <span class="badge">{{$ctrl.user.scores}}</span>
     </button>
   </div>
-  
+
   <div class="col-sm-6 col-sm-offset-2">
      <uib-accordion>
         <uib-accordion-group heading="{{$ctrl.group2.title}}">
@@ -36,7 +36,7 @@
             </div>
           </form>
         </uib-accordion-group>
-        
+
         <uib-accordion-group heading="{{$ctrl.group3.title}}">
           <uib-tabset active="activePill" vertical="true" type="pills">
             <uib-tab index="0" heading="{{$ctrl.group3.content.theme1}}"></uib-tab>
@@ -44,7 +44,7 @@
             <uib-tab index="2" heading="{{$ctrl.group3.content.theme3}}"></uib-tab>
           </uib-tabset>
         </uib-accordion-group>
-        
+
         <uib-accordion-group heading="{{$ctrl.group4.title}}">
           <uib-tabset active="activePill" vertical="true" type="pills">
             <uib-tab index="0" heading="{{$ctrl.group4.content.en}}"></uib-tab>
