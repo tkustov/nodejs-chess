@@ -29,7 +29,8 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.7.0",
-    "mocha": "^2.4.5"
+    "mocha": "^2.4.5",
+    "chai@": "^3.5.0"
   },
   "dependencies": {
     "angular": "^1.5.0",

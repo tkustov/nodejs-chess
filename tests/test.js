@@ -1,6 +1,9 @@
 
 var Board = require("../lib/common/Board.js");
-var assert = require('assert');
+var Queen = require('../lib/common/Queen');
+var King = require('../lib/common/King');
+var assert = require('chai').assert;
+
 var board = new Board();
 
 describe("Board methods", function(){
@@ -9,6 +12,7 @@ describe("Board methods", function(){
  		assert.equal(true, board.isOnBoard('e2'));
  		assert.equal(true, board.isOnBoard('e1'));
  		assert.equal(false, board.isOnBoard('a0'));
+ 		assert.equal(false, board.isOnBoard('e10'));
  	});
  	it('test isFreeCell method', function (){
  		assert.equal(false, board.isFreeCell('e2'));
@@ -24,28 +28,60 @@ describe("Board methods", function(){
  		assert.deepEqual({i:1,j:0}, board.transform('a7'));
  		
  	});
- 	it('test getMoves method', function (){
- 		assert.deepEqual(['e3','e4'], board.getMoves('e2'));
+
+ 	it('test reverseTrans method', function (){
+ 		assert.deepEqual('a7', board.reverseTrans({i:1,j:0}));
+ 		
  	});
- 	
+
+
+ 	it('test pawn getMoves method', function (){
+ 		board = new Board();
+ 		assert.sameMembers(['e3','e4'], board.getMoves('e2'));
+ 		assert.sameMembers([], board.getMoves('e3'));
+
+ 		board.pieces['e2'].move('e2','e4');
+ 		assert.sameMembers([], board.getMoves('e2'));
+ 		assert.sameMembers(['e5'], board.getMoves('e4'));
+
+ 		board.pieces['d7'].move('d7','d5');
+ 		assert.sameMembers(['d5','e5'], board.getMoves('e4'));
+		
+		board = new Board();
+ 		board.pieces['e2'].move('e2','e3');
+ 		board.pieces['c7'].move('c7','c5');
+ 		board.pieces['e3'].move('e3','e4');
+ 		board.pieces['d8'].move('d8','a5');
+ 		assert.sameMembers([], board.getMoves('d2'));
+
+
+ 	});	
+ 	it('test knight getMoves method', function (){
+		board = new Board();
+ 		assert.sameMembers(['a3','c3'], board.getMoves('b1'));
+ 		board.pieces['b1'].move('b1','c3');
+ 		board.pieces['c7'].move('c7','c5');
+ 		board.pieces['d2'].move('d2','d4');
+ 		board.pieces['d8'].move('d8','a5');
+ 		assert.sameMembers([], board.getMoves('c3'));
+ 	});
+ 	it('test checkmate', function (){
+		board = new Board();
+ 		board.pieces['e2'].move('e2','e4');
+ 		board.pieces['f1'].move('f1','c4');
+ 		board.pieces['d1'].move('d1','f3');
+ 		board.pieces['f3'].move('f3','f7');
+ 		assert.equal('checkmate', board.isGameStatus('black'));
+
+ 		board = new Board();
+ 		board.pieces = {};
+ 		board.pieces ['a8'] = new King (board,'black', 'a8');
+ 		board.pieces ['b6'] = new Queen (board,'white', 'b6'); 		
+ 		assert.equal('stalemate', board.isGameStatus('black'));
+ 		board.pieces['b6'].move('b6','b5');
+ 		assert.equal('playing', board.isGameStatus('black'));
+ 	});		
+
 });
 
 
-/*
-import Lexer from '../../src/lexer';
-import { string } from '../../src/lexic';
-
-let assert = require('assert');
-let lex = Lexer([string]);
-
-describe('Lexic: strings', () => {
-  it('should handle empty strings', () => {
-    assert.equal('', lex('""')[0].value);
-    assert.equal('', lex("''")[0].value);
-  });
-
-  it('should handle escaped quotemark', () => {
-    assert.equal("'escaped'", lex("'\\'escaped\\''")[0].value);
-    assert.equal('"escaped"', lex('"\\"escaped\\""')[0].value);
-  });
-});*/
