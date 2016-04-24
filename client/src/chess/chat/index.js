@@ -32,6 +32,11 @@ function ChatController(Socket, $http, $location){
 		    $ctrl.users = data.users;
 	  	});
 
+	  	chatSocket.on('get:room', function (data) {
+		  	console.log(data);
+		  	$ctrl.room=data;
+		});
+
 		chatSocket.on('send:message', function (message) {
 		    $ctrl.messages.push(message);
 		});
@@ -45,9 +50,12 @@ function ChatController(Socket, $http, $location){
   	  	});*/
 		
 		$ctrl.sendMessage = function () {
-		    chatSocket.emit('send:message', {    	
+			chatSocket.emit('send:message', {    	
 		      	message: $ctrl.message
 			});
+		    /*chatSocket.to($ctrl.room).emit('send:message', {    	
+		      	message: $ctrl.message
+			});*/
 			/*$ctrl.messages.push({
 		      user: $ctrl.name,
 		      text: $ctrl.message
