@@ -1,5 +1,6 @@
 <div class="row" class="settings">
   <div class="col-sm-4 text-center">
+<<<<<<< f779e6e4d50d237ee66ba8fb62430d730468e402
     <p>Hello {{$ctrl.getUserName()}}!</p>
     <button class="btn btn-primary" type="button">
       Your score: <span class="badge">{{$ctrl.getUserScores()}}</span>
@@ -7,6 +8,15 @@
   </div>
 
   <div class="col-sm-5 col-sm-offset-2">
+=======
+    <p>Hello {{$ctrl.user.username}}!</p>
+    <button class="btn btn-primary" type="button">
+      Your score: <span class="badge">{{$ctrl.user.scores}}</span>
+    </button>
+  </div>
+
+  <div class="col-sm-6 col-sm-offset-2">
+>>>>>>> create method findUserInfo in user controller
      <uib-accordion>
        
         <uib-accordion-group heading="{{$ctrl.group2.title}}">
