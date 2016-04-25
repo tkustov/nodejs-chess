@@ -3,31 +3,22 @@ module.exports = {
   templateUrl: 'playersRoom/playersRoom.component.html'
 };
 
-PlayersRoomController.$inject = ['PlayersRoom', 'Socket', '$http', '$location'];
-function PlayersRoomController(PlayersRoom, Socket, $http, $location) {
+PlayersRoomController.$inject = ['PlayersRoom', 'Socket', '$http', '$location', '$scope'];
+function PlayersRoomController(PlayersRoom, Socket, $http, $location, $scope) {
   var $ctrl = this;
 
   $ctrl.usersOnline = [];
   $ctrl.incommingInvites = [];
   $ctrl.status = "Can't connect to Socket! Server is not running or your internet connection is bad :(";
 
+  // $ctrl.getUsersOnline = function(){
+  //   console.log('getUsersOnline');
+  //   $http.get(process.env.API_URL + '/api/user/users-online/', {withCredentials: true})
+  //   .then(function(response) {
+  //     $ctrl.usersOnline = response.data;
+  //     console.log($ctrl.usersOnline);
+  //   });
+  // };
+  // $ctrl.getUsersOnline();
 
-  var gameSocket;
-
-  $http.get(process.env.API_URL + '/api/user/room/', {withCredentials: true})
-  .then(function(response) {
-    var userRoom = response.data.userRoom.toString();
-    
-    gameSocket = Socket('game');
-    gameSocket.on('connect', function(data) {
-      gameSocket.emit('join', userRoom);
-      console.log('connected to /game and userRoom');
-      $ctrl.status = 'Connected :)'
-    });
-
-    gameSocket.on('disconnect', function(data) {
-     console.log('disconnect from /game and userRoom');
-     $ctrl.status = 'Disconnected :('
-   });
-  });
 }
