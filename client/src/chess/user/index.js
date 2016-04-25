@@ -9,7 +9,11 @@ function UserFactory($http, $rootScope) {
   var factory = {
     userInfo: null,
     getUserInfo: getUserInfo,
-    isLoggedIn: isLoggedIn
+    isLoggedIn: isLoggedIn,
+    online: false,
+    isOnline: isOnline,
+    setOnline: setOnline,
+    setOffline: setOffline
   };
 
   return factory;
@@ -25,4 +29,17 @@ function UserFactory($http, $rootScope) {
   function isLoggedIn() {
     return Boolean(factory.userInfo);
   }
+
+  function isOnline() {
+    return Boolean(factory.online);
+  }
+
+  function setOnline() {
+    factory.online = true;
+  }
+
+  function setOffline() {
+    factory.online = false;
+  }
+  
 }
