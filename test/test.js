@@ -1,8 +1,20 @@
 var request = require("request"),
     assert = require('assert'),
-    base_url = "http://localhost:8081/";
+    angular = require('angular'),
+    require('angular-mocks'),
+    require('...../auth');
+    //base_url = "http://localhost:8081/";
 
-describe("Hello World Test", function(){
+describe('auth module', function() {
+	beforeEach(angular.mock.module('chessauth'));
+	describe('auth factory', function() {
+		it('should have method login', inject(function(auth, $httpBackend) {
+			assert.equal(typeof auth.login, 'function');
+		}));
+	})
+})
+
+/*describe("Hello World Test", function(){
 	describe("GET /", function() {
 		it("returns status code 200", function(done) {
 			request.get(base_url, function(error, response, body) {
@@ -19,4 +31,4 @@ describe("Hello World Test", function(){
       		});
     	});
   	});
-});
+});*/

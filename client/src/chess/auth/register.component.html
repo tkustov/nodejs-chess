@@ -1,14 +1,14 @@
 <div ng-show="$ctrl.error" class="alert alert-danger">{{$ctrl.errorMessage}}</div>
-<form name="registerForm" class="panel panel-default form" ng-submit="registerForm.$valid && $ctrl.submitRegisterForm()" method="post" novalidate>
-    <div class="panel-heading header header-login">
+<form name="registerForm" class="panel panel-default login-form" ng-submit="registerForm.$valid && $ctrl.submitRegisterForm()" method="post" novalidate>
+    <div class="panel-heading header login-header">
         <h1>Registration Form</h1>
     </div>
-    <div class="panel-body content">
+    <div class="panel-body login-content">
         <input ng-model="$ctrl.email" name="email" type="email" class="form-control username input" placeholder="Your email address" required />
         <input ng-model="$ctrl.username" name="username" type="text" class="form-control password input" placeholder="Pick a username" required />
         <input ng-model="$ctrl.password" name="password" type="password" class="form-control password input" placeholder="Create password" required />
     </div>
-    <div class="panel-footer footer">
+    <div class="panel-footer login-footer">
         <input type="submit" name="submit" value="Register" class="button" />
         <a href="#/login" class="register">Cancel</a>
     </div>

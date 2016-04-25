@@ -1,8 +1,10 @@
 var angular = require('angular');
 var ngRoute = require('angular-route');
 var SocketFactory = require('../socket/socket.factory');
+var user = require('../user');
 
 module.exports = angular.module('chess.chat', [
+	user
 ]).
 
 component('chat', {
@@ -10,32 +12,35 @@ component('chat', {
   templateUrl: 'chat/chat.component.html'
 });
 
-ChatController.$inject = ['Socket', '$http', '$location'];
-function ChatController(Socket, $http, $location){
+ChatController.$inject = ['Socket', '$http', 'user', '$location'];
+function ChatController(Socket, $http, user, $location){
 	console.log('Chat Controller');
-	var $ctrl=this;
-	$ctrl.name="John";	
+	var $ctrl=this;	
 	$ctrl.messages=[];
 	var chatSocket;
+
+	$ctrl.getUserName = function() {
+		    return (user.userInfo) 
+		      ? user.userInfo.username
+		      : null;
+	};
 
 	$http.get(process.env.API_URL + '/api/user/room/', {withCredentials: true})
     .then(function(response) {
 	    var userRoom = response.data.userRoom.toString();
-	    
 	    chatSocket = Socket('chat');
 	    chatSocket.on('connect', function(data) {
 	      chatSocket.emit('join', userRoom);
 	    });
 
-		chatSocket.on('init', function (data) {
-		    $ctrl.name = data.name;
-		    $ctrl.users = data.users;
+		chatSocket.emit('init', {
+		    users: $ctrl.getUserName()
 	  	});
 
-	  	chatSocket.on('get:room', function (data) {
+	  	/*chatSocket.on('get:room', function (data) {
 		  	console.log(data);
 		  	$ctrl.room=data;
-		});
+		});*/
 
 		chatSocket.on('send:message', function (message) {
 		    $ctrl.messages.push(message);
@@ -50,6 +55,7 @@ function ChatController(Socket, $http, $location){
   	  	});*/
 		
 		$ctrl.sendMessage = function () {
+			console.log($ctrl.getUserName());
 			chatSocket.emit('send:message', {    	
 		      	message: $ctrl.message
 			});
