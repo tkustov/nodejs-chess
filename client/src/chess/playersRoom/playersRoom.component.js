@@ -3,13 +3,13 @@ module.exports = {
   templateUrl: 'playersRoom/playersRoom.component.html'
 };
 
-PlayersRoomController.$inject = ['PlayersRoom', 'Socket', '$http', '$location', '$scope'];
-function PlayersRoomController(PlayersRoom, Socket, $http, $location, $scope) {
+PlayersRoomController.$inject = ['PlayersRoom', 'Socket', '$http', '$location', '$scope', 'user'];
+function PlayersRoomController(PlayersRoom, Socket, $http, $location, $scope, user) {
   var $ctrl = this;
 
   $ctrl.usersOnline = [];
   $ctrl.incommingInvites = [];
-  $ctrl.status = "Can't connect to Socket! Server is not running or your internet connection is bad :(";
+  $ctrl.isOnline = user.isOnline;
 
   // $ctrl.getUsersOnline = function(){
   //   console.log('getUsersOnline');
@@ -20,5 +20,4 @@ function PlayersRoomController(PlayersRoom, Socket, $http, $location, $scope) {
   //   });
   // };
   // $ctrl.getUsersOnline();
-
 }

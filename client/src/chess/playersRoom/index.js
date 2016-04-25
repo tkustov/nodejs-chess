@@ -8,7 +8,7 @@ module.exports = 'chess.playersRoom';
 
 angular.module('chess.playersRoom', [
   ngRoute
-]).
+  ]).
 run(SocketInit).
 config(RouteConfig).
 factory('PlayersRoom', PlayersRoomFactory).
@@ -22,32 +22,37 @@ function RouteConfig($routeProvider) {
   });
 }
 
-SocketInit.$inject = ['$rootScope', 'Socket', '$http'];
-function SocketInit($rootScope, Socket, $http) {
+SocketInit.$inject = ['$rootScope', '$http', 'Socket', 'user'];
+function SocketInit($rootScope, $http, Socket, user) {
   
-  $rootScope.$on('userLoggedIn', function(){
-    $http.get(process.env.API_URL + '/api/user/room/', {withCredentials: true})
-    .then(function(response) {
+  var gameSocket;
 
-      var userRoom = response.data.userRoom.toString();
-      var gameSocket = Socket('game');
+  $rootScope.$on('Authorized', function(){
+    gameSocket = Socket('game');
+    userRoom = user.userInfo.userRoom;
 
-      gameSocket.on('connect', function(data) {
-        gameSocket.emit('join', userRoom);
-        console.log('connect to "game" ns and userRoom');
-        // $ctrl.status = 'Connected :)'
-      });
-
-      gameSocket.on('disconnect', function(data) {
-        console.log('Connection lost... :(');
-        // $ctrl.status = 'Disconnected :(';
-      });
-
-      $rootScope.$on('userLoggedOut', function(){
-        gameSocket.disconnect();
-        console.log('disconnect from "game" ns');
-      });
-
+    gameSocket.on('connect', function() {
+      var data = {
+        userId: user.userInfo._id,
+        userRoom: user.userInfo.userRoom
+      };
+      gameSocket.emit('join', data);
+      user.setOnline();
+      console.log('connect to "game" ns and userRoom');
     });
+
+    gameSocket.on('disconnect', function() {
+      user.setOffline();
+      console.log('Connection lost... :(');
+    });
+
+    gameSocket.on('test', function(data) {
+      console.log(data);
+    });
+  });
+
+  $rootScope.$on('userLoggedOut', function(){
+    gameSocket.disconnect();
+    console.log('disconnected from "game" ns');
   });
 }
