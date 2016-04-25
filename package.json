@@ -8,9 +8,13 @@
     "postinstall": "gulp",
     "start": "node ./lib/server/index.js",
     "client": "gulp start",
-    "test": "mocha tests/common/Board.js"
+    "test-client": "karma start test/client.config.js --single-run",
+    "test-server": "mocha --opts test/server.opts test/server/**/*.spec.js",
+    "test-common": "mocha --opts test/common.opts test/common/**/*.spec.js",
+    "test": "npm run test-client && npm run test-common && npm run test-server"
   },
   "devDependencies": {
+    "angular-mocks": "^1.5.0",
     "browserify": "^13.0.0",
     "del": "^2.2.0",
     "envify": "^3.4.0",
@@ -27,6 +31,11 @@
     "gulp-uglify": "^1.5.2",
     "gulp-util": "^3.0.7",
     "gulp-watch": "^4.3.5",
+    "karma": "^0.13.22",
+    "karma-browserify": "^5.0.4",
+    "karma-mocha": "^0.2.2",
+    "karma-phantomjs-launcher": "^1.0.0",
+    "mocha": "^2.4.5",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.7.0",
