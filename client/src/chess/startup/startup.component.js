@@ -1,10 +1,10 @@
 module.exports = {
-  controller: StartupCtrl,
+  controller: StartupController,
   templateUrl: 'startup/startup.component.html'
 };
 
-StartupCtrl.$inject = [];
-function StartupCtrl (){
+StartupController.$inject = [];
+function StartupController (){
   var $ctrl = this;
   $ctrl.myInterval = 4000;
   $ctrl.active = 0;

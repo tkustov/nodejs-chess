@@ -1,17 +1,17 @@
 var angular = require('angular');
 var ngRoute = require('angular-route');
-var startupComponent = require('./startup.component')
+var StartupComponent = require('./startup.component');
 var ui = require('angular-ui-bootstrap');
-var ngAimate = require('angular-animate');
+var ngAnimate = require('angular-animate');
 
 module.exports = angular.module('chess.startup', [
   ngRoute,
-  ui,
-  ngAimate
-
+  ngAnimate,
+  ui
 ]).
 config(RouteConfig).
-component('startup', startupComponent);
+run(RunFunction).
+component('startup', StartupComponent);
 
 
 RouteConfig.$inject = ['$routeProvider'];
@@ -20,4 +20,9 @@ function RouteConfig($routeProvider) {
   .when('/', {
     template: '<startup></startup>'
   });
+}
+
+RunFunction.$inject = ['user'];
+function RunFunction(user) {
+  user.getUserInfo();
 }

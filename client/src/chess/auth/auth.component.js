@@ -9,8 +9,8 @@ module.exports = {
   }
 };
 
-AuthController.$inject = ['$location', 'auth'];
-function AuthController($location, auth) {
+AuthController.$inject = ['$location', 'auth', 'user'];
+function AuthController($location, auth, user) {
 	var $ctrl = this;
 
 	$ctrl.submitLoginForm = submitLoginForm;
@@ -29,12 +29,14 @@ function AuthController($location, auth) {
       password : $ctrl.password
     };
     auth.login(data)
-    .then(
-      function (message) {
-        $location.path( "/players-room" );
-      },
-    showError)
-  }
+      .then(function(message) {
+        user.getUserInfo();
+      })
+        .then(function (message) {
+            $location.path( "/players-room" );
+          },
+        showError)
+      }
   function submitRegisterForm() {
     var data = {
       email: $ctrl.email,
@@ -42,10 +44,13 @@ function AuthController($location, auth) {
       password : $ctrl.password
     };
     auth.register(data)
-    .then(
-      function (message) {
-        $location.path( "/players-room" );
-      },
-    showError)
+      .then(function(message) {
+        user.getUserInfo();
+      })
+        .then(
+          function (message) {
+            $location.path( "/players-room" );
+          },
+        showError)
   }
 };

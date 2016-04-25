@@ -3,45 +3,26 @@ module.exports = 'chess.user';
 angular.module('chess.user', [])
 .factory('user', UserFactory);
 
-UserFactory.$inject = ['$http']
-function UserFactory($http) {
+UserFactory.$inject = ['$http','$rootScope']
+function UserFactory($http, $rootScope) {
+
   var factory = {
-    username: 'test',
-    userId: 'userID',
-    // getUserStatus: getUserStatus
+    userInfo: null,
+    getUserInfo: getUserInfo,
+    isLoggedIn: isLoggedIn
   };
+
   return factory;
 
-  // function getUserStatus() {
-  //   $http.get(process.env.API_URL + '/api/user/name/', {withCredentials: true})
-  //   // handle success
-  //   .success(function (response) {
-  //     console.log(response.username);
-  //     if(response.status){
-  //       user = true;
-  //     } else {
-  //       user = false;
-  //     }
-  //   })
-  //   // handle error
-  //   .error(function (data) {
-  //     user = false;
-  //     console.log(data);
-  //   });
-  // }
+  function getUserInfo() {
+    return $http.get(process.env.API_URL + '/api/user/info', {withCredentials: true}).
+      then(function(response) {
+        factory.userInfo = response.data;
+        $rootScope.$broadcast('Authorized');
+      });
+  }
 
-  // function getUserName() {
-  //   $http.get(process.env.API_URL + '/api/user/name/', {withCredentials: true})
-  //   .then(function(response) {
-  //     console.log(factory);
-  //     console.log(factory.username);
-  //     console.log('factory');
-  //     factory.username = response.data.username;
-  //     console.log(factory.username);
-  //         }, error)
-  // };
-
-  // function error(response) {
-  //   console.log(response.status + ' ' + response.statusText);
-  // };
+  function isLoggedIn() {
+    return Boolean(factory.userInfo);
+  }
 }

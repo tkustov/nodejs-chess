@@ -17,12 +17,12 @@
           <li><a href="#/board">Play</a></li>
           <li><a href="#/scores">Scores</a></li>
           <li><a href="#/help">Help</a></li>
-          <li><a href="#/settings">Settings</a></li>
+          <li ng-if="$ctrl.isLoggedIn()"><a href="#/settings">Settings</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#/login">Login</a></li>
-        <li><a href="#">{{ $ctrl.username }}</a></li>
-        <li><a href="" ng-click="$ctrl.logout()">Logout</a></li>
+        <li ng-hide="$ctrl.isLoggedIn()"><a href="#/login">Login</a></li>
+        <li ng-show="$ctrl.isLoggedIn()"><a href="">{{$ctrl.user.name}}</a></li>
+        <li ng-show="$ctrl.isLoggedIn()"><a href="" ng-click="$ctrl.logout()">Logout</a></li>
       </ul>
     </div>
   </div>
