@@ -23,7 +23,7 @@ function SettingsController( user, Settings) {
       ? user.userInfo.scores
       : null;
   };
-  
+
   $ctrl.closeAlert = function() {
     $ctrl.message = null;
   };
