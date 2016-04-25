@@ -4,8 +4,8 @@ module.exports = {
 };
 
 //var Board = require('../../../../lib/common/Board');
-chessBoardController.$inject = ['Game', 'auth', '$http'];
-function chessBoardController(Game, auth, $http){
+chessBoardController.$inject = ['Game', 'user', '$http'];
+function chessBoardController(Game, user, $http){
   var ctrl = this;
   ctrl.white = "#fff";
   ctrl.black = "#cc6600";
@@ -15,10 +15,9 @@ function chessBoardController(Game, auth, $http){
       if(item.color) item.color = item.color === 'white'?'white':'black';
     });
   };
+//////// check acces
+  user.getUserInfo();
 
-//// send request for Auth status. Redirect to /login if 401
-  auth.checkAuth();
-////
   var isFrom = true;
   var form;
 
@@ -62,7 +61,7 @@ function chessBoardController(Game, auth, $http){
       ctx.stroke();
     }
   };
-  
+
     ctrl.fromNotAdded = true;
     var color = 'white';
     ctrl.getPosition = function (){
@@ -107,7 +106,7 @@ function chessBoardController(Game, auth, $http){
         }
     }
   };
- 
+
   ctrl.initPieces = function (pieces){
     var filed = true;
     for (var i=0; i<pieces.length; i++){
