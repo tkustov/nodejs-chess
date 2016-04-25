@@ -11,9 +11,9 @@ function SocketFactory($rootScope, $cacheFactory) {
     var socket;
     if (!sockets.get(ns)) {
       sockets.put(ns, io.connect(process.env.API_URL+ns));
+      console.log('create new socket', ns); // - for test! should remove!
     }
     socket = sockets.get(ns);
-    // socket.on('disconnect', function () { sockets.remove(ns); })
     return {
       on: on.bind(null, socket),
       emit: emit.bind(null, socket),
@@ -42,6 +42,7 @@ function SocketFactory($rootScope, $cacheFactory) {
   }
   
   function disconnect(socket) {
+    sockets.remove(socket.nsp);
     socket.disconnect();
   }
 };
