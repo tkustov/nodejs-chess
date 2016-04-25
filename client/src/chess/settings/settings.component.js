@@ -10,7 +10,11 @@ function SettingsController( user, Settings) {
   
   $ctrl.submitPasswordForm = submitPasswordForm;
   $ctrl.message = '';
-  $ctrl.user = user.userInfo;
+  $ctrl.getUserName = function() {
+    return (user.userInfo) 
+      ? user.userInfo.username
+      : null;
+  };
 
   $ctrl.group2 = {
     title: 'Change password',
