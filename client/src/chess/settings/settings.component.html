@@ -6,32 +6,56 @@
     </button>
   </div>
 
-  <div class="col-sm-6 col-sm-offset-2">
+  <div class="col-sm-5 col-sm-offset-2">
      <uib-accordion>
+       
         <uib-accordion-group heading="{{$ctrl.group2.title}}">
-          <form class="form-horizontal">
-            <div class="form-group">
-                <label for="currentPassword" class="control-label col-sm-3">{{$ctrl.group2.field1}}</label>
+          <form class="form-horizontal" name='passwordForm' novalidate>
+            <div class="form-group" ng-class="{ 'has-error' : passwordForm.currentPassword.$error.required 
+                    && !passwordForm.currentPassword.$pristine }" >
+                <label for="currentPassword" class="control-label col-sm-4">{{$ctrl.group2.field1}}</label>
                 <div class="col-sm-6 col-sm-offset-2">
-                    <input type="password" ng-model="$ctrl.currentPassword" id="currentPassword" class="form-control" name="currentPassword">
+                    <input type="password" ng-model="$ctrl.currentPassword" placeholder="Enter your current password"
+                      id="currentPassword" class="form-control" name="currentPassword" maxlength="40" required>
+                    <span ng-show="passwordForm.currentPassword.$error.required 
+                        && !passwordForm.currentPassword.$pristine" class="help-block">Your password is required.
+                    </span>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{ 'has-error' : passwordForm.newPassword.$error.required 
+                    && !passwordForm.newPassword.$pristine }">
+                <label for="newPassword" class="control-label col-sm-4">{{$ctrl.group2.field2}}</label>
+                <div class="col-sm-6 col-sm-offset-2">
+                    <input type="password" ng-model="$ctrl.newPassword" placeholder="Enter your new password"
+                      id="newPassword" class="form-control" name="newPassword" minlength="6" maxlength="40" required>
+                    <span ng-show="passwordForm.newPassword.$error.required 
+                      && !passwordForm.newPassword.$pristine" class="help-block">Please enter your new password.
+                    </span>
+                    <span ng-show="(passwordForm.newPassword.$error.minlength || passwordForm.newPassword.$error.maxlength)
+                      && !passwordForm.newPassword.$pristine" 
+                      class="help-block">Your password should be at least 6 characters long!
+                    </span>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{ 'has-error' : passwordForm.confirmPassword.$error.pattern 
+                    && !passwordForm.confirmPassword.$pristine }">
+                <label for="confirmPassword" class="control-label col-sm-4">{{$ctrl.group2.field3}}</label>
+                <div class="col-sm-6 col-sm-offset-2">
+                    <input type="password" ng-model="$ctrl.confirmPassword" ng-model-options="{ updateOn: ' blur mouseout ' }" 
+                      placeholder="Confirm your new password"
+                      ng-pattern="$ctrl.newPassword" id="confirmPassword" 
+                      class="form-control" name="confirmPassword" minlength="6" maxlength="40" required>
+                    <span ng-show="passwordForm.confirmPassword.$error.pattern && !passwordForm.confirmPassword.$pristine" 
+                      class="help-block">
+                      Should match the previous entry!
+                    </span>
                 </div>
             </div>
             <div class="form-group">
-                <label for="newPassword" class="control-label col-sm-3">{{$ctrl.group2.field2}}</label>
-                <div class="col-sm-6 col-sm-offset-2">
-                    <input type="password" ng-model="$ctrl.newPassword" id="newPassword" class="form-control" name="newPassword">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="confirmPassword" class="control-label col-sm-3">{{$ctrl.group2.field3}}</label>
-                <div class="col-sm-6 col-sm-offset-2">
-                    <input type="password" ng-model="$ctrl.confirmPassword" id="confirmPassword" class="form-control" name="confirmPassword">
-                </div>
-            </div>
-            <div class="form-group">
-              <div class="col-sm-offset-5 col-sm-10">
-                <!--<button class="btn"  aria-hidden="true">Close</button>-->
-                <button class="btn btn-primary" ng-click="$ctrl.submitPasswordForm()">Save changes</button>
+              <div class="col-sm-offset-6 col-sm-6">
+                <button class="btn btn-warning" ng-click="$ctrl.clearPasswordForm(passwordForm)">Reset</button>
+                <button class="btn btn-primary" ng-click="$ctrl.submitPasswordForm(passwordForm)"
+                  ng-disabled="passwordForm.$invalid">Save changes</button>
               </div>
             </div>
           </form>
@@ -52,8 +76,14 @@
             <uib-tab index="2" heading="{{$ctrl.group4.content.ru}}"></uib-tab>
           </uib-tabset>
         </uib-accordion-group>
+        
+        <uib-accordion-group heading="{{$ctrl.group5.title}}" panel-class="panel-danger">
+          <p>{{$ctrl.group5.content}}</p>
+          <button class="btn btn-danger" ng-click='$ctrl.deleteAccount()'>Delete</button>
+        </uib-accordion-group>
+        
      </uib-accordion>
-     <div ng-show="$ctrl.message" class="alert alert-danger">{{$ctrl.message}}</div>
+     <uib-alert ng-show="$ctrl.message" type="warning" close="$ctrl.closeAlert()">{{$ctrl.message}}</uib-alert>
   </div>
 </div>
 
