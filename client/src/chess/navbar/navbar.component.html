@@ -21,7 +21,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li ng-hide="$ctrl.isLoggedIn()"><a href="#/login">Login</a></li>
-        <li ng-show="$ctrl.isLoggedIn()"><a href="">{{$ctrl.getUserName()}}</a></li>
+        <li ng-show="$ctrl.isLoggedIn()"><a href="#/settings">{{$ctrl.getUserName()}}</a></li>
         <li ng-show="$ctrl.isLoggedIn()"><a href="" ng-click="$ctrl.logout()">Logout</a></li>
       </ul>
     </div>

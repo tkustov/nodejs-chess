@@ -34,8 +34,13 @@ function AuthConfig ($httpProvider) {
       responseError: function(rejection) {
         var $q = $injector.get('$q');
         var $location = $injector.get('$location');
+        var publicPath = {
+          main: '/',
+          help: '/help',
+          scores: '/scores'
+        }
 
-        if (rejection.status === 401) {
+        if ($location.$$path !== publicPath.main && $location.$$path !== publicPath.help && $location.$$path !== publicPath.scores && rejection.status === 401) {
           $location.path('/login');
         }
         return $q.reject(rejection);
