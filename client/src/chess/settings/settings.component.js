@@ -6,13 +6,19 @@ module.exports = {
 SettingsController.$inject = ['user', 'Settings'];
 function SettingsController( user, Settings) {
   var $ctrl = this;
-  
-  
+
+
   $ctrl.submitPasswordForm = submitPasswordForm;
   $ctrl.message = '';
   $ctrl.getUserName = function() {
-    return (user.userInfo) 
+     return (user.userInfo)
       ? user.userInfo.username
+      : null;
+  };
+
+  $ctrl.getUserScores = function() {
+     return (user.userInfo)
+      ? user.userInfo.scores
       : null;
   };
 
@@ -22,7 +28,7 @@ function SettingsController( user, Settings) {
     field2: 'New password',
     field3: 'Confirm password',
   };
-  
+
   $ctrl.group3 = {
     title: 'Theme',
     content: {
@@ -31,7 +37,7 @@ function SettingsController( user, Settings) {
       theme3: 'Cyborg'
     }
   };
-  
+
   $ctrl.group4 = {
     title: 'Language',
     content: {
@@ -41,8 +47,8 @@ function SettingsController( user, Settings) {
     }
   };
 
-  
-  
+
+
   function submitPasswordForm() {
     var data = {
       currentPassword: $ctrl.currentPassword,
@@ -54,9 +60,9 @@ function SettingsController( user, Settings) {
         },
         showError);
   }
-  
+
   function showError(response) {
     $ctrl.message = 'Error ' + response.status + ' ' + response.statusText;
   }
 }
-  
+
