@@ -41,5 +41,5 @@ function UserFactory($http, $rootScope) {
   function setOffline() {
     factory.online = false;
   }
-  
+
 }
