@@ -20,12 +20,15 @@ function GameFactory($http)  {
     function isFreeCell(form) {
         return board.isFreeCell(form);
     }
-
+    function setState(form) {
+        return board.setState(form);
+    }
     return {
         getMoves: getMoves,
         tryMove: tryMove,
         move: move,
         getState: getState,
-        isFreeCell:isFreeCell
+        isFreeCell:isFreeCell,
+        setState:setState
     };
 }

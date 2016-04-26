@@ -9,8 +9,11 @@ function SettingsController( user, Settings) {
 
 
   $ctrl.submitPasswordForm = submitPasswordForm;
+  $ctrl.clearPasswordForm = clearPasswordForm;
+  $ctrl.deleteAccount = deleteAccount;
   $ctrl.message = '';
   $ctrl.getUserName = function() {
+
      return (user.userInfo)
       ? user.userInfo.username
       : null;
@@ -20,6 +23,10 @@ function SettingsController( user, Settings) {
      return (user.userInfo)
       ? user.userInfo.scores
       : null;
+  };
+
+  $ctrl.closeAlert = function() {
+    $ctrl.message = null;
   };
 
   $ctrl.group2 = {
@@ -47,17 +54,36 @@ function SettingsController( user, Settings) {
     }
   };
 
+  $ctrl.group5 = {
+    title: 'Delete account',
+    content: 'To delete your account, please click the button below'
+  };
 
-
-  function submitPasswordForm() {
+  function submitPasswordForm(form) {
     var data = {
       currentPassword: $ctrl.currentPassword,
       newPassword: $ctrl.newPassword
     };
     Settings.changePassword(data)
       .then(function(response) {
-           $ctrl.message = 'Your password has been successfully changed';
-        },
+        clearPasswordForm(form);
+        $ctrl.message = 'Your password has been successfully changed';
+      },
+        showError);
+  }
+
+  function clearPasswordForm(form) {
+    $ctrl.currentPassword = null;
+    $ctrl.newPassword = null;
+    $ctrl.confirmPassword = null;
+    form.$setPristine();
+  }
+
+  function deleteAccount() {
+    Settings.deleteAccount()
+      .then(function(response) {
+        $ctrl.message = 'Your account has been successfully deleted';
+      },
         showError);
   }
 
