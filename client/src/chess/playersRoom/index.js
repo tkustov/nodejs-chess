@@ -24,7 +24,12 @@ function RouteConfig($routeProvider) {
 
 SocketInit.$inject = ['$rootScope', '$http', 'Socket', 'user'];
 function SocketInit($rootScope, $http, Socket, user) {
-  
+
+  $rootScope.$on('socketDisconnect', function(){
+    gameSocket.disconnect();
+    console.log('disconnected from "game" ns');
+  });
+
   var gameSocket;
 
   $rootScope.$on('Authorized', function(){

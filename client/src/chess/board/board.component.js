@@ -15,8 +15,6 @@ function chessBoardController(Game, user, $http){
       if(item.color) item.color = item.color === 'white'?'white':'black';
     });
   };
-//////// check acces
-  user.getUserInfo();
 
   var isFrom = true;
   var form;
