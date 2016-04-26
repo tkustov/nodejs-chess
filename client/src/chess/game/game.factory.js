@@ -11,7 +11,6 @@ function GameFactory($http)  {
         return board.getMoves(form);
     }
     function tryMove(form, to) {
-        console.log("GameFactory.tryMove",form, to);
         return board.tryMove(form, to);
     }
     function move(form, to) {
@@ -29,6 +28,7 @@ function GameFactory($http)  {
         return color = 'black';
       }
     }
+
     function getMovesList(gameId) {
       var promise = new Promise(function(resolve, reject) {
       var moves;
@@ -72,7 +72,7 @@ function GameFactory($http)  {
           }).
         then(function () {
         var data = {gameId: gameId, move: move};
-        $http.post(process.env.API_URL + '/api/game/sendMove', data, {withCredentials: true}).
+        $http.post(process.env.API_URL + '/api/game/checkmove', data, {withCredentials: true}).
           then(function (response) {
             can = response.data;
             console.log('can i move? (no game id) ' + can);
@@ -84,7 +84,7 @@ function GameFactory($http)  {
       (function () {
         console.log('game id exists and i send move to server');
       var data = {gameId: gameId, move: move};
-      $http.post(process.env.API_URL + '/api/game/sendMove', data, {withCredentials: true}).
+      $http.post(process.env.API_URL + '/api/game/checkmove', data, {withCredentials: true}).
         then(function (response) {
           can = response.data;
           console.log('can i move? ' + can);
