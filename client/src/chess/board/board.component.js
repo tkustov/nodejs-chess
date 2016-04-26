@@ -90,10 +90,6 @@ function chessBoardController(Game, user, $http){
               if(Game.move(form,ctrl.elementRanges[i].position)){
                 console.log("Moved To: " + ctrl.elementRanges[i].position);
                 tmp = {from: form, to: ctrl.elementRanges[i].position };
-                $http.get(process.env.API_URL + '/api/game/send-move/'+JSON.stringify(tmp), {withCredentials: true})
-                .then(function(response) {
-                });
-
                 ctrl.pieces = Game.getState();
                 colorReverse();
                 ctrl.drawBoard(ctrl.ctx, ctrl.canvasParams);
