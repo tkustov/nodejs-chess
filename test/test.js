@@ -1,6 +1,5 @@
 var request = require("request"),
     assert = require('assert'),
-<<<<<<< HEAD
     angular = require('angular'),
     require('angular-mocks'),
     require('...../auth');
@@ -39,6 +38,3 @@ describe("Hello World Test", function(){
   	});
 <<<<<<< HEAD
 });*/
-=======
-});
->>>>>>> 2267c0428c1b80f18d191ae5f895ea07d4f2bcd2
