@@ -95,9 +95,7 @@ function GameFactory($http)  {
     });
     return promise;
   }
-    function setGameId (gameId) {
-      gameId = gameId;
-    }
+
     function getBoardState (prom) {
     var promise = new Promise (function(resolve, reject) {
         var movesList = [];
@@ -123,16 +121,21 @@ function GameFactory($http)  {
     });
       return promise;
     }
-    return {
+    var factory = {
       getMoves: getMoves,
       tryMove: tryMove,
       move: move,
       getState: getState,
       isFreeCell:isFreeCell,
       getBoardState: getBoardState,
-      setGameId: setGameId,
       sendMove: sendMove,
       getPlayerColor: getPlayerColor,
-      getMovesList: getMovesList
+      getMovesList: getMovesList,
+
+      gameId: null,
+      setGameId: function(gameId) {factory.gameId = gameId},
+      getGameId: function(){return factory.gameId}
     };
+
+    return factory;
 }
