@@ -25,24 +25,25 @@ function ChatController(Socket, $http, user, $location){
 		      : null;
 	};
 
-	$http.get(process.env.API_URL + '/api/user/room/', {withCredentials: true})
+	$http.get(process.env.API_URL + '/api/game/room/', {withCredentials: true})
     .then(function(response) {
-	    var userRoom = response.data.userRoom.toString();
+    	var gameRoom = response.data.gameRoom.toString();
 	    chatSocket = Socket('chat');
 	    chatSocket.on('connect', function(data) {
-	      chatSocket.emit('join', userRoom);
+	      chatSocket.emit('join', gameRoom);
+	      console.log('connected to /chat and gameRoom'+gameRoom);
 	    });
 
-		chatSocket.emit('init', {
+		/*chatSocket.emit('init', {
 		    users: $ctrl.getUserName()
-	  	});
+	  	});*/
 
 	  	/*chatSocket.on('get:room', function (data) {
 		  	console.log(data);
 		  	$ctrl.room=data;
 		});*/
 
-		chatSocket.on('init', function (data) {
+		/*chatSocket.on('init', function (data) {
 		    $ctrl.name = data.name;
 		    $ctrl.users = data.users;
 	  	});
@@ -54,7 +55,7 @@ function ChatController(Socket, $http, user, $location){
 
 		chatSocket.on('send:message', function (message) {
 		    $ctrl.messages.push(message);
-		});
+		});*/
 
 	  	/*chatSocket.on('user:join', function (data) {
 		    $ctrl.messages.push({
@@ -63,21 +64,21 @@ function ChatController(Socket, $http, user, $location){
 		    });
 		    $ctrl.users.push(data.name);
   	  	});*/
-		
+		/*
 		$ctrl.sendMessage = function () {
 			console.log($ctrl.getUserName());
 			
 			chatSocket.emit('send:message', {    	
 		      	message: $ctrl.message
 			});
-		    /*chatSocket.to($ctrl.room).emit('send:message', {    	
+		    chatSocket.to($ctrl.room).emit('send:message', {    	
 		      	message: $ctrl.message
-			});*/
+			});
 			/*$ctrl.messages.push({
 		      user: $ctrl.name,
 		      text: $ctrl.message
 		    });*/
-		    $ctrl.message = '';
-		};
+		   /* $ctrl.message = '';
+		};*/
 	});
 }
