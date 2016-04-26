@@ -22,5 +22,12 @@ describe('module: chess.board', function () {
             assert.equal(controller.white, '#fff');
             assert.equal(controller.black, '#cc6600');
         });
+        it('should have items in array', function () {
+            assert.notEqual(controller.elementRanges.length, 0);
+        });
+        it('should have canvas params', function () {
+            assert.equal(controller.canvasParams.width, 500);
+            assert.equal(controller.canvasParams.height, 500);
+        });
     });
 });

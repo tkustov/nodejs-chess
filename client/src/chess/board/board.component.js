@@ -14,7 +14,7 @@ function chessBoardController(Game, $element, $http){
     ctrl.pieces.forEach(function(item){
       if(item.color) item.color = item.color === 'white'?'white':'black';
     });
-  };
+  }
 
   var isFrom = true;
   var form;
@@ -65,55 +65,60 @@ function chessBoardController(Game, $element, $http){
     var clickedElem = {};
     
   function getClickPosition(event){
-      var offsetLeft = event.currentTarget.offsetLeft + event.currentTarget.offsetParent.offsetLeft;
-      var offsetTop = event.currentTarget.offsetTop + event.currentTarget.offsetParent.offsetTop;
-      var clickX = event.clientX - offsetLeft;
-      var clickY = event.clientY - offsetTop;
-      click = {x:clickX,y:clickY};
+    var offsetLeft = event.currentTarget.offsetLeft + event.currentTarget.offsetParent.offsetLeft;
+    var offsetTop = event.currentTarget.offsetTop + event.currentTarget.offsetParent.offsetTop;
+    var clickX = event.clientX - offsetLeft;
+    var clickY = event.clientY - offsetTop;
+    click = {x:clickX,y:clickY};
   }
   
   function inRangeScope(element, i, array){
+    var empty = isFrom ? element.name !== "empty" : element.name === "empty";
     if(click.x > element.rangeX.firstX && click.x < element.rangeX.lastX
-          && click.y > element.rangeY.firstY && click.y < element.rangeY.lastY){
-            clickedElem = element;
-            return true;
-          }
+    && click.y > element.rangeY.firstY && click.y < element.rangeY.lastY && empty){
+      clickedElem = element;
+      return true;
+    }
     return false;
   }
   
   function displayFrom(){
-    if(clickedElem.color !== color) console.log('don`t go');
-                form = clickedElem.position;
-                console.log("From :", form);
-                isFrom = false;
-                color = color === 'black' ? 'white' : 'black';
+    if(clickedElem.color !== color) {
+      console.log('don`t go'); 
+      clickedElem = {};
+      return;
+    }
+    form = clickedElem.position;
+    console.log("From :", form);
+    isFrom = false;
+    color = color === 'black' ? 'white' : 'black';
   }
   
   function displayTo(){
     console.log("To:",clickedElem.position);
-              if(Game.move(form,clickedElem.position)){
-                console.log("Moved To: " + clickedElem.position);
-                var tmp = {from: form, to: clickedElem.position };
-                $http.get(process.env.API_URL + '/api/game/send-move/' + JSON.stringify(tmp), {withCredentials: true})
-                .then(function(response) {
-                });
-                ctrl.pieces = Game.getState();
-                colorReverse();
-                ctrl.drawBoard(ctrl.ctx, ctrl.canvasParams);
-                ctrl.drawPieces(ctrl.ctx, ctrl.pieces);
-              }
-              isFrom = true;
+    if(Game.move(form,clickedElem.position)){
+      console.log("Moved To: " + clickedElem.position);
+      var tmp = {from: form, to: clickedElem.position };
+      $http.get(process.env.API_URL + '/api/game/send-move/' + JSON.stringify(tmp), {withCredentials: true})
+      .then(function(response) {
+      });
+      ctrl.pieces = Game.getState();
+      colorReverse();
+      ctrl.drawBoard(ctrl.ctx, ctrl.canvasParams);
+      ctrl.drawPieces(ctrl.ctx, ctrl.pieces);
+    }
+    isFrom = true;
   }
   
-    ctrl.getPosition = function (event){
-      ctrl.initPieces(ctrl.pieces);
-       getClickPosition(event);
-        var isInRange = ctrl.elementRanges.some(inRangeScope);
-        if(isInRange){
-            isFrom && !Game.isFreeCell(clickedElem.position) ? displayFrom() : displayTo();
-        }
-        click = {};
-        clickedElem = {};
+  ctrl.getPosition = function (event){
+    ctrl.initPieces(ctrl.pieces);
+    getClickPosition(event);
+    var isInRange = ctrl.elementRanges.some(inRangeScope);
+    if(isInRange){
+      isFrom && !Game.isFreeCell(clickedElem.position) ? displayFrom() : displayTo();
+    }
+    click = {};
+    clickedElem = {};
   };
   
   ctrl.getPositionRef = function (event) {
@@ -121,6 +126,7 @@ function chessBoardController(Game, $element, $http){
   };
 
   ctrl.initPieces = function (pieces){
+    ctrl.elementRanges = [];
     var filed = true;
     for (var i=0; i<pieces.length; i++){
       var position = pieces[i].position;
@@ -172,9 +178,7 @@ function chessBoardController(Game, $element, $http){
 
   function draw(ctx, x, y, piece) {
     var base_image = new Image();
-    base_image.src = piece.color === 'white'
-                ? ctrl.piecesPaths.white[piece.name]
-                : ctrl.piecesPaths.black[piece.name];
+    base_image.src = piece.color === 'white' ? ctrl.piecesPaths.white[piece.name] : ctrl.piecesPaths.black[piece.name];
     base_image.onload = function(){
       ctx.drawImage(base_image, x, y);
     };
