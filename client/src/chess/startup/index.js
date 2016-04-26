@@ -1,14 +1,9 @@
 var angular = require('angular');
 var ngRoute = require('angular-route');
-var startupComponent = require('./startup.component')
-var ui = require('angular-ui-bootstrap');
-var ngAimate = require('angular-animate');
+var startupComponent = require('./startup.component');
 
 module.exports = angular.module('chess.startup', [
-  ngRoute,
-  ui,
-  ngAimate
-
+  ngRoute
 ]).
 config(RouteConfig).
 component('startup', startupComponent);
