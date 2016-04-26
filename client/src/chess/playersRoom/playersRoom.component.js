@@ -3,8 +3,8 @@ module.exports = {
   templateUrl: 'playersRoom/playersRoom.component.html'
 };
 
-PlayersRoomController.$inject = ['PlayersRoom', 'Socket', '$http', '$location', '$scope', 'user'];
-function PlayersRoomController(PlayersRoom, Socket, $http, $location, $scope, user) {
+PlayersRoomController.$inject = ['PlayersRoom', 'Socket', '$http', '$location', '$scope', 'user', 'Game'];
+function PlayersRoomController(PlayersRoom, Socket, $http, $location, $scope, user, Game) {
   var $ctrl = this;
 
   $ctrl.usersOnline = [];
@@ -15,7 +15,6 @@ function PlayersRoomController(PlayersRoom, Socket, $http, $location, $scope, us
     $http.get(process.env.API_URL + '/api/user/users-online/', {withCredentials: true})
     .then(function(response) {
       $ctrl.usersOnline = response.data;
-      console.log( $ctrl.usersOnline);
     });
   };
   $ctrl.getUsersOnline();
@@ -40,10 +39,13 @@ function PlayersRoomController(PlayersRoom, Socket, $http, $location, $scope, us
     });
   };
 
-  gameSocket.on('startGame', function(data){
-    //set game id
-    //redirect to game path
+  gameSocket.on('incomingInv', function(data){
+    $ctrl.incommingInvites.push(data);
   });
 
+  gameSocket.on('startGame', function(data){
+    Game.setGameId(data.gameId);
+    $location.path('/game')
+  });
 
 }

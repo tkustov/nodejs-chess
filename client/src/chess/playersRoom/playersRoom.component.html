@@ -20,7 +20,7 @@
         <caption class="text-center">Incoming invites</caption>
         <tr ng-repeat="invite in $ctrl.incommingInvites">
           <td><span>{{invite.userName}}</span></td>
-          <td><button ng-click='$ctrl.acceptInvitation(invite.userID)'>Accept</button></td>
+          <td><button ng-click='$ctrl.acceptInvitation(invite.userId)'>Accept</button></td>
         </tr>
       </table>
     </div>
