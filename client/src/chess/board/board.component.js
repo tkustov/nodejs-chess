@@ -19,7 +19,7 @@ function chessBoardController(Game, $element, $http){
   var isFrom = true;
   var form;
 
-	ctrl.elementRanges = []; ///test!!! хуєст
+	ctrl.elementRanges = [];
 	ctrl.canvas = $element[0].querySelector('canvas');
 	ctrl.ctx = ctrl.canvas.getContext('2d');
 
@@ -217,5 +217,4 @@ function chessBoardController(Game, $element, $http){
     var letter = ['a','b','c','d','e','f','g','h'];
     return letter[idx];
   }
-  console.log(this);
 }
