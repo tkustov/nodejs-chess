@@ -95,6 +95,7 @@ function chessBoardController(Game, user, $http){
                 $http.get(process.env.API_URL + '/api/game/send-move/'+JSON.stringify(tmp), {withCredentials: true})
                 .then(function(response) {
                 });
+
                 ctrl.pieces = Game.getState();
                 colorReverse();
                 ctrl.drawBoard(ctrl.ctx, ctrl.canvasParams);

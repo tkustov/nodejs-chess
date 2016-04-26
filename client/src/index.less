@@ -3,9 +3,10 @@
 @icon-font-path: "fonts/";
 
 /*******************
-Auth start
+LOGIN FORM
 *******************/
-.form{
+
+.login-form {
 	width: 300px;
 	margin: 0 auto;
 	position: relative;
@@ -19,37 +20,45 @@ Auth start
 	padding:0;
 }
 
-/* Auth header */
-.panel .header{
+/*******************
+HEADER
+*******************/
+
+.login-form .login-header {
 	padding: 40px 0 0 0;
 	border:none;
 	background: #f3f3f3;
 }
 
-.panel .panel-heading h1 {
+
+.login-form .login-header h1 {
 	font-family: 'Bree Serif', serif;
 	font-weight: 300;
 	font-size: 28px;
+	line-height:34px;
 	color: #414848;
 	text-shadow: 1px 1px 0 rgba(256,256,256,1.0);
 	float: left;
 	padding: 0 0 30px 30px;
 }
 
-.panel .panel-heading span {
+.login-form .header-login span {
 	font-size: 11px;
+	line-height: 16px;
 	color: #678889;
 	text-shadow: 1px 1px 0 rgba(256,256,256,1.0);
 }
 
-/* Auth content */
+/*******************
+CONTENT
+*******************/
 
-.panel .content{
+.login-form .login-content {
 	padding: 25px 30px 25px 30px;
 }
 
 /* Input field */
-.panel .panel-body .input {
+.login-form .content-login .input {
 	width: 100%;
 	padding: 20px;
 	margin: 0 0 15px 0;
@@ -67,12 +76,17 @@ Auth start
 	-webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,0.50);
 }
 
-.panel .panel-body .input:hover {
+/* Second input field */
+.login-form .login-content .password, .login-form .login-content .pass-icon {
+	margin-top: 25px;
+}
+
+.login-form .login-content .input:hover {
 	background: #dfe9ec;
 	color: #414848;
 }
 
-.panel .panel-body .input:focus {
+.login-form .login-content .input:focus {
 	background: #dfe9ec;
 	color: #414848;
 	box-shadow: inset 0 1px 2px rgba(0,0,0,0.25);
@@ -80,9 +94,11 @@ Auth start
 	-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.25);
 }
 
-/* Auth footer */
+/*******************
+FOOTER
+*******************/
 
-.panel .footer {
+.login-form .login-footer {
 	padding: 30px;
 	overflow: auto;
 	background: #d4dedf;
@@ -93,7 +109,7 @@ Auth start
 }
 
 /* Login button */
-.panel .panel-footer .button {
+.login-form .login-footer .button {
 	float:right;
 	padding: 11px 25px;
 	outline:none;
@@ -111,7 +127,7 @@ Auth start
 	-webkit-box-shadow: inset 0 0 2px rgba(256,256,256,0.75);
 }
 
-.panel .panel-footer .button:hover {
+.login-form .login-footer .button:hover {
 	background: #3f9db8;
 	border: 1px solid rgba(256,256,256,0.75);
 	box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
@@ -119,7 +135,7 @@ Auth start
 	-webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
 }
 
-.panel .panel-footer .button:focus {
+.login-form .login-footer .button:focus {
 	position: relative;
 	bottom: -1px;
 	background: #56c2e1;
@@ -129,7 +145,7 @@ Auth start
 }
 
 /* Register button */
-.panel .panel-footer .register {
+.login-form .login-footer .register {
 	display: block;
 	float: right;
 	padding: 10px;
@@ -144,25 +160,21 @@ Auth start
 	text-shadow: 0px 1px 0 rgba(256,256,256,0.5);
 }
 
-.panel .panel-footer .register:hover {
+.login-form .login-footer .register:hover {
 	color: #3f9db8;
 }
 
-.panel .panel-footer .register:focus {
+.login-form .login-footer .register:focus {
 	position: relative;
 	bottom: -1px;
 }
 
-.panel .ng-invalid .ng-dirty {
+.login-form .ng-invalid.ng-dirty {
     border-color: red;
 }
-.panel .ng-valid .ng-dirty {
+.login-form .ng-valid.ng-dirty {
     border-color: green;
 }
-/*******************
-AUTH end
-*******************/
-
 
 /*******************
 CAROUSEL
@@ -296,4 +308,82 @@ SETTINGS
 }
 .modal-footer{
 	text-align: center;
+}
+
+/*******************
+CHAT
+*******************/
+
+.chat
+{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.chat li
+{
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px dotted #B3A9A9;
+}
+
+.chat li .chat-body p
+{
+    margin: 0;
+    color: #777777;
+}
+
+.panel-chat .slidedown .glyphicon, .chat .glyphicon
+{
+    margin-right: 5px;
+    background-color:#d4dedf;
+}
+
+.chat-head{
+	background-color:#d4dedf;
+}
+
+.chatbody
+{
+    overflow-y: scroll;
+    height: 250px;
+}
+
+/*::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar
+{
+    width: 12px;
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #555;
+}*/
+
+.overflowable {
+  height: 240px;
+  overflow-y: auto;
+  border: 1px solid #000;
+}
+
+.overflowable p {
+  margin: 0;
+}
+
+/* poor man's grid system */
+.col {
+  float: left;
+  width: 350px;
+}
+
+.clr {
+  clear: both;
 }

@@ -1,7 +1,7 @@
 module.exports = AuthFactory;
 
-AuthFactory.$inject = ['$http'];
-function AuthFactory($http) {
+AuthFactory.$inject = ['$http', '$rootScope'];
+function AuthFactory($http, $rootScope) {
 	return {
     login: login,
     register: register,
@@ -23,6 +23,7 @@ function AuthFactory($http) {
   function logout() {
     return $http.post(process.env.API_URL + '/logout', null, {withCredentials: true}).
     then(function (response) {
+      $rootScope.$broadcast('userLoggedOut');
       return response.status + ' ' + response.statusText;
     });
   }
