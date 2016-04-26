@@ -11,13 +11,12 @@ function PlayersRoomController(PlayersRoom, Socket, $http, $location, $scope, us
   $ctrl.incommingInvites = [];
   $ctrl.isOnline = user.isOnline;
 
-  // $ctrl.getUsersOnline = function(){
-  //   console.log('getUsersOnline');
-  //   $http.get(process.env.API_URL + '/api/user/users-online/', {withCredentials: true})
-  //   .then(function(response) {
-  //     $ctrl.usersOnline = response.data;
-  //     console.log($ctrl.usersOnline);
-  //   });
-  // };
-  // $ctrl.getUsersOnline();
+  $ctrl.getUsersOnline = function(){
+    $http.get(process.env.API_URL + '/api/user/users-online/', {withCredentials: true})
+    .then(function(response) {
+      $ctrl.usersOnline = response.data;
+    });
+  };
+  $ctrl.getUsersOnline();
+  
 }
