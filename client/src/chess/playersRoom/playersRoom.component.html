@@ -11,7 +11,7 @@
         <caption class="text-center">Players online</caption>
         <tr ng-repeat="user in $ctrl.usersOnline">
           <td><span>{{user.name}}</span></td>
-          <td><button ng-click='$ctrl.sendInvite(user.id)'>Invite</button></td>
+          <td><button ng-click='$ctrl.sendInvitation(user.id)'>Invite</button></td>
         </tr>
       </table>
     </div>
@@ -20,7 +20,7 @@
         <caption class="text-center">Incoming invites</caption>
         <tr ng-repeat="invite in $ctrl.incommingInvites">
           <td><span>{{invite.userName}}</span></td>
-          <td><button ng-click='$ctrl.accept(invite.userID)'>Accept</button></td>
+          <td><button ng-click='$ctrl.acceptInvitation(invite.userID)'>Accept</button></td>
         </tr>
       </table>
     </div>
