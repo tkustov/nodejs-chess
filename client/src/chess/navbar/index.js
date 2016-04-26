@@ -17,7 +17,11 @@ function NavbarController(auth, user, $location) {
 
   $ctrl.isLoggedIn = user.isLoggedIn;
   $ctrl.logout = logout;
-  $ctrl.user = user.userInfo;
+  $ctrl.getUserName = function() {
+    return (user.userInfo) 
+      ? user.userInfo.username
+      : null;
+  };
   $ctrl.toggled = false;
   $ctrl.toggle = toggle;
   function toggle() {
