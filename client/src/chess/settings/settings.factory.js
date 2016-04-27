@@ -1,7 +1,7 @@
 module.exports = SettingsFactory;
 
-SettingsFactory.$inject = ['$http', '$rootScope'];
-function SettingsFactory($http, $rootScope) {
+SettingsFactory.$inject = ['$http', '$rootScope', 'user'];
+function SettingsFactory($http, $rootScope, user) {
   return {
     changePassword: changePassword,
     deleteAccount: deleteAccount
@@ -21,7 +21,7 @@ function SettingsFactory($http, $rootScope) {
     return $http.delete(process.env.API_URL + '/api/user/account', {withCredentials: true})
       .then(
         function(response) {
-          return response.status + ' ' + response.statusText;
+          user.getUserInfo();
         }
       );
   }

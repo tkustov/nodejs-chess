@@ -20,10 +20,14 @@ function UserFactory($http, $rootScope) {
 
   function getUserInfo() {
     return $http.get(process.env.API_URL + '/api/user/info', {withCredentials: true}).
-      then(function(response) {
-        factory.userInfo = response.data;
-        $rootScope.$broadcast('Authorized');
-      });
+      then(
+        function(response) {
+          factory.userInfo = response.data;
+          $rootScope.$broadcast('Authorized');
+        },
+        function(response) {
+          factory.userInfo = null;
+        });
   }
 
   function isLoggedIn() {
