@@ -4,8 +4,8 @@ module.exports = {
 };
 
 //var Board = require('../../../../lib/common/Board');
-chessBoardController.$inject = ['Game', '$element', '$http'];
-function chessBoardController(Game, $element, $http){
+chessBoardController.$inject = ['Game', '$element', '$http', '$scope'];
+function chessBoardController(Game, $element, $http, $scope){
   var ctrl = this;
   ctrl.white = "#fff";
   ctrl.black = "#cc6600";
@@ -18,6 +18,13 @@ function chessBoardController(Game, $element, $http){
 
   var isFrom = true;
   var form;
+
+  $scope.$watch(Game.getState, function (pieces) {
+    ctrl.pieces = pieces;
+    colorReverse();
+    ctrl.drawBoard(ctrl.ctx, ctrl.canvasParams);
+    ctrl.drawPieces(ctrl.ctx, ctrl.pieces);
+  }, true);
 
 	ctrl.elementRanges = [];
 	ctrl.canvas = $element[0].querySelector('canvas');
@@ -103,10 +110,6 @@ function chessBoardController(Game, $element, $http){
         then(function(prom) {
           if (prom.list === 201) {
             Game.move(tmp.from,tmp.to);
-            ctrl.pieces = Game.getState();
-            colorReverse();
-            ctrl.drawBoard(ctrl.ctx, ctrl.canvasParams);
-            ctrl.drawPieces(ctrl.ctx, ctrl.pieces);
           }
           else {
             alert('Воу Воу парень ПАЛЄХЧЄ!!!');
