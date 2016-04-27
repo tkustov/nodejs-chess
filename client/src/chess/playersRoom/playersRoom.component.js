@@ -8,7 +8,7 @@ function PlayersRoomController($http, PlayersRoom, user) {
   var $ctrl = this;
 
   $ctrl.usersOnline = PlayersRoom.getUsersOnline;
-  $ctrl.incommingInvitations = PlayersRoom.getIncommingInvitations;
+  $ctrl.incommingInvitations = PlayersRoom.getInvitations;
   $ctrl.isOnline = user.isOnline;
   
   $ctrl.sendInvitation = function(userId){
