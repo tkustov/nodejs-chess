@@ -23,7 +23,7 @@ function AuthFactory($http, $rootScope) {
   function logout() {
     return $http.post(process.env.API_URL + '/logout', null, {withCredentials: true}).
     then(function (response) {
-      $rootScope.$broadcast('userLoggedOut');
+      $rootScope.$broadcast('disconnectGameSocket');
       return response.status + ' ' + response.statusText;
     });
   }

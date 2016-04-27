@@ -17,7 +17,7 @@ function SettingsFactory($http, $rootScope) {
   }
 
   function deleteAccount() {
-    $rootScope.$broadcast('socketDisconnect');
+    $rootScope.$broadcast('disconnectGameSocket');
     return $http.delete(process.env.API_URL + '/api/user/account', {withCredentials: true})
       .then(
         function(response) {
