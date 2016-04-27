@@ -72,7 +72,7 @@ function GameFactory($http)  {
           }).
         then(function () {
         //var data = {gameId: factory.gameId, move: move};
-        $http.post(process.env.API_URL + '/api/game/checkmove', {gameId: factory.gameId, form: move.form, to: move.to}, {withCredentials: true}).
+        $http.post(process.env.API_URL + '/api/game/checkmove', {gameId: factory.gameId, form: move.from, to: move.to}, {withCredentials: true}).
           then(function (response) {
             can = response.status;
             console.log('can i move? (no game id) ' + can);
@@ -83,8 +83,9 @@ function GameFactory($http)  {
     else {
       (function () {
         console.log('game id exists and i send move to server ' + factory.gameId);
-      var data = {gameId: factory.gameId, form: move.form, to: move.to};
-      $http.post(process.env.API_URL + '/api/game/checkmove', data, {withCredentials: true}).
+      //var data = {gameId: factory.gameId, form: move.form, to: move.to};
+      //console.log({gameId: factory.gameId, form: move.form, to: move.to});
+      $http.post(process.env.API_URL + '/api/game/checkmove', {gameId: factory.gameId, form: move.from, to: move.to}, {withCredentials: true}).
         then(function (response) {
           can = response.status;
           console.log('can i move? ' + can);

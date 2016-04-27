@@ -63,7 +63,7 @@ function chessBoardController(Game, $element, $http){
     var color = 'white';
     var click = {};
     var clickedElem = {};
-    
+
   function getClickPosition(event){
     var offsetLeft = event.currentTarget.offsetLeft + event.currentTarget.offsetParent.offsetLeft;
     var offsetTop = event.currentTarget.offsetTop + event.currentTarget.offsetParent.offsetTop;
@@ -71,7 +71,7 @@ function chessBoardController(Game, $element, $http){
     var clickY = event.clientY - offsetTop;
     click = {x:clickX,y:clickY};
   }
-  
+
   function inRangeScope(element, i, array){
     var empty = isFrom ? element.name !== "empty" : element.name === "empty";
     if(click.x > element.rangeX.firstX && click.x < element.rangeX.lastX
@@ -81,10 +81,10 @@ function chessBoardController(Game, $element, $http){
     }
     return false;
   }
-  
+
   function displayFrom(){
     if(clickedElem.color !== color) {
-      console.log('don`t go'); 
+      console.log('don`t go');
       clickedElem = {};
       return;
     }
@@ -93,23 +93,29 @@ function chessBoardController(Game, $element, $http){
     isFrom = false;
     color = color === 'black' ? 'white' : 'black';
   }
-  
+
   function displayTo(){
     console.log("To:",clickedElem.position);
-    if(Game.move(form,clickedElem.position)){
+    if(Game.tryMove(form,clickedElem.position)){
       console.log("Moved To: " + clickedElem.position);
       var tmp = {from: form, to: clickedElem.position };
-      $http.get(process.env.API_URL + '/api/game/send-move/' + JSON.stringify(tmp), {withCredentials: true})
-      .then(function(response) {
-      });
-      ctrl.pieces = Game.getState();
-      colorReverse();
-      ctrl.drawBoard(ctrl.ctx, ctrl.canvasParams);
-      ctrl.drawPieces(ctrl.ctx, ctrl.pieces);
+      Game.sendMove(tmp).
+        then(function(prom) {
+          if (prom.list === 201) {
+            Game.move(tmp.from,tmp.to);
+            ctrl.pieces = Game.getState();
+            colorReverse();
+            ctrl.drawBoard(ctrl.ctx, ctrl.canvasParams);
+            ctrl.drawPieces(ctrl.ctx, ctrl.pieces);
+          }
+          else {
+            alert('Воу Воу парень ПАЛЄХЧЄ!!!');
+          }
+        });
     }
     isFrom = true;
   }
-  
+
   ctrl.getPosition = function (event){
     ctrl.initPieces(ctrl.pieces);
     getClickPosition(event);
@@ -120,7 +126,7 @@ function chessBoardController(Game, $element, $http){
     click = {};
     clickedElem = {};
   };
-  
+
   ctrl.getPositionRef = function (event) {
     ctrl.initPieces(ctrl.pieces);
   };
