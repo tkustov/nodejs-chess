@@ -25,25 +25,18 @@ function RouteConfig($routeProvider) {
 SocketInit.$inject = ['$rootScope', '$http', 'Socket', 'user'];
 function SocketInit($rootScope, $http, Socket, user) {
 
-  $rootScope.$on('socketDisconnect', function(){
-    gameSocket.disconnect();
-    console.log('disconnected from "game" ns');
-  });
-
   var gameSocket;
 
   $rootScope.$on('Authorized', function(){
+    //console.log('Authorized');
     gameSocket = Socket('game');
-    userRoom = user.userInfo.userRoom;
 
     gameSocket.on('connect', function() {
-      var data = {
-        userId: user.userInfo._id,
-        userRoom: user.userInfo.userRoom
-      };
-      gameSocket.emit('join', data);
+      var data = { userId: user.userInfo._id };
+      gameSocket.emit('identification', data);
       user.setOnline();
-      console.log('connect to "game" ns and userRoom');
+      console.log('connect to "game" ns');
+      $rootScope.$broadcast('SocketConnected');
     });
 
     gameSocket.on('disconnect', function() {
@@ -51,12 +44,16 @@ function SocketInit($rootScope, $http, Socket, user) {
       console.log('Connection lost... :(');
     });
 
-    gameSocket.on('test', function(data) {
-      console.log(data);
-    });
+    $rootScope.$broadcast('SocketInitEnd');
+
   });
 
   $rootScope.$on('userLoggedOut', function(){
+    gameSocket.disconnect();
+    console.log('disconnected from "game" ns');
+  });
+
+  $rootScope.$on('socketDisconnect', function(){
     gameSocket.disconnect();
     console.log('disconnected from "game" ns');
   });
