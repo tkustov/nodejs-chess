@@ -17,10 +17,10 @@
     </div>
     <div class="col-xs-6">
       <table class="table">
-        <caption class="text-center">Incoming invites</caption>
-        <tr ng-repeat="invite in $ctrl.incommingInvites">
-          <td><span>{{invite.userName}}</span></td>
-          <td><button ng-click='$ctrl.acceptInvitation(invite.userId)'>Accept</button></td>
+        <caption class="text-center">Incoming invitations</caption>
+        <tr ng-repeat="inv in $ctrl.incommingInvitations()">
+          <td><span>{{inv.userName}}</span></td>
+          <td><button ng-click='$ctrl.acceptInvitation(inv.userId)'>Accept</button></td>
         </tr>
       </table>
     </div>

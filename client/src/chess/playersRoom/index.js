@@ -22,8 +22,8 @@ function RouteConfig($routeProvider) {
   });
 }
 
-SocketInit.$inject = ['$rootScope', '$http', 'Socket', 'user', 'PlayersRoom', 'Game'];
-function SocketInit($rootScope, $http, Socket, user, PlayersRoom, Game) {
+SocketInit.$inject = ['$rootScope', '$location', 'Socket', 'user', 'PlayersRoom', 'Game'];
+function SocketInit($rootScope, $location, Socket, user, PlayersRoom, Game) {
 
   var gameSocket;
 
@@ -31,11 +31,10 @@ function SocketInit($rootScope, $http, Socket, user, PlayersRoom, Game) {
     gameSocket = Socket('game');
 
     gameSocket.on('connect', function() {
-      var data = { userId: user.userInfo._id };
-      gameSocket.emit('identification', data);
+      gameSocket.emit('identification', { userId: user.userInfo._id });
       user.setOnline();
-      console.log('connect to "game" ns');
-      $rootScope.$broadcast('SocketConnected');
+      PlayersRoom.fetchUsersOnline();
+      console.log('connected to "game" namespace');
     });
 
     gameSocket.on('disconnect', function() {
@@ -43,32 +42,31 @@ function SocketInit($rootScope, $http, Socket, user, PlayersRoom, Game) {
       console.log('Connection lost... :(');
     });
 
-    PlayersRoom.fetchUsersOnline();
-
     gameSocket.on('userJoined', function(data){
-      if (user.userInfo._id != data.id) {PlayersRoom.newUser(data)};
+      PlayersRoom.newUser(data);
     });
 
     gameSocket.on('userLeft', function(data){
       PlayersRoom.removeUser(data.userId);
     });
 
-    gameSocket.on('opponentMove', function (data) {
-      Game.move(data.form, data.to);
-      console.log(data);
+    gameSocket.on('incomingInv', function(data){
+      PlayersRoom.putIncommingInvitation(data);
     });
 
-    $rootScope.$broadcast('SocketInitEnd');
+    gameSocket.on('startGame', function(data){
+      Game.setGameInfo(data);
+      $location.path('/game')
+    });
+
+    gameSocket.on('opponentMove', function (data) {
+      Game.move(data.form, data.to);
+    });
 
   });
 
-  $rootScope.$on('userLoggedOut', function(){
+  $rootScope.$on('disconnectGameSocket', function(){
     gameSocket.disconnect();
-    console.log('disconnected from "game" ns');
-  });
-
-  $rootScope.$on('socketDisconnect', function(){
-    gameSocket.disconnect();
-    console.log('disconnected from "game" ns');
+    console.log('disconnected from "game" namespace');
   });
 }
