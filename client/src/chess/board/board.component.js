@@ -23,7 +23,10 @@ function chessBoardController(Game, $element, $http, $scope, user){
   ctrl.pieces = Game.getState();
   function colorReverse(){
     ctrl.pieces.forEach(function(item){
-      if(item.color) item.color = item.color === 'white' ? 'white' : 'black';
+      if(item.color) {
+        item.color = item.color === 'white' ? 'white' : 'black';
+        
+      }
     });
   }
 
