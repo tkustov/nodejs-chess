@@ -57,7 +57,7 @@ function PlayersRoomController(PlayersRoom, Socket, $http, $location, $scope, us
     });
 
     gameSocket.on('startGame', function(data){
-      Game.setGameId(data.gameId);
+      Game.setGameInfo(data);
       $location.path('/game')
     });
   });
