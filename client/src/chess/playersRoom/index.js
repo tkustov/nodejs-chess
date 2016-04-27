@@ -22,8 +22,8 @@ function RouteConfig($routeProvider) {
   });
 }
 
-SocketInit.$inject = ['$rootScope', '$http', 'Socket', 'user', 'PlayersRoom'];
-function SocketInit($rootScope, $http, Socket, user, PlayersRoom) {
+SocketInit.$inject = ['$rootScope', '$http', 'Socket', 'user', 'PlayersRoom', 'Game'];
+function SocketInit($rootScope, $http, Socket, user, PlayersRoom, Game) {
 
   var gameSocket;
 
@@ -51,6 +51,11 @@ function SocketInit($rootScope, $http, Socket, user, PlayersRoom) {
 
     gameSocket.on('userLeft', function(data){
       PlayersRoom.removeUser(data.userId);
+    });
+
+    gameSocket.on('opponentMove', function (data) {
+      Game.move(data.form, data.to);
+      console.log(data);
     });
 
     $rootScope.$broadcast('SocketInitEnd');
