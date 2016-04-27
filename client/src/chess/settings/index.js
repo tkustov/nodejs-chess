@@ -2,13 +2,9 @@ var angular = require('angular');
 var ngRoute = require('angular-route');
 var SettingsComponent = require('./settings.component');
 var SettingsFactory = require('./settings.factory');
-var ui = require('angular-ui-bootstrap');
-var ngAnimate = require('angular-animate');
 
 module.exports = angular.module('chess.settings', [
-  ngRoute,
-  ngAnimate,
-  ui
+  ngRoute
 ]).
 config(RouteConfig).
 component('settings', SettingsComponent).

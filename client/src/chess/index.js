@@ -6,15 +6,14 @@ var scores = require('./scores');
 var help = require('./help');
 var settings = require('./settings');
 var user = require('./user');
-var ui = require('angular-ui-bootstrap');
 var chat = require('./chat');
 var game = require('./game');
 
 module.exports = angular.module('chess', [
   require('angular-route'),
   require('angular-animate'),
+  require('angular-ui-bootstrap'),
   navbar.name,
-  ui,
   startup.name,
   auth,
   user,
