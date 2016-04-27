@@ -1,7 +1,7 @@
 module.exports = GameFactory;
 var Board = require('../../../../lib/common/Board');
-GameFactory.$inject = ['$http'];
-function GameFactory($http)  {
+GameFactory.$inject = ['$http','$q'];
+function GameFactory($http, $q)  {
     var gameId;
     var board = new Board ();
     function getState() {
@@ -62,7 +62,7 @@ function GameFactory($http)  {
     return promise;
   }
     function sendMove(move) {
-      var promise = new Promise(function(resolve, reject) {
+      var promise = $q(function(resolve, reject) {
       var can;
       console.log(factory.gameId + ' my game id in sendMove');
       if (factory.gameId === null) {
