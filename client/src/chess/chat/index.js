@@ -19,6 +19,7 @@ function ChatController(Socket, $http, user, Game, $location){
 	var $ctrl=this;	
 	$ctrl.messages=[];
 	var chatSocket;
+	var elem = document.getElementById('chatbody');
 
 	$ctrl.getUserName = function() {
 		    return (user.userInfo) 
@@ -39,7 +40,12 @@ function ChatController(Socket, $http, user, Game, $location){
 
 		chatSocket.on('send:message', function (message) {
 		    $ctrl.messages.push(message);
+		    $ctrl.gotoBottom();
 		});
+
+		$ctrl.gotoBottom = function() {
+			elem.scrollTop = elem.scrollHeight - elem.clientHeight;
+		};
 		
 		$ctrl.sendMessage = function () {
 			var sender=$ctrl.getUserName();
