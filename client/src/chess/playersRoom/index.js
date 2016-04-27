@@ -22,13 +22,12 @@ function RouteConfig($routeProvider) {
   });
 }
 
-SocketInit.$inject = ['$rootScope', '$http', 'Socket', 'user'];
-function SocketInit($rootScope, $http, Socket, user) {
+SocketInit.$inject = ['$rootScope', '$http', 'Socket', 'user', 'PlayersRoom'];
+function SocketInit($rootScope, $http, Socket, user, PlayersRoom) {
 
   var gameSocket;
 
   $rootScope.$on('Authorized', function(){
-    //console.log('Authorized');
     gameSocket = Socket('game');
 
     gameSocket.on('connect', function() {
@@ -42,6 +41,16 @@ function SocketInit($rootScope, $http, Socket, user) {
     gameSocket.on('disconnect', function() {
       user.setOffline();
       console.log('Connection lost... :(');
+    });
+
+    PlayersRoom.fetchUsersOnline();
+
+    gameSocket.on('userJoined', function(data){
+      if (user.userInfo._id != data.id) {PlayersRoom.newUser(data)};
+    });
+
+    gameSocket.on('userLeft', function(data){
+      PlayersRoom.removeUser(data.userId);
     });
 
     $rootScope.$broadcast('SocketInitEnd');
