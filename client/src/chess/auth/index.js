@@ -12,8 +12,7 @@ config(RouteConfig).
 config(AuthConfig).
 component('auth', AuthComponent.login).
 factory('auth', AuthFactory).
-component('register', AuthComponent.register).
-factory('register', AuthFactory);
+component('register', AuthComponent.register);
 
 RouteConfig.$inject = ['$routeProvider'];
 function RouteConfig($routeProvider) {
