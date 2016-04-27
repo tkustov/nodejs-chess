@@ -33,6 +33,10 @@ function PlayersRoomFactory($http) {
     });
   }
 
+  function clearUsersOnline() {
+    usersOnline = [];
+  }
+
   function getIncommingInvitations() {
     return incommingInvitations;
   }
@@ -41,15 +45,20 @@ function PlayersRoomFactory($http) {
     incommingInvitations.push(invitation);
   }
 
+  function clearIncommingInvitations() {
+    incommingInvitations = [];
+  }
+  
   var factory = {
     fetchUsersOnline: fetchUsersOnline,
     getUsersOnline: getUsersOnline,
     newUser: newUser,
     removeUser: removeUser,
+    clearUsersOnline: clearUsersOnline,
     putIncommingInvitation: putIncommingInvitation,
-    getIncommingInvitations: getIncommingInvitations
+    getIncommingInvitations: getIncommingInvitations,
+    clearIncommingInvitations: clearIncommingInvitations
   };
 
   return factory;
-
 }

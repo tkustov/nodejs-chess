@@ -39,6 +39,8 @@ function SocketInit($rootScope, $location, Socket, user, PlayersRoom, Game) {
 
     gameSocket.on('disconnect', function() {
       user.setOffline();
+      PlayersRoom.clearUsersOnline();
+      PlayersRoom.clearIncommingInvitations();
       console.log('Connection lost... :(');
     });
 
