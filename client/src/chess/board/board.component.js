@@ -9,23 +9,22 @@ function chessBoardController(Game, $element, $http, $scope, user){
   var ctrl = this;
   ctrl.white = "#fff";
   ctrl.black = "#cc6600";
-  ctrl.playerFlag;
+  ctrl.playerFlag = '';
   ctrl.player = Game.getGameInfo();
   console.log(ctrl.player);
   console.log(user.userInfo);
   if (user.userInfo._id === ctrl.player.whitePlayer) {
-    ctrl.playerFlag = true;
+    ctrl.playerFlag = 'white';
   }
   else if (user.userInfo._id === ctrl.player.blackPlayer) {
-    ctrl.playerFlag = false;
+    ctrl.playerFlag = 'black';
   }
   console.log(ctrl.playerFlag + ' players flag at the begining of a game');
   ctrl.pieces = Game.getState();
   function colorReverse(){
     ctrl.pieces.forEach(function(item){
-      if(item.color) {
+      if(ctrl.playerFlag === 'white') {
         item.color = item.color === 'white' ? 'white' : 'black';
-        
       }
     });
   }
@@ -104,7 +103,7 @@ function chessBoardController(Game, $element, $http, $scope, user){
   }
 
   function displayFrom(){
-    if(clickedElem.color !== color) {
+    if(ctrl.playerFlag !== color && clickedElem.color !== color) {
       console.log('don`t go');
       clickedElem = {};
       return;
@@ -112,7 +111,6 @@ function chessBoardController(Game, $element, $http, $scope, user){
     form = clickedElem.position;
     console.log("From :", form);
     isFrom = false;
-    color = color === 'black' ? 'white' : 'black';
   }
 
   function displayTo(){
@@ -124,8 +122,9 @@ function chessBoardController(Game, $element, $http, $scope, user){
         then(function(prom) {
           if (prom.list === 201) {
             Game.move(tmp.from,tmp.to);
-            ctrl.playerFlag = (!ctrl.playerFlag);
-            console.log(ctrl.playerFlag + ' players flag after moving');
+            color = color === 'black' ? 'white' : 'black';
+            //ctrl.playerFlag = (!ctrl.playerFlag);
+            //console.log(ctrl.playerFlag + ' players flag after moving');
           }
           else {
             alert('Воу Воу парень ПАЛЄХЧЄ!!!');
