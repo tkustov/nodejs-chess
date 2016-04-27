@@ -1,76 +1,88 @@
-<div class="col-lg-4 col-md-4 col-sm-4">
-    <center>
-        <p style="font-size: 20px;">Hello user!</p>
-        <img src="http://i.imgur.com/OhHtgeJ.png" class="img-responsive" style="width:200px;">
-        <button id="userscores">Your scores: 2520</button>
-    </center>
-</div>
-<div class="col-lg-2 col-md-2 col-sm-2">
-</div>
-<div class="col-lg-6 col-md-6 col-sm-6">
-    <center><label for="SettingsCategories" id="settings-header">Choose a settings category below:</label></center>
-    <div class="list-group" id="SettingsCategories">
-        <button type="button" class="list-group-item" id="photobutton">Change photo</button>
-        <center><div id="photo" style="display: none;">
-	       <div class="form-group">
-	           <input name="Icon" type="file" id="InputFile">
-	           <p class="help-block">Upload your picture</p>
-	           <button type="button" class="btn btn-default">Upload</button>
-	       </div>
-        </div></center>
-        <button type="button" class="list-group-item" id="passbutton">Change password</button>
-        <center>
-        <div id="password_modal" style="display: none;">
-    <div class="modal-body form-horizontal">
-        <div class="control-group">
-            <label for="current_password" class="control-label">Current Password</label>
-            <div class="controls">
-                <input type="password" name="current_password">
+<div class="row" class="settings">
+  <div class="col-sm-4 text-center">
+    <p>Hello {{$ctrl.getUserName()}}!</p>
+    <button class="btn btn-primary" type="button">
+      Your score: <span class="badge">{{$ctrl.getUserScores()}}</span>
+    </button>
+  </div>
+
+  <div class="col-sm-5 col-sm-offset-2">
+     <uib-accordion>
+       
+        <uib-accordion-group heading="{{$ctrl.group2.title}}">
+          <form class="form-horizontal" name='passwordForm' novalidate>
+            <div class="form-group" ng-class="{ 'has-error' : passwordForm.currentPassword.$error.required 
+                    && !passwordForm.currentPassword.$pristine }" >
+                <label for="currentPassword" class="control-label col-sm-4">{{$ctrl.group2.field1}}</label>
+                <div class="col-sm-6 col-sm-offset-2">
+                    <input type="password" ng-model="$ctrl.currentPassword" placeholder="Enter your current password"
+                      id="currentPassword" class="form-control" name="currentPassword" maxlength="40" required>
+                    <span ng-show="passwordForm.currentPassword.$error.required 
+                        && !passwordForm.currentPassword.$pristine" class="help-block">Your password is required.
+                    </span>
+                </div>
             </div>
-        </div>
-        <div class="control-group">
-            <label for="new_password" class="control-label">New Password</label>
-            <div class="controls">
-                <input type="password" name="new_password">
+            <div class="form-group" ng-class="{ 'has-error' : passwordForm.newPassword.$error.required 
+                    && !passwordForm.newPassword.$pristine }">
+                <label for="newPassword" class="control-label col-sm-4">{{$ctrl.group2.field2}}</label>
+                <div class="col-sm-6 col-sm-offset-2">
+                    <input type="password" ng-model="$ctrl.newPassword" placeholder="Enter your new password"
+                      id="newPassword" class="form-control" name="newPassword" minlength="6" maxlength="40" required>
+                    <span ng-show="passwordForm.newPassword.$error.required 
+                      && !passwordForm.newPassword.$pristine" class="help-block">Please enter your new password.
+                    </span>
+                    <span ng-show="(passwordForm.newPassword.$error.minlength || passwordForm.newPassword.$error.maxlength)
+                      && !passwordForm.newPassword.$pristine" 
+                      class="help-block">Your password should be at least 6 characters long!
+                    </span>
+                </div>
             </div>
-        </div>
-        <div class="control-group">
-            <label for="confirm_password" class="control-label">Confirm Password</label>
-            <div class="controls">
-                <input type="password" name="confirm_password">
+            <div class="form-group" ng-class="{ 'has-error' : passwordForm.confirmPassword.$error.pattern 
+                    && !passwordForm.confirmPassword.$pristine }">
+                <label for="confirmPassword" class="control-label col-sm-4">{{$ctrl.group2.field3}}</label>
+                <div class="col-sm-6 col-sm-offset-2">
+                    <input type="password" ng-model="$ctrl.confirmPassword" ng-model-options="{ updateOn: ' blur mouseout ' }" 
+                      placeholder="Confirm your new password"
+                      ng-pattern="$ctrl.newPassword" id="confirmPassword" 
+                      class="form-control" name="confirmPassword" minlength="6" maxlength="40" required>
+                    <span ng-show="passwordForm.confirmPassword.$error.pattern && !passwordForm.confirmPassword.$pristine" 
+                      class="help-block">
+                      Should match the previous entry!
+                    </span>
+                </div>
             </div>
-        </div>      
-    </div>
-    <div class="modal-footer">
-        <button href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-        <button href="#" class="btn btn-primary" id="password_modal_save">Save changes</button>
-    </div>
-    </div>
-    </center>
-        <select class="list-group-item" id="styleClick" style="width:100%;" onchange="">
-            <option value="">Theme</option>
-            <option value="cerulean">Cerulean</option>
-            <option value="cosmo">Cosmo</option>
-            <option value="cyborg">Cyborg</option>
-            <option value="darkly">Darkly</option>
-            <option value="flatly">Flatly</option>
-            <option value="journal">Journal</option>
-            <option value="lumen">Lumen</option>
-            <option value="paper">Paper</option>
-            <option value="readable">Readable</option>
-            <option value="sandstone">Sandstone</option>
-            <option value="simplex">Simplex</option>
-            <option value="slate">Slate</option>
-            <option value="spacelab">Spacelab</option>
-            <option value="superhero">Superhero</option>
-            <option value="united">United</option>
-            <option value="yeti">Yeti</option>
-        </select>
-        <select class="list-group-item" id="localeClick" style="width:100%;" onchange="">
-            <option value="">Language</option>
-            <option value="en-US">English</option>
-            <option value="ru-RU">Russian</option>
-            <option value="ua-UA">Ukrainian</option>
-        </select>
-    </div>
+            <div class="form-group">
+              <div class="col-sm-offset-6 col-sm-6">
+                <button class="btn btn-warning" ng-click="$ctrl.clearPasswordForm(passwordForm)">Reset</button>
+                <button class="btn btn-primary" ng-click="$ctrl.submitPasswordForm(passwordForm)"
+                  ng-disabled="passwordForm.$invalid">Save changes</button>
+              </div>
+            </div>
+          </form>
+        </uib-accordion-group>
+
+        <uib-accordion-group heading="{{$ctrl.group3.title}}">
+          <uib-tabset active="activePill" vertical="true" type="pills">
+            <uib-tab index="0" heading="{{$ctrl.group3.content.theme1}}"></uib-tab>
+            <uib-tab index="1" heading="{{$ctrl.group3.content.theme2}}"></uib-tab>
+            <uib-tab index="2" heading="{{$ctrl.group3.content.theme3}}"></uib-tab>
+          </uib-tabset>
+        </uib-accordion-group>
+
+        <uib-accordion-group heading="{{$ctrl.group4.title}}">
+          <uib-tabset active="activePill" vertical="true" type="pills">
+            <uib-tab index="0" heading="{{$ctrl.group4.content.en}}"></uib-tab>
+            <uib-tab index="1" heading="{{$ctrl.group4.content.uk}}"></uib-tab>
+            <uib-tab index="2" heading="{{$ctrl.group4.content.ru}}"></uib-tab>
+          </uib-tabset>
+        </uib-accordion-group>
+        
+        <uib-accordion-group heading="{{$ctrl.group5.title}}" panel-class="panel-danger">
+          <p>{{$ctrl.group5.content}}</p>
+          <button class="btn btn-danger" ng-click='$ctrl.deleteAccount()'>Delete</button>
+        </uib-accordion-group>
+        
+     </uib-accordion>
+     <uib-alert ng-show="$ctrl.message" type="warning" close="$ctrl.closeAlert()">{{$ctrl.message}}</uib-alert>
+  </div>
 </div>

@@ -1,12 +1,11 @@
 module.exports = AuthFactory;
 
-AuthFactory.$inject = ['$http'];
-function AuthFactory($http) {
+AuthFactory.$inject = ['$http', '$rootScope'];
+function AuthFactory($http, $rootScope) {
 	return {
     login: login,
     register: register,
-    logout: logout,
-    checkAuth: checkAuth
+    logout: logout
 	};
 
   function login(data) {
@@ -24,12 +23,7 @@ function AuthFactory($http) {
   function logout() {
     return $http.post(process.env.API_URL + '/logout', null, {withCredentials: true}).
     then(function (response) {
-      return response.status + ' ' + response.statusText;
-    });
-  }
-  function checkAuth() {
-    return $http.get(process.env.API_URL + '/api/user/name/', {withCredentials: true}).
-    success(function (response) {
+      $rootScope.$broadcast('disconnectGameSocket');
       return response.status + ' ' + response.statusText;
     });
   }

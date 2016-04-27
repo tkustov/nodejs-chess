@@ -1,25 +1,26 @@
 <div class="container">
   <div class="row text-center">
     <h1>Players room</h1>
-    <h4>{{$ctrl.status}}</h3>
+    <h4 ng-hide="$ctrl.isOnline()" class="text-danger">Can't connect to game socket! Server is not running or your internet connection is bad :(</h4>
+    <h4 ng-show="$ctrl.isOnline()" class="text-success">Connected :)</h4>
   </div>
 
   <div class="row">
     <div class="col-xs-6">
       <table class="table">
         <caption class="text-center">Players online</caption>
-        <tr ng-repeat="user in $ctrl.usersOnline">
+        <tr ng-repeat="user in $ctrl.usersOnline()">
           <td><span>{{user.name}}</span></td>
-          <td><button ng-click='$ctrl.sendInvite(user.id)'>Invite</button></td>
+          <td><button ng-click='$ctrl.sendInvitation(user.id)'>Invite</button></td>
         </tr>
       </table>
     </div>
     <div class="col-xs-6">
       <table class="table">
-        <caption class="text-center">Incoming invites</caption>
-        <tr ng-repeat="invite in $ctrl.incommingInvites">
-          <td><span>{{invite.userName}}</span></td>
-          <td><button ng-click='$ctrl.accept(invite.userID)'>Accept</button></td>
+        <caption class="text-center">Incoming invitations</caption>
+        <tr ng-repeat="inv in $ctrl.incommingInvitations()">
+          <td><span>{{inv.userName}}</span></td>
+          <td><button ng-click='$ctrl.acceptInvitation(inv.userId)'>Accept</button></td>
         </tr>
       </table>
     </div>

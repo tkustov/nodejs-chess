@@ -15,9 +15,13 @@ NavbarController.$inject = ['auth', 'user', '$location'];
 function NavbarController(auth, user, $location) {
   var $ctrl = this;
 
-
+  $ctrl.isLoggedIn = user.isLoggedIn;
   $ctrl.logout = logout;
-  $ctrl.username = user.username;
+  $ctrl.getUserName = function() {
+    return (user.userInfo) 
+      ? user.userInfo.username
+      : null;
+  };
   $ctrl.toggled = false;
   $ctrl.toggle = toggle;
   function toggle() {
@@ -28,6 +32,7 @@ function NavbarController(auth, user, $location) {
     auth.logout().
       then(
         function (response) {
+          user.userInfo = null;
           $location.path('/')
           console.log('user logged out');
         },
