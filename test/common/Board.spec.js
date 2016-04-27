@@ -6,7 +6,7 @@ var assert = require('chai').assert;
 var board = new Board();
 
 describe("Board methods", function(){
-   
+
   it('test move method', function (){
     assert.equal(true, board.move('a2','a4'));
     assert.equal(false, board.move('a4','a2'));
@@ -33,14 +33,14 @@ describe("Board methods", function(){
     board.move('f3','f7');
     assert.equal('checkmate', board.getGameStatus('black'));
 
-      
+
     board.setState([{color:'black',position:'a8',name:'king'},
             {color:'white',position:'b6',name:'queen'}]);
-         
+
     assert.equal('stalemate', board.getGameStatus('black'));
     board.move('b6','b5');
     assert.equal('playing', board.getGameStatus('black'));
-  });   
+  });
 
   it('test tryMove method', function (){
   	board = new Board();
@@ -50,7 +50,7 @@ describe("Board methods", function(){
 
 
   it('test getState method', function (){
-    
+
     board.setState([{color:'black',position:'a8',name:'king'},
         {color:'white',position:'a5',name:'queen'}]);
     assert.sameDeepMembers([{name:'king',color:'black',position:'a8'},
@@ -97,15 +97,15 @@ describe("Board methods", function(){
 
     board.move('d7','d5');
     assert.sameMembers(['d5','e5'], board.getMoves('e4'));
-    
+
     board = new Board();
     board.move('e2','e3');
     board.move('c7','c5');
     board.move('e3','e4');
     board.move('d8','a5');
     assert.sameMembers([], board.getMoves('d2'))
-  });  
-  
+  });
+
   it('test knight getMoves method', function (){
     board = new Board();
     assert.sameMembers(['a3','c3'], board.getMoves('b1'));
@@ -121,14 +121,14 @@ describe("Board methods", function(){
     assert.sameMembers([], board.getMoves('a1'));
     board.move('a2','a4');
     assert.sameMembers(['a2','a3'], board.getMoves('a1'));
-  }); 
+  });
 
   it('test king getMoves method', function (){
     board = new Board();
     assert.sameMembers([], board.getMoves('e1'));
     board.move('e2','e4');
     assert.sameMembers(['e2'], board.getMoves('e1'));
-  }); 
+  });
 
   it('test bishop getMoves method', function (){
     board = new Board();
@@ -136,7 +136,7 @@ describe("Board methods", function(){
     board.move('e2','e4');
     board.move('c2','c4');
     assert.sameMembers(['e2','d3'], board.getMoves('f1'));
-  }); 
+  });
 
   it('test queen getMoves method', function (){
     board = new Board();
@@ -147,5 +147,3 @@ describe("Board methods", function(){
   });
 
 });
-
-
