@@ -9,7 +9,7 @@
     <div class="col-xs-6">
       <table class="table">
         <caption class="text-center">Players online</caption>
-        <tr ng-repeat="user in $ctrl.usersOnline">
+        <tr ng-repeat="user in $ctrl.usersOnline()">
           <td><span>{{user.name}}</span></td>
           <td><button ng-click='$ctrl.sendInvitation(user.id)'>Invite</button></td>
         </tr>
