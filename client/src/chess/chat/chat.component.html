@@ -5,13 +5,13 @@
         <div class="panel-heading">
           <span class="glyphicon glyphicon-comment"></span> Chat
         </div>
-        <div class="panel-body chatbody">
-          <ul class="chat">
+        <div class="panel-body chatbody" id="chatbody">
+          <ul ng-repeat="message in $ctrl.messages" class="chat">
             <li>
-              <div ng-repeat="message in $ctrl.messages" class="chat-body clearfix">
+              <div class="chat-body clearfix">
                 <div class="header">
                     <strong class="primary-font">
-                      {{$ctrl.getUserName()}}
+                      {{message.user}}
                     </strong> 
                 </div>
                 <p>
