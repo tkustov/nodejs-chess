@@ -17,14 +17,7 @@ function PlayersRoomController(PlayersRoom, Socket, $http, $location, $scope, us
       $ctrl.usersOnline = response.data;
     });
   };
-  $ctrl.getUsersOnline();
-
-  var gameSocket = Socket('game');
-
-  gameSocket.on('userJoined', function(data){
-    if (user.userInfo._id != data.id) {$ctrl.usersOnline.push(data)};
-  });
-
+  
   $ctrl.sendInvitation = function(userId){
     $http.get(process.env.API_URL + '/api/game/invitation/send/'+userId, {withCredentials: true})
     .then(function(response) {
@@ -39,13 +32,34 @@ function PlayersRoomController(PlayersRoom, Socket, $http, $location, $scope, us
     });
   };
 
-  gameSocket.on('incomingInv', function(data){
-    $ctrl.incommingInvites.push(data);
+  $ctrl.getUsersOnline();
+  
+  $scope.$on('SocketConnected', function(){
+    $ctrl.getUsersOnline();
   });
 
-  gameSocket.on('startGame', function(data){
-    Game.setGameId(data.gameId);
-    $location.path('/game')
+  $scope.$on('SocketInitEnd', function(){
+    
+    var gameSocket = Socket('game');
+
+    gameSocket.on('userJoined', function(data){
+      if (user.userInfo._id != data.id) {$ctrl.usersOnline.push(data)};
+      // console.log('userJoined', data);
+    });
+
+    gameSocket.on('userLeft', function(data){
+      // console.log('userLeft', data);
+    });
+
+    gameSocket.on('incomingInv', function(data){
+      $ctrl.incommingInvites.push(data);
+    });
+
+    gameSocket.on('startGame', function(data){
+      Game.setGameId(data.gameId);
+      $location.path('/game')
+    });
   });
+
 
 }
