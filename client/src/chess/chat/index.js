@@ -2,22 +2,24 @@ var angular = require('angular');
 var ngRoute = require('angular-route');
 var SocketFactory = require('../socket/socket.factory');
 var user = require('../user');
+var GameFactory = require('../game/game.factory');
 
 module.exports = angular.module('chess.chat', [
 	user
 ]).
+factory('Game', GameFactory).
 
 component('chat', {
   controller: ChatController,
   templateUrl: 'chat/chat.component.html'
 });
 
-ChatController.$inject = ['Socket', '$http', 'user', '$location'];
-function ChatController(Socket, $http, user, $location){
-	console.log('Chat Controller');
+ChatController.$inject = ['Socket', '$http', 'user', 'Game', '$location'];
+function ChatController(Socket, $http, user, Game, $location){
 	var $ctrl=this;	
 	$ctrl.messages=[];
 	var chatSocket;
+	var elem = document.getElementById('chatbody');
 
 	$ctrl.getUserName = function() {
 		    return (user.userInfo) 
@@ -25,58 +27,32 @@ function ChatController(Socket, $http, user, $location){
 		      : null;
 	};
 
-	$http.get(process.env.API_URL + '/api/user/room/', {withCredentials: true})
+	var gameId=Game.getGameId();
+
+	$http.get(process.env.API_URL + '/api/game/gameroom'+ gameId, {withCredentials: true})
     .then(function(response) {
-	    var userRoom = response.data.userRoom.toString();
+    	var gameRoom = response.data["game room"];
 	    chatSocket = Socket('chat');
+	    
 	    chatSocket.on('connect', function(data) {
-	      chatSocket.emit('join', userRoom);
+	      chatSocket.emit('join', gameRoom);
 	    });
-
-		chatSocket.emit('init', {
-		    users: $ctrl.getUserName()
-	  	});
-
-	  	/*chatSocket.on('get:room', function (data) {
-		  	console.log(data);
-		  	$ctrl.room=data;
-		});*/
-
-		chatSocket.on('init', function (data) {
-		    $ctrl.name = data.name;
-		    $ctrl.users = data.users;
-	  	});
-
-	  	chatSocket.on('get:room', function (data) {
-		  	console.log(data);
-		  	$ctrl.room=data;
-		});
 
 		chatSocket.on('send:message', function (message) {
 		    $ctrl.messages.push(message);
+		    $ctrl.gotoBottom();
 		});
 
-	  	/*chatSocket.on('user:join', function (data) {
-		    $ctrl.messages.push({
-		      user: 'chatroom',
-		      text: 'User ' + data.name + ' has joined.'
-		    });
-		    $ctrl.users.push(data.name);
-  	  	});*/
+		$ctrl.gotoBottom = function() {
+			elem.scrollTop = elem.scrollHeight - elem.clientHeight;
+		};
 		
 		$ctrl.sendMessage = function () {
-			console.log($ctrl.getUserName());
-			
-			chatSocket.emit('send:message', {    	
+			var sender=$ctrl.getUserName();
+		    chatSocket.emit('send:message', {
+		    	who: sender,
 		      	message: $ctrl.message
 			});
-		    /*chatSocket.to($ctrl.room).emit('send:message', {    	
-		      	message: $ctrl.message
-			});*/
-			/*$ctrl.messages.push({
-		      user: $ctrl.name,
-		      text: $ctrl.message
-		    });*/
 		    $ctrl.message = '';
 		};
 	});

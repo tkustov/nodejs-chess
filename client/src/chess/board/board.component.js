@@ -4,11 +4,22 @@ module.exports = {
 };
 
 //var Board = require('../../../../lib/common/Board');
-chessBoardController.$inject = ['Game', '$element', '$http'];
-function chessBoardController(Game, $element, $http){
+chessBoardController.$inject = ['Game', '$element', '$http', '$scope', 'user'];
+function chessBoardController(Game, $element, $http, $scope, user){
   var ctrl = this;
   ctrl.white = "#fff";
   ctrl.black = "#cc6600";
+  ctrl.playerFlag;
+  ctrl.player = Game.getGameInfo();
+  console.log(ctrl.player);
+  console.log(user.userInfo);
+  if (user.userInfo._id === ctrl.player.whitePlayer) {
+    ctrl.playerFlag = true;
+  }
+  else if (user.userInfo._id === ctrl.player.blackPlayer) {
+    ctrl.playerFlag = false;
+  }
+  console.log(ctrl.playerFlag + ' players flag at the begining of a game');
   ctrl.pieces = Game.getState();
   function colorReverse(){
     ctrl.pieces.forEach(function(item){
@@ -18,6 +29,13 @@ function chessBoardController(Game, $element, $http){
 
   var isFrom = true;
   var form;
+
+  $scope.$watch(Game.getState, function (pieces) {
+    ctrl.pieces = pieces;
+    colorReverse();
+    ctrl.drawBoard(ctrl.ctx, ctrl.canvasParams);
+    ctrl.drawPieces(ctrl.ctx, ctrl.pieces);
+  }, true);
 
 	ctrl.elementRanges = [];
 	ctrl.canvas = $element[0].querySelector('canvas');
@@ -103,10 +121,8 @@ function chessBoardController(Game, $element, $http){
         then(function(prom) {
           if (prom.list === 201) {
             Game.move(tmp.from,tmp.to);
-            ctrl.pieces = Game.getState();
-            colorReverse();
-            ctrl.drawBoard(ctrl.ctx, ctrl.canvasParams);
-            ctrl.drawPieces(ctrl.ctx, ctrl.pieces);
+            ctrl.playerFlag = (!ctrl.playerFlag);
+            console.log(ctrl.playerFlag + ' players flag after moving');
           }
           else {
             alert('Воу Воу парень ПАЛЄХЧЄ!!!');

@@ -1,7 +1,7 @@
 module.exports = GameFactory;
 var Board = require('../../../../lib/common/Board');
-GameFactory.$inject = ['$http'];
-function GameFactory($http)  {
+GameFactory.$inject = ['$http','$q'];
+function GameFactory($http, $q)  {
     var gameId;
     var board = new Board ();
     function getState() {
@@ -30,13 +30,13 @@ function GameFactory($http)  {
     }
 
     function getMovesList(gameId) {
-      var promise = new Promise(function(resolve, reject) {
+      var promise = $q(function(resolve, reject) {
       var moves;
       console.log(factory.gameId + ' my game id in getMovesList');
-      if (factory.gameId === null) {
+      if (factory.data.gameId === null) {
         $http.get(process.env.API_URL + '/api/game/id', {withCredentials: true}).
           then(function (response) {
-            gameId = response.data.gameId;
+            setGameId(response.data.gameId);
           }).
       then(function () {
         $http.get(process.env.API_URL + '/api/game/moves/:'+ factory.gameId, {withCredentials: true}).
@@ -62,17 +62,17 @@ function GameFactory($http)  {
     return promise;
   }
     function sendMove(move) {
-      var promise = new Promise(function(resolve, reject) {
+      var promise = $q(function(resolve, reject) {
       var can;
-      console.log(factory.gameId + ' my game id in sendMove');
-      if (factory.gameId === null) {
+      console.log(factory.data.gameId + ' my game id in sendMove');
+      if (factory.data.gameId === null) {
         $http.get(process.env.API_URL + '/api/game/id', {withCredentials: true}).
           then(function (response) {
             setGameId(response.data.gameId);
           }).
         then(function () {
         //var data = {gameId: factory.gameId, move: move};
-        $http.post(process.env.API_URL + '/api/game/checkmove', {gameId: factory.gameId, form: move.from, to: move.to}, {withCredentials: true}).
+        $http.post(process.env.API_URL + '/api/game/checkmove', {gameId: factory.data.gameId, form: move.from, to: move.to}, {withCredentials: true}).
           then(function (response) {
             can = response.status;
             console.log('can i move? (no game id) ' + can);
@@ -82,10 +82,10 @@ function GameFactory($http)  {
     }
     else {
       (function () {
-        console.log('game id exists and i send move to server ' + factory.gameId);
+        console.log('game id exists and i send move to server ' + factory.data.gameId);
       //var data = {gameId: factory.gameId, form: move.form, to: move.to};
       //console.log({gameId: factory.gameId, form: move.form, to: move.to});
-      $http.post(process.env.API_URL + '/api/game/checkmove', {gameId: factory.gameId, form: move.from, to: move.to}, {withCredentials: true}).
+      $http.post(process.env.API_URL + '/api/game/checkmove', {gameId: factory.data.gameId, form: move.from, to: move.to}, {withCredentials: true}).
         then(function (response) {
           can = response.status;
           console.log('can i move? ' + can);
@@ -133,8 +133,10 @@ function GameFactory($http)  {
       getPlayerColor: getPlayerColor,
       getMovesList: getMovesList,
       gameId: null,
-      setGameId: function(gameId) {factory.gameId = gameId},
-      getGameId: function(){return factory.gameId}
+      setGameInfo: function (data) {factory.data = data},
+      getGameInfo: function () {return factory.data},
+      getGameId: function () {return factory.data.gameId},
+      setGameId: function (gameId) {factory.data.gemeId = gameId}
     };
 
     return factory;
