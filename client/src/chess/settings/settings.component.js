@@ -88,7 +88,7 @@ function SettingsController( user, Settings) {
   }
 
   function showError(response) {
-    $ctrl.message = 'Error ' + response.status + ' ' + response.statusText;
+    $ctrl.message = response.data.message;
   }
 }
 
