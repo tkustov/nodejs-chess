@@ -23,8 +23,10 @@ function chessBoardController(Game, $element, $http, $scope, user){
   ctrl.pieces = Game.getState();
   function colorReverse(){
     ctrl.pieces.forEach(function(item){
-      if(ctrl.playerFlag === 'white') {
-        item.color = item.color === 'white' ? 'white' : 'black';
+      if(ctrl.playerFlag === 'black') {
+        var last = 9 - parseInt(item.position.slice(-1));
+        var first = intToLetter(7 - letterToInt(item.position.slice(0,1)));
+        item.position = first + last;
       }
     });
   }
@@ -35,6 +37,7 @@ function chessBoardController(Game, $element, $http, $scope, user){
   $scope.$watch(Game.getState, function (pieces) {
     ctrl.pieces = pieces;
     colorReverse();
+    ctrl.initPieces(ctrl.pieces);
     ctrl.drawBoard(ctrl.ctx, ctrl.canvasParams);
     ctrl.drawPieces(ctrl.ctx, ctrl.pieces);
   }, true);
@@ -48,12 +51,12 @@ function chessBoardController(Game, $element, $http, $scope, user){
   		height : ctrl.canvas.height
 	};
 
-	ctrl.$onInit = function() {
+	/*ctrl.$onInit = function() {
 	    colorReverse();
       ctrl.initPieces(ctrl.pieces);
     	ctrl.drawBoard(ctrl.ctx, ctrl.canvasParams);
     	ctrl.drawPieces(ctrl.ctx, ctrl.pieces);
-	};
+	};*/
 
 	ctrl.drawBoard = function (ctx, params) {
     for (var i = 0; i < 8; i++) {
@@ -103,7 +106,7 @@ function chessBoardController(Game, $element, $http, $scope, user){
   }
 
   function displayFrom(){
-    if(ctrl.playerFlag !== color && clickedElem.color !== color) {
+    if(ctrl.playerFlag !== color || clickedElem.color !== color) {
       console.log('don`t go');
       clickedElem = {};
       return;
@@ -135,7 +138,7 @@ function chessBoardController(Game, $element, $http, $scope, user){
   }
 
   ctrl.getPosition = function (event){
-    ctrl.initPieces(ctrl.pieces);
+    //ctrl.initPieces(ctrl.pieces);
     getClickPosition(event);
     var isInRange = ctrl.elementRanges.some(inRangeScope);
     if(isInRange){
@@ -145,9 +148,9 @@ function chessBoardController(Game, $element, $http, $scope, user){
     clickedElem = {};
   };
 
-  ctrl.getPositionRef = function (event) {
+  /*ctrl.getPositionRef = function (event) {
     ctrl.initPieces(ctrl.pieces);
-  };
+  };*/
 
   ctrl.initPieces = function (pieces){
     ctrl.elementRanges = [];
@@ -198,6 +201,7 @@ function chessBoardController(Game, $element, $http, $scope, user){
       var y = tmp * row;
       draw(ctx, x, y, pieces[i]);
     }
+    
   };
 
   function draw(ctx, x, y, piece) {
