@@ -81,6 +81,8 @@ function SocketInit($rootScope, $location, Socket, user, PlayersRoom, Game) {
 
   $rootScope.$on('disconnectGameSocket', function(){
     gameSocket.disconnect();
+    var chatSocket = Socket('chat');
+    chatSocket.disconnect();
     console.log('disconnected from "game" namespace');
   });
 }
