@@ -8,7 +8,9 @@ function PlayersRoomFactory($http) {
   function fetchUsersOnline () {
     $http.get(process.env.API_URL + '/api/user/users-online/', {withCredentials: true})
     .then(function(response) {
-      usersOnline = response.data;
+      response.data.forEach(function(user){
+        newUser(user);
+      })
     });
   }
 
@@ -16,13 +18,13 @@ function PlayersRoomFactory($http) {
     return usersOnline;
   }
 
-  function newUser(user){
-    
+  function newUser(user){    
     var isUserExist = usersOnline.some(function(u){
       return u.id === user.id;
     });
 
     if (!isUserExist) {
+      user.status = 'free';
       usersOnline.push(user);
     }
   }
@@ -33,23 +35,49 @@ function PlayersRoomFactory($http) {
     });
   }
 
-  function getIncommingInvitations() {
+  function changeUserStatus (userId, status) {
+    usersOnline = usersOnline.map(function(u){
+      if (u.id == userId) {u.status = status}
+      return u;
+    });
+    console.log(usersOnline);
+  }
+
+
+  function clearUsersOnline() {
+    usersOnline = [];
+  }
+
+  function getInvitations() {
     return incommingInvitations;
   }
 
-  function putIncommingInvitation(invitation) {
+  function putInvitation(invitation) {
     incommingInvitations.push(invitation);
   }
 
+  function removeInvitationFromUser(userId) {
+    incommingInvitations = incommingInvitations.filter(function(u){
+      return u.userId !== userId;
+    });
+  }
+
+  function clearInvitations() {
+    incommingInvitations = [];
+  }
+  
   var factory = {
     fetchUsersOnline: fetchUsersOnline,
     getUsersOnline: getUsersOnline,
     newUser: newUser,
     removeUser: removeUser,
-    putIncommingInvitation: putIncommingInvitation,
-    getIncommingInvitations: getIncommingInvitations
+    changeUserStatus: changeUserStatus,
+    clearUsersOnline: clearUsersOnline,
+    getInvitations: getInvitations,
+    putInvitation: putInvitation,
+    removeInvitationFromUser: removeInvitationFromUser,
+    clearInvitations: clearInvitations
   };
 
   return factory;
-
 }

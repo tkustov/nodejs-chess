@@ -39,6 +39,8 @@ function SocketInit($rootScope, $location, Socket, user, PlayersRoom, Game) {
 
     gameSocket.on('disconnect', function() {
       user.setOffline();
+      PlayersRoom.clearUsersOnline();
+      PlayersRoom.clearInvitations();
       console.log('Connection lost... :(');
     });
 
@@ -48,14 +50,26 @@ function SocketInit($rootScope, $location, Socket, user, PlayersRoom, Game) {
 
     gameSocket.on('userLeft', function(data){
       PlayersRoom.removeUser(data.userId);
+      PlayersRoom.removeInvitationFromUser(data.userId);
     });
 
     gameSocket.on('incomingInv', function(data){
-      PlayersRoom.putIncommingInvitation(data);
+      PlayersRoom.putInvitation(data);
+    });
+
+    gameSocket.on('cancelInv', function(data){
+      console.log('cancelInv');
+      PlayersRoom.removeInvitationFromUser(data.userId);
+    });
+
+    gameSocket.on('refuseInv', function(data){
+      console.log('refuseInv');
+      PlayersRoom.changeUserStatus(data.userId, 'free');
     });
 
     gameSocket.on('startGame', function(data){
       Game.setGameInfo(data);
+      PlayersRoom.changeUserStatus(data.blackPlayer, 'free');
       $location.path('/game')
     });
 
