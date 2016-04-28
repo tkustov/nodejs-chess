@@ -14,14 +14,32 @@ function PlayersRoomController($http, PlayersRoom, user) {
   $ctrl.sendInvitation = function(userId){
     $http.get(process.env.API_URL + '/api/game/invitation/send/'+userId, {withCredentials: true})
     .then(function(response) {
+      PlayersRoom.changeUserStatus(userId, 'pending');
       console.log('send invitation');
+    });
+  };
+
+  $ctrl.cancelInvitation = function(userId){
+    $http.get(process.env.API_URL + '/api/game/invitation/cancel/'+userId, {withCredentials: true})
+    .then(function(response) {
+      PlayersRoom.changeUserStatus(userId, 'free');
+      console.log('cancel invitation');
     });
   };
 
   $ctrl.acceptInvitation = function (userId) {
     $http.get(process.env.API_URL + '/api/game/invitation/accept/'+userId, {withCredentials: true})
     .then(function(response) {
+      PlayersRoom.removeInvitationFromUser(userId);
       console.log('accept invitation');
+    });
+  };
+
+  $ctrl.refuseInvitation = function (userId) {
+    $http.get(process.env.API_URL + '/api/game/invitation/refuse/'+userId, {withCredentials: true})
+    .then(function(response) {
+      PlayersRoom.removeInvitationFromUser(userId);
+      console.log('refuse invitation');
     });
   };
 

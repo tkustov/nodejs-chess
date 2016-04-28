@@ -57,8 +57,19 @@ function SocketInit($rootScope, $location, Socket, user, PlayersRoom, Game) {
       PlayersRoom.putInvitation(data);
     });
 
+    gameSocket.on('cancelInv', function(data){
+      console.log('cancelInv');
+      PlayersRoom.removeInvitationFromUser(data.userId);
+    });
+
+    gameSocket.on('refuseInv', function(data){
+      console.log('refuseInv');
+      PlayersRoom.changeUserStatus(data.userId, 'free');
+    });
+
     gameSocket.on('startGame', function(data){
       Game.setGameInfo(data);
+      PlayersRoom.changeUserStatus(data.blackPlayer, 'free');
       $location.path('/game')
     });
 

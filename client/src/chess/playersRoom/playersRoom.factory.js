@@ -8,7 +8,9 @@ function PlayersRoomFactory($http) {
   function fetchUsersOnline () {
     $http.get(process.env.API_URL + '/api/user/users-online/', {withCredentials: true})
     .then(function(response) {
-      usersOnline = response.data;
+      response.data.forEach(function(user){
+        newUser(user);
+      })
     });
   }
 
@@ -16,13 +18,13 @@ function PlayersRoomFactory($http) {
     return usersOnline;
   }
 
-  function newUser(user){
-    
+  function newUser(user){    
     var isUserExist = usersOnline.some(function(u){
       return u.id === user.id;
     });
 
     if (!isUserExist) {
+      user.status = 'free';
       usersOnline.push(user);
     }
   }
@@ -32,6 +34,15 @@ function PlayersRoomFactory($http) {
       return u.id !== userId;
     });
   }
+
+  function changeUserStatus (userId, status) {
+    usersOnline = usersOnline.map(function(u){
+      if (u.id == userId) {u.status = status}
+      return u;
+    });
+    console.log(usersOnline);
+  }
+
 
   function clearUsersOnline() {
     usersOnline = [];
@@ -60,6 +71,7 @@ function PlayersRoomFactory($http) {
     getUsersOnline: getUsersOnline,
     newUser: newUser,
     removeUser: removeUser,
+    changeUserStatus: changeUserStatus,
     clearUsersOnline: clearUsersOnline,
     getInvitations: getInvitations,
     putInvitation: putInvitation,
