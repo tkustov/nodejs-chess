@@ -55,5 +55,9 @@ function ChatController(Socket, $http, user, Game, $location){
 			});
 		    $ctrl.message = '';
 		};
+		$rootScope.$on('disconnectGameSocket', function(){
+	    	chatSocket.disconnect();
+	    	console.log('disconnected from "game" namespace');
+  		});
 	});
 }
