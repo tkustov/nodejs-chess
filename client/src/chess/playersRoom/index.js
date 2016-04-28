@@ -7,8 +7,10 @@ var SocketFactory = require('../socket/socket.factory');
 module.exports = 'chess.playersRoom';
 
 angular.module('chess.playersRoom', [
-  ngRoute
-  ]).
+  ngRoute, 
+  require('../user'),
+  require('../game').name
+]).
 run(SocketInit).
 config(RouteConfig).
 factory('PlayersRoom', PlayersRoomFactory).
