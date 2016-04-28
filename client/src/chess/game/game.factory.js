@@ -133,6 +133,7 @@ function GameFactory($http, $q)  {
       getPlayerColor: getPlayerColor,
       getMovesList: getMovesList,
       gameId: null,
+      data: {},
       setGameInfo: function (data) {factory.data = data},
       getGameInfo: function () {return factory.data},
       getGameId: function () {return factory.data.gameId},
