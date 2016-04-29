@@ -4,7 +4,8 @@ var SettingsComponent = require('./settings.component');
 var SettingsFactory = require('./settings.factory');
 
 module.exports = angular.module('chess.settings', [
-  ngRoute
+  ngRoute,
+  require('../user')
 ]).
 config(RouteConfig).
 component('settings', SettingsComponent).
