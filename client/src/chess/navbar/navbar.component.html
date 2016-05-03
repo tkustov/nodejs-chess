@@ -15,14 +15,21 @@
           <li><a href="#/">Home</a></li>
           <li ng-if="$ctrl.isLoggedIn()"><a href="#/players-room">Players Room</a></li>
           <li ng-if="$ctrl.isLoggedIn()"><a href="#/game">Play</a></li>
-          <li ng-if="$ctrl.isLoggedIn()"><a href="#/scores">Scores</a></li>
           <li><a href="#/help">Help</a></li>
-          <li ng-if="$ctrl.isLoggedIn()"><a href="#/settings">Settings</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li ng-hide="$ctrl.isLoggedIn()"><a href="#/login">Login</a></li>
-        <li ng-show="$ctrl.isLoggedIn()"><a href="#/settings">{{$ctrl.getUserName()}}</a></li>
-        <li ng-show="$ctrl.isLoggedIn()"><a href="" ng-click="$ctrl.logout()">Logout</a></li>
+        <li ng-if="$ctrl.isLoggedIn()" uib-dropdown>
+          <a id="dropmenu" role="button" uib-dropdown-toggle>{{$ctrl.getUserName()}} <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropmenu" uib-dropdown-menu>
+            <li><a>You logged in as <b>{{$ctrl.getUserName()}}</b></a></li>
+            <li class="divider"></li>
+            <li role="menuitem"><a href="#/scores">Scores</a></li>
+            <li role="menuitem"><a href="#/settings">Settings</a></li>
+            <li class="divider"></li>
+            <li role="menuitem"><a href="" ng-click="$ctrl.logout()">Logout</a></li>
+          </ul>
+        </li>
       </ul>
     </div>
   </div>

@@ -8,12 +8,12 @@ describe('module: chess.settings', function () {
 
   describe('settings factory', function () {
     describe('settings.changePassword()', function () {
-      it('sould be a function', inject(function (Settings) {
+      it('should be a function', inject(function (Settings) {
         assert.equal(typeof Settings.changePassword, 'function');
       }));
       
       it('should call a server', inject(function (Settings, $httpBackend) {
-        $httpBackend.expectPUT(process.env.API_URL + '/api/user/password').respond(200, {});
+        $httpBackend.expectPUT(process.env.API_URL + '/api/user/password').respond(200);
         Settings.changePassword('currentPassword', 'newPassword').
           then(
             function () { assert(true, '/settings/changePassword'); },
@@ -23,7 +23,7 @@ describe('module: chess.settings', function () {
       }));
 
       it('should handle server error', inject(function (Settings, $httpBackend) {
-        $httpBackend.expectPUT(process.env.API_URL + '/api/user/password').respond(404, {});
+        $httpBackend.expectPUT(process.env.API_URL + '/api/user/password').respond(404);
         Settings.changePassword('currentPassword', 'newPassword').
           then(
             function () { assert(false, '/settings/changePassword'); },
@@ -32,6 +32,32 @@ describe('module: chess.settings', function () {
         $httpBackend.flush();
       }));
     });
-  });
+    
+    describe('settings.deleteAccount()', function () {
+      it('should be a function', inject(function (Settings) {
+        assert.equal(typeof Settings.deleteAccount, 'function');
+      }));
       
+      it('should call a server', inject(function (Settings, $httpBackend) {
+        $httpBackend.expectDELETE(process.env.API_URL + '/api/user/account').respond(200);
+        Settings.deleteAccount().
+          then(
+            function () { assert(true, '/settings/deleteAccount'); },
+            function () { assert(false, '/settings/deleteAccount'); }
+          );
+        $httpBackend.flush();
+      }));
+
+      it('should handle server error', inject(function (Settings, $httpBackend) {
+        $httpBackend.expectDELETE(process.env.API_URL + '/api/user/account').respond(400);
+        Settings.deleteAccount().
+          then(
+            function () { assert(false, '/settings/deleteAccount'); },
+            function () { assert(true, '/settings/deleteAccount'); }
+          );
+        $httpBackend.flush();
+      }));
+    });
+    
+  });
 })
