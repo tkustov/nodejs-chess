@@ -10,21 +10,21 @@ module.exports = angular.module('chess.chat', [
 factory('Game', GameFactory).
 
 component('chat', {
-  controller: ChatController,
+	controller: ChatController,
   templateUrl: 'chat/chat.component.html'
 });
 
-ChatController.$inject = ['Socket', '$http', 'user', 'Game', '$location'];
-function ChatController(Socket, $http, user, Game, $location){
+ChatController.$inject = ['Socket', '$http', 'user', 'Game', '$location', '$scope'];
+function ChatController(Socket, $http, user, Game, $location, $scope){
 	var $ctrl=this;	
 	$ctrl.messages=[];
 	var chatSocket;
 	var elem = document.getElementById('chatbody');
 
 	$ctrl.getUserName = function() {
-		    return (user.userInfo) 
-		      ? user.userInfo.username
-		      : null;
+		return (user.userInfo) 
+		? user.userInfo.username
+		: null;
 	};
 
 	var gameId=Game.getGameId();
@@ -38,26 +38,26 @@ function ChatController(Socket, $http, user, Game, $location){
 	      chatSocket.emit('join', gameRoom);
 	    });
 
-		chatSocket.on('send:message', function (message) {
-		    $ctrl.messages.push(message);
-		    $ctrl.gotoBottom();
-		});
-
-		$ctrl.gotoBottom = function() {
-			elem.scrollTop = elem.scrollHeight - elem.clientHeight;
-		};
-		
-		$ctrl.sendMessage = function () {
-			var sender=$ctrl.getUserName();
-		    chatSocket.emit('send:message', {
-		    	who: sender,
-		      	message: $ctrl.message
+			chatSocket.on('send:message', function (message) {
+			  $ctrl.messages.push(message);
+			  $ctrl.gotoBottom();
 			});
-		    $ctrl.message = '';
-		};
-		$rootScope.$on('disconnectGameSocket', function(){
-	    	chatSocket.disconnect();
-	    	console.log('disconnected from "game" namespace');
-  		});
+
+			$ctrl.gotoBottom = function() {
+				elem.scrollTop = elem.scrollHeight - elem.clientHeight;
+			};
+		
+			$ctrl.sendMessage = function () {
+				var sender=$ctrl.getUserName();
+			    chatSocket.emit('send:message', {
+			    	who: sender,
+			      message: $ctrl.message
+				});
+			  $ctrl.message = '';
+			};
+			$scope.$on('disconnectGameSocket', function(){
+		    chatSocket.disconnect();
+		    console.log('disconnected from "game" namespace');
+	  	});
 	});
 }
