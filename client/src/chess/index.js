@@ -8,6 +8,8 @@ var settings = require('./settings');
 var user = require('./user');
 var chat = require('./chat');
 var game = require('./game');
+var gamelog = require('./gamelog')
+
 
 module.exports = angular.module('chess', [
   require('angular-route'),
@@ -22,9 +24,10 @@ module.exports = angular.module('chess', [
   settings.name,
   chat.name,
   game.name,
+  gamelog.name,
   require('./ping'),
   require('./playersRoom'),
-  require('./board')
+  require('./board'),
 ]).
 config(RouteConfig);
 
