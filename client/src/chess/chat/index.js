@@ -48,11 +48,13 @@ function ChatController(Socket, $http, user, Game, $location, $scope){
 			};
 		
 			$ctrl.sendMessage = function () {
-				var sender=$ctrl.getUserName();
-			    chatSocket.emit('send:message', {
-			    	who: sender,
-			      message: $ctrl.message
-				});
+				if($ctrl.message != ''){
+					var sender=$ctrl.getUserName();
+				    chatSocket.emit('send:message', {
+				    	who: sender,
+				      message: $ctrl.message
+					});
+			  }
 			  $ctrl.message = '';
 			};
 			$scope.$on('disconnectGameSocket', function(){
