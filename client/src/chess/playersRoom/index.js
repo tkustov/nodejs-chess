@@ -93,10 +93,11 @@ function SocketInit($rootScope, $location, Socket, user, PlayersRoom, Game) {
       var username;
       var color = Game.getGameColor();
       color = color === 'black' ? 'white' : 'black';
-      var moveFlag = Game.getMoveFlag();
-      // moveFlag = moveFlag === false ? true : false;
-      // moveFlag = moveFlag === false ? true : false;
-      // Game.setMoveFlag(moveFlag);
+      var moveFlag = Game.getMoveFlag();;
+      if(moveFlag === false) {
+        moveFlag = true;
+      }
+      Game.setMoveFlag(moveFlag);
       Game.setGameColor(color)
       Game.move(data.form, data.to);
       Game.moves.push({user: username, form: data.form, to: data.to})

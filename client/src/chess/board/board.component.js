@@ -65,7 +65,7 @@ function chessBoardController(Game, $element, $http, $scope, user, $q){
                 });
             }
             else {
-              ctrl.pieces = Game.getState();
+              ctrl.pieces = pieces;
               // colorReverse();
               ctrl.drawBoard(ctrl.ctx, ctrl.canvasParams);
               ctrl.drawPieces(ctrl.ctx, ctrl.pieces);
@@ -74,14 +74,14 @@ function chessBoardController(Game, $element, $http, $scope, user, $q){
                 ctrl.player = Game.getGameInfo();
                 if (ctrl.user._id === Game.whitePlayer) {
                   Game.whitePlayerName = ctrl.user.username;
-                  ctrl.moveFlag = true;
-                  Game.setMoveFlag(ctrl.moveFlag);
+                  // ctrl.moveFlag = true;
+                  // Game.setMoveFlag(ctrl.moveFlag);
                   Game.setGameColor('white');
                 }
                 else if (ctrl.user._id === Game.blackPlayer) {
                   Game.blackPlayerName = ctrl.user.username;
-                  ctrl.moveFlag = true;
-                  Game.setMoveFlag(ctrl.moveFlag);
+                  // ctrl.moveFlag = true;
+                  // Game.setMoveFlag(ctrl.moveFlag);
                   Game.setGameColor('black');
                 }
 
@@ -175,7 +175,8 @@ function chessBoardController(Game, $element, $http, $scope, user, $q){
                 Game.sendMove(tmp).
                   then(function(prom) {
                     if (prom.list === 201) {
-                      Game.setMoveFlag(!ctrl.moveFlag);
+                      tempFlag = !ctrl.moveFlag;
+                      Game.setMoveFlag(tempFlag);
                       Game.move(tmp.from,tmp.to);
                       Game.moves.push({user: user.userInfo.username, form: tmp.from, to: tmp.to})
                       console.log('Move from ' + tmp.from + ' to ' + tmp.to);
