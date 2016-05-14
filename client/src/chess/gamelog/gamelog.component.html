@@ -1,14 +1,11 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-1">
+
       <div class="panel panel-default">
         <div class="panel-heading">
-          <span>геймлоггеймлог</span>
+          <span>Gamelog</span>
         </div>
         <div class="panel-body">
-          <span>vasavsa</span>
+          <ul ng-repeat="move in $ctrl.moves">
+            <li>{{move.user}} moves from {{move.form}} to {{move.to}}</li>
+          </ul>
         </div>
       </div>
-    </div>
-  </div>
-</div>
