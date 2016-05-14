@@ -68,13 +68,38 @@ function SocketInit($rootScope, $location, Socket, user, PlayersRoom, Game) {
     });
 
     gameSocket.on('startGame', function(data){
+      PlayersRoom.getUsersOnline().forEach(function(u){
+        if (u.id === data.blackPlayer) {
+          data.blackPlayerName = u.name
+        }
+        if (u.id === data.whitePlayer) {
+          data.whitePlayerName = u.name
+        }
+        if (data.whitePlayerName == undefined) {
+          data.whitePlayerName = user.userInfo.username
+        }
+        if (data.blackPlayerName == undefined) {
+          data.blackPlayerName = user.userInfo.username
+        }
+      });
       Game.setGameInfo(data);
       PlayersRoom.changeUserStatus(data.blackPlayer, 'free');
-      $location.path('/game')
+      $location.path('/game'+data.gameId)
     });
 
+
     gameSocket.on('opponentMove', function (data) {
+      var gameInfo = Game.getGameInfo()
+      var username;
+      var color = Game.getGameColor();
+      color = color === 'black' ? 'white' : 'black';
+      var moveFlag = Game.getMoveFlag();
+      // moveFlag = moveFlag === false ? true : false;
+      // moveFlag = moveFlag === false ? true : false;
+      // Game.setMoveFlag(moveFlag);
+      Game.setGameColor(color)
       Game.move(data.form, data.to);
+      Game.moves.push({user: username, form: data.form, to: data.to})
     });
 
   });
