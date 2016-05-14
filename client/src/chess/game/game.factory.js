@@ -30,106 +30,54 @@ function GameFactory($http, $q)  {
   }
   function getMovesList() {
     var promise = $q(function(resolve, reject) {
-    console.log(factory.data.gameId + ' my game id in getMovesList');
-    if (factory.data.gameId === null) {
-      $http.get(process.env.API_URL + '/api/game/id', {withCredentials: true}).
+      $http.get(process.env.API_URL + '/api/game/gameinfo/'+ factory.gameId, {withCredentials: true}).
         then(function (response) {
-          setGameId(response.data.gameId);
-        }).
-    then(function () {
-      $http.get(process.env.API_URL + '/api/game/moves/:'+ factory.data.gameId, {withCredentials: true}).
-       then(function (response) {
-           factory.moves = response.data.moves;
-           console.log('my moves (no game id) '+ moves);
-           resolve({list: moves});
+          var tmpData = JSON.parse(response.data.gameInfo);
+          var tmpWhite = tmpData.whitePlayer;
+          var tmpBlack = tmpData.blackPlayer;
+          factory.whitePlayer = tmpWhite;
+          factory.blackPlayer = tmpBlack;
+          factory.moves = tmpData.allMoves;
+          resolve({list: factory.moves, white: tmpWhite, black: tmpBlack});
        });
-    });
-  }
-  else {
-    (function () {
-      console.log('game id exists and i ask server to give me moves list');
-      $http.get(process.env.API_URL + '/api/game/moves/:'+ factory.gameId, {withCredentials: true}).
-        then(function (response) {
-        factory.moves = response.data.moves;
-        console.log('my moves '+ moves);
-           resolve({list: moves});
-       });
-    }());
-  }
   });
   return promise;
   }
   function sendMove(move) {
     var promise = $q(function(resolve, reject) {
     var can;
-    console.log(factory.data.gameId + ' my game id in sendMove');
-    if (factory.data.gameId === null) {
-      $http.get(process.env.API_URL + '/api/game/id', {withCredentials: true}).
-        then(function (response) {
-          setGameId(response.data.gameId);
-        }).
-      then(function () {
-      //var data = {gameId: factory.gameId, move: move};
-      $http.post(process.env.API_URL + '/api/game/checkmove', {gameId: factory.data.gameId, form: move.from, to: move.to}, {withCredentials: true}).
+      $http.post(process.env.API_URL + '/api/game/checkmove', {gameId: factory.gameId, form: move.from, to: move.to}, {withCredentials: true}).
         then(function (response) {
           can = response.status;
-          console.log('can i move? (no game id) ' + can);
-          if (can === 201) {
-            factory.moves.push({form: move.from, to: move.to});
-          }
-          resolve({list: can});
-        });
-      });
-    }
-    else {
-      (function () {
-        console.log('game id exists and i send move to server ' + factory.data.gameId);
-      //var data = {gameId: factory.gameId, form: move.form, to: move.to};
-      //console.log({gameId: factory.gameId, form: move.form, to: move.to});
-      $http.post(process.env.API_URL + '/api/game/checkmove', {gameId: factory.data.gameId, form: move.from, to: move.to}, {withCredentials: true}).
-        then(function (response) {
-          can = response.status;
-          console.log('can i move? ' + can);
-          if (can === 201) {
-            factory.moves.push({form: move.from, to: move.to});
-          }
           resolve({list: can});
       });
-    }());
-    }
     });
     return promise;
   }
 
   function getBoardState (prom) {
     var promise = $q(function(resolve, reject) {
-      var movesList = [];
-      movesList[0] = prom.list.from;
-      movesList[1] = prom.list.to;
-      console.log(movesList);
+      var movesList = prom.list
       var item;
+      var itemI;
       var i;
       var data = {};
-      if (movesList === []) {
-        data.boardState = board.getState();
+      if (movesList.length === 0) {
         data.playerColor = getPlayerColor(movesList.length - 1);
-        resolve({state: data});
+        data.boardState = board.getState();
+        resolve(data);
       }
       else {
         movesList.forEach(function(item, i, movesList) {
-          board.move(item.from, item.to);
+            board.move(item.form, item.to);
         });
         data.boardState = board.getState();
         data.playerColor = getPlayerColor(movesList.length - 1);
-        resolve({state: data});
+        resolve(data);
       }
     });
       return promise;
   }
-
-  // function setListOfMoves () {
-  //
-  // }
 
   var factory = {
     getMoves: getMoves,
@@ -142,13 +90,23 @@ function GameFactory($http, $q)  {
     getPlayerColor: getPlayerColor,
     getMovesList: getMovesList,
     gameId: null,
+    data: null,
     moves: [],
+    whitePlayer: null,
+    blackPlayer: null,
+    color: null,
+    whitePlayerName: null,
+    blackPlayerName: null,
+    moveFlag: null,
+    setMoveFlag: function (flag) {factory.moveFlag = flag},
+    getMoveFlag: function () {return factory.moveFlag},
+    setGameColor: function (color) {factory.color = color},
+    getGameColor: function () {return factory.color},
     getFactoryMoves: function () {return factory.moves},
-    // setListOfMoves: setListOfMoves,
     setGameInfo: function (data) {factory.data = data},
     getGameInfo: function () {return factory.data},
-    getGameId: function () {return factory.data.gameId},
-    setGameId: function (gameId) {factory.data.gemeId = gameId}
+    getGameId: function () {return factory.gameId},
+    setGameId: function (gameId) {factory.gameId = gameId}
   };
 
   return factory;
