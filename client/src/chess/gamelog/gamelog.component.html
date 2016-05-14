@@ -1,0 +1,11 @@
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <span>Gamelog</span>
+        </div>
+        <div class="panel-body">
+          <ul ng-repeat="move in $ctrl.moves">
+            <li>{{move.user}} moves from {{move.form}} to {{move.to}}</li>
+          </ul>
+        </div>
+      </div>
