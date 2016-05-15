@@ -10,7 +10,6 @@ function SettingsController( user, Settings, $location) {
   $ctrl.submitPasswordForm = submitPasswordForm;
   $ctrl.deleteAccount = deleteAccount;
   $ctrl.getUserName = getUserName; 
-  $ctrl.getUserScores = getUserScores; 
   $ctrl.clearPasswordForm = clearPasswordForm;
   $ctrl.closeAlert = closeAlert;  
   $ctrl.message = '';
@@ -41,15 +40,7 @@ function SettingsController( user, Settings, $location) {
   }
   
   function getUserName() {
-    return (user.userInfo)
-      ? user.userInfo.username
-      : null;
-  }
-  
-  function getUserScores() {
-    return (user.userInfo)
-      ? user.userInfo.scores
-      : null;
+    return user.userInfo && user.userInfo.username;
   }
   
   function clearPasswordForm(form) {
@@ -68,29 +59,13 @@ function SettingsController( user, Settings, $location) {
   }
   
   
-  $ctrl.group2 = {
+  $ctrl.group1 = {
     title: 'Change password',
     field1: 'Current password',
     field2: 'New password',
     field3: 'Confirm password',
   };
-  $ctrl.group3 = {
-    title: 'Theme',
-    content: {
-      theme1: 'Cerulean',
-      theme2: 'Cosmo',
-      theme3: 'Cyborg'
-    }
-  };
-  $ctrl.group4 = {
-    title: 'Language',
-    content: {
-      en: 'English',
-      uk: 'Ukrainian',
-      ru: 'Russian'
-    }
-  };
-  $ctrl.group5 = {
+  $ctrl.group2 = {
     title: 'Delete account',
     content: 'To delete your account, please click the button below.'
   };

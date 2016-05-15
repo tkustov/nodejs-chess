@@ -1,19 +1,16 @@
 <div class="row" class="settings">
   <div class="col-sm-4 text-center">
     <p>Hello {{$ctrl.getUserName()}}!</p>
-    <button class="btn btn-primary" type="button">
-      Your score: <span class="badge">{{$ctrl.getUserScores()}}</span>
-    </button>
   </div>
 
   <div class="col-sm-5 col-sm-offset-2">
      <uib-accordion>
        
-        <uib-accordion-group heading="{{$ctrl.group2.title}}">
+        <uib-accordion-group heading="{{$ctrl.group1.title}}">
           <form class="form-horizontal" name='passwordForm' novalidate>
             <div class="form-group" ng-class="{ 'has-error' : passwordForm.currentPassword.$error.required 
                     && !passwordForm.currentPassword.$pristine }" >
-                <label for="currentPassword" class="control-label col-sm-4">{{$ctrl.group2.field1}}</label>
+                <label for="currentPassword" class="control-label col-sm-4">{{$ctrl.group1.field1}}</label>
                 <div class="col-sm-6 col-sm-offset-2">
                     <input type="password" ng-model="$ctrl.currentPassword" placeholder="Enter your current password"
                       id="currentPassword" class="form-control" name="currentPassword" maxlength="40" required>
@@ -24,7 +21,7 @@
             </div>
             <div class="form-group" ng-class="{ 'has-error' : passwordForm.newPassword.$error.required 
                     && !passwordForm.newPassword.$pristine }">
-                <label for="newPassword" class="control-label col-sm-4">{{$ctrl.group2.field2}}</label>
+                <label for="newPassword" class="control-label col-sm-4">{{$ctrl.group1.field2}}</label>
                 <div class="col-sm-6 col-sm-offset-2">
                     <input type="password" ng-model="$ctrl.newPassword" placeholder="Enter your new password"
                       id="newPassword" class="form-control" name="newPassword" minlength="6" maxlength="40" required>
@@ -39,7 +36,7 @@
             </div>
             <div class="form-group" ng-class="{ 'has-error' : passwordForm.confirmPassword.$error.pattern 
                     && !passwordForm.confirmPassword.$pristine }">
-                <label for="confirmPassword" class="control-label col-sm-4">{{$ctrl.group2.field3}}</label>
+                <label for="confirmPassword" class="control-label col-sm-4">{{$ctrl.group1.field3}}</label>
                 <div class="col-sm-6 col-sm-offset-2">
                     <input type="password" ng-model="$ctrl.confirmPassword" ng-model-options="{ updateOn: ' blur mouseout ' }" 
                       placeholder="Confirm your new password"
@@ -60,25 +57,9 @@
             </div>
           </form>
         </uib-accordion-group>
-
-        <uib-accordion-group heading="{{$ctrl.group3.title}}">
-          <uib-tabset active="activePill" vertical="true" type="pills">
-            <uib-tab index="0" heading="{{$ctrl.group3.content.theme1}}"></uib-tab>
-            <uib-tab index="1" heading="{{$ctrl.group3.content.theme2}}"></uib-tab>
-            <uib-tab index="2" heading="{{$ctrl.group3.content.theme3}}"></uib-tab>
-          </uib-tabset>
-        </uib-accordion-group>
-
-        <uib-accordion-group heading="{{$ctrl.group4.title}}">
-          <uib-tabset active="activePill" vertical="true" type="pills">
-            <uib-tab index="0" heading="{{$ctrl.group4.content.en}}"></uib-tab>
-            <uib-tab index="1" heading="{{$ctrl.group4.content.uk}}"></uib-tab>
-            <uib-tab index="2" heading="{{$ctrl.group4.content.ru}}"></uib-tab>
-          </uib-tabset>
-        </uib-accordion-group>
         
-        <uib-accordion-group heading="{{$ctrl.group5.title}}" panel-class="panel-danger">
-          <p>{{$ctrl.group5.content}}</p>
+        <uib-accordion-group heading="{{$ctrl.group2.title}}" panel-class="panel-danger">
+          <p>{{$ctrl.group2.content}}</p>
           <button class="btn btn-danger" ng-click='$ctrl.deleteAccount()'>Delete</button>
         </uib-accordion-group>
         
