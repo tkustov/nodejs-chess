@@ -4,16 +4,21 @@ module.exports = {
 };
 
 //var Board = require('../../../../lib/common/Board');
-chessBoardController.$inject = ['Game', '$element', '$http', '$scope', 'user', '$q'];
-function chessBoardController(Game, $element, $http, $scope, user, $q){
-  var ctrl = this;
-  ctrl.white = "#fff";
-  ctrl.black = "#cc6600";
-  ctrl.pieces;
-  ctrl.color;
-  ctrl.moveFlag = true;
-  ctrl.whoMoves;
-  ctrl.getUserInfo = function() {
+chessBoardController.$inject = ['Game', '$element', '$http', '$scope', 'user', 'sprites', '$q'];
+function chessBoardController(Game, $element, $http, $scope, user, sprites, $q){
+  var $ctrl = this;
+  $ctrl.sprites;
+  $ctrl.white = "#fff";
+  $ctrl.black = "#cc6600";
+  $ctrl.pieces;
+  $ctrl.color;
+  $ctrl.moveFlag = true;
+  $ctrl.whoMoves;
+  
+  sprites.then(function(res){
+    $ctrl.sprites = res;
+  });
+  $ctrl.getUserInfo = function() {
     var promise = $q(function(resolve, reject) {
       if (user.userInfo === null) {
         user.getUserInfo().
@@ -30,58 +35,72 @@ function chessBoardController(Game, $element, $http, $scope, user, $q){
           var isFrom = true;
           var form;
           $scope.$watch(Game.getState, function (pieces) {
-            if (ctrl.pieces === undefined) {
+            if ($ctrl.pieces === undefined) {
               Game.getMovesList().
                 then(Game.getBoardState).
                   then(function(data){
-                    ctrl.pieces = data.boardState
-                    ctrl.whoMoves = data.playerColor;
-                    ctrl.drawBoard(ctrl.ctx, ctrl.canvasParams);
-                    ctrl.drawPieces(ctrl.ctx, ctrl.pieces);
+                    $ctrl.pieces = data.boardState
+                    $ctrl.whoMoves = data.playerColor;
+                    $ctrl.drawBoard($ctrl.ctx, $ctrl.canvasParams);
+                    if($ctrl.sprites){
+                      $ctrl.drawPieces($ctrl.ctx, $ctrl.pieces);
+                    }
+                    else {
+                      sprites.then(function(res){
+                      $ctrl.drawPieces($ctrl.ctx, $ctrl.pieces);
+                    });
+                  }
                   }).
               // then(user.getUserInfo).
                 then(function(){
-                  ctrl.getUserInfo().then(function(data){
-                    ctrl.user = data;
-                    if (ctrl.user._id === Game.whitePlayer) {
-                      if (ctrl.whoMoves === 'white') {
-                        ctrl.moveFlag = true;
-                        Game.setMoveFlag(ctrl.moveFlag);
+                  $ctrl.getUserInfo().then(function(data){
+                    $ctrl.user = data;
+                    if ($ctrl.user._id === Game.whitePlayer) {
+                      if ($ctrl.whoMoves === 'white') {
+                        $ctrl.moveFlag = true;
+                        Game.setMoveFlag($ctrl.moveFlag);
                       }
                       else {
-                        ctrl.moveFlag = false;
-                        Game.setMoveFlag(ctrl.moveFlag);
+                        $ctrl.moveFlag = false;
+                        Game.setMoveFlag($ctrl.moveFlag);
                       }
-                      Game.whitePlayerName = ctrl.user.username;
-                      Game.setGameColor(ctrl.whoMoves);
+                      Game.whitePlayerName = $ctrl.user.username;
+                      Game.setGameColor($ctrl.whoMoves);
                     }
-                    else if (ctrl.user._id === Game.blackPlayer) {
-                      Game.blackPlayerName = ctrl.user.username;
-                      ctrl.color = undefined;
-                      if (ctrl.whoMoves === 'black') {
-                        ctrl.moveFlag = true;
-                        Game.setMoveFlag(ctrl.moveFlag);
+                    else if ($ctrl.user._id === Game.blackPlayer) {
+                      Game.blackPlayerName = $ctrl.user.username;
+                      $ctrl.color = undefined;
+                      if ($ctrl.whoMoves === 'black') {
+                        $ctrl.moveFlag = true;
+                        Game.setMoveFlag($ctrl.moveFlag);
                       }
                       else {
-                        ctrl.moveFlag = false;
-                        Game.setMoveFlag(ctrl.moveFlag);
+                        $ctrl.moveFlag = false;
+                        Game.setMoveFlag($ctrl.moveFlag);
                       }
                     }
                   });
                 });
             }
             else {
-              ctrl.pieces = pieces;
-              ctrl.drawBoard(ctrl.ctx, ctrl.canvasParams);
-              ctrl.drawPieces(ctrl.ctx, ctrl.pieces);
-              ctrl.getUserInfo().then(function(data){
-                ctrl.user = data;
-                if (ctrl.user._id === Game.whitePlayer) {
-                  Game.whitePlayerName = ctrl.user.username;
+              $ctrl.pieces = pieces;
+              $ctrl.drawBoard($ctrl.ctx, $ctrl.canvasParams);
+              if($ctrl.sprites){
+                $ctrl.drawPieces($ctrl.ctx, $ctrl.pieces);
+              }
+              else {
+                sprites.then(function(res){
+                  $ctrl.drawPieces($ctrl.ctx, $ctrl.pieces);
+                });
+              }
+              $ctrl.getUserInfo().then(function(data){
+                $ctrl.user = data;
+                if ($ctrl.user._id === Game.whitePlayer) {
+                  Game.whitePlayerName = $ctrl.user.username;
                   Game.setGameColor('white');
                 }
-                else if (ctrl.user._id === Game.blackPlayer) {
-                  Game.blackPlayerName = ctrl.user.username;
+                else if ($ctrl.user._id === Game.blackPlayer) {
+                  Game.blackPlayerName = $ctrl.user.username;
                   Game.setGameColor('black');
                 }
 
@@ -91,23 +110,23 @@ function chessBoardController(Game, $element, $http, $scope, user, $q){
 
           }, true);
 
-          ctrl.elementRanges = [];
-          ctrl.canvas = $element[0].querySelector('canvas');
-          ctrl.ctx = ctrl.canvas.getContext('2d');
+          $ctrl.elementRanges = [];
+          $ctrl.canvas = $element[0].querySelector('canvas');
+          $ctrl.ctx = $ctrl.canvas.getContext('2d');
 
-          ctrl.canvasParams = {
-              width : ctrl.canvas.width,
-              height : ctrl.canvas.height
+          $ctrl.canvasParams = {
+              width : $ctrl.canvas.width,
+              height : $ctrl.canvas.height
           };
 
 
-          ctrl.drawBoard = function (ctx, params) {
+          $ctrl.drawBoard = function (ctx, params) {
             for (var i = 0; i < 8; i++) {
               for (var j = 0; j < 8; j++) {
                 if ((i + j) % 2 == 0) {
-                  ctx.fillStyle = ctrl.white;
+                  ctx.fillStyle = $ctrl.white;
                 } else {
-                  ctx.fillStyle = ctrl.black;
+                  ctx.fillStyle = $ctrl.black;
                 }
                 ctx.fillRect(i * (params.width / 8), j * (params.height / 8), params.width / 8, params.height / 8);
               }
@@ -125,8 +144,8 @@ function chessBoardController(Game, $element, $http, $scope, user, $q){
               ctx.stroke();
             }
           };
-          ctrl.fromNotAdded = true;
-            ctrl.color = Game.getGameColor();
+          $ctrl.fromNotAdded = true;
+            $ctrl.color = Game.getGameColor();
             var click = {};
             var clickedElem = {};
 
@@ -149,8 +168,8 @@ function chessBoardController(Game, $element, $http, $scope, user, $q){
           }
 
           function displayFrom(){
-            ctrl.color = Game.getGameColor()
-            if(clickedElem.color !== ctrl.color) {
+            $ctrl.color = Game.getGameColor()
+            if(clickedElem.color !== $ctrl.color) {
               console.log('don`t go');
               clickedElem = {};
               return;
@@ -164,13 +183,13 @@ function chessBoardController(Game, $element, $http, $scope, user, $q){
               var tmp = {from: form, to: clickedElem.position };
               var tmpFlag = Game.getMoveFlag();
               if (tmpFlag !== null) {
-                ctrl.moveFlag = tmpFlag;
+                $ctrl.moveFlag = tmpFlag;
               }
-              if (ctrl.moveFlag) {
+              if ($ctrl.moveFlag) {
                 Game.sendMove(tmp).
                   then(function(prom) {
                     if (prom.list === 201) {
-                      tempFlag = !ctrl.moveFlag;
+                      var tempFlag = !$ctrl.moveFlag;
                       Game.setMoveFlag(tempFlag);
                       Game.move(tmp.from,tmp.to);
                       Game.setFactoryMoves({user: 'Your', form: tmp.from, to: tmp.to});
@@ -182,10 +201,10 @@ function chessBoardController(Game, $element, $http, $scope, user, $q){
             isFrom = true;
           }
 
-          ctrl.getPosition = function (event){
-            ctrl.initPieces(ctrl.pieces);
+          $ctrl.getPosition = function (event){
+            $ctrl.initPieces($ctrl.pieces);
             getClickPosition(event);
-            var isInRange = ctrl.elementRanges.some(inRangeScope);
+            var isInRange = $ctrl.elementRanges.some(inRangeScope);
             if(isInRange){
               isFrom && !Game.isFreeCell(clickedElem.position) ? displayFrom() : displayTo();
             }
@@ -193,19 +212,19 @@ function chessBoardController(Game, $element, $http, $scope, user, $q){
             clickedElem = {};
           };
 
-          ctrl.getPositionRef = function (event) {
-            ctrl.initPieces(ctrl.pieces);
+          $ctrl.getPositionRef = function (event) {
+            $ctrl.initPieces($ctrl.pieces);
           };
 
-          ctrl.initPieces = function (pieces){
-            ctrl.elementRanges = [];
+          $ctrl.initPieces = function (pieces){
+            $ctrl.elementRanges = [];
             var filed = true;
             for (var i=0; i<pieces.length; i++){
               var position = pieces[i].position;
               var columnLetter = position[0];
               var col = letterToInt(columnLetter);
               var row = Math.abs(parseInt(position[1]-8));
-              var tmp = ctrl.canvasParams.width/8;
+              var tmp = $ctrl.canvasParams.width/8;
               var x = tmp * col;
               var y = tmp * row;
               if(row === 1 && filed){
@@ -219,7 +238,7 @@ function chessBoardController(Game, $element, $http, $scope, user, $q){
                       position: intToLetter(j)+realIdx,
                       name: "empty"
                     };
-                    ctrl.elementRanges.push(elementRange);
+                    $ctrl.elementRanges.push(elementRange);
                   }
                 }
                 filed = false;
@@ -231,17 +250,17 @@ function chessBoardController(Game, $element, $http, $scope, user, $q){
                 name: pieces[i].name,
                 color: pieces[i].color
               };
-              ctrl.elementRanges.push(elementRange);
+              $ctrl.elementRanges.push(elementRange);
             }
           };
 
-          ctrl.drawPieces = function (ctx, pieces) {
+          $ctrl.drawPieces = function (ctx, pieces) {
             for (var i=0; i<pieces.length; i++){
               var position = pieces[i].position;
               var columnLetter = position[0];
               var col = letterToInt(columnLetter);
               var row = Math.abs(parseInt(position[1]-8));
-              var tmp = ctrl.canvasParams.width/8;
+              var tmp = $ctrl.canvasParams.width/8;
               var x = tmp * col;
               var y = tmp * row;
               draw(ctx, x, y, pieces[i]);
@@ -249,32 +268,11 @@ function chessBoardController(Game, $element, $http, $scope, user, $q){
           };
 
           function draw(ctx, x, y, piece) {
-            var base_image = new Image();
-            base_image.src = piece.color === 'white' ? ctrl.piecesPaths.white[piece.name] : ctrl.piecesPaths.black[piece.name];
-            base_image.onload = function(){
-              ctx.drawImage(base_image, x, y);
-            };
+            var imageData = $ctrl.sprites.pieces[piece.name][piece.color];
+            var image = new Image();
+            image.src = imageData;
+            ctx.drawImage(image,x,y);
           }
-
-          ctrl.piecesPaths = {
-            white: {
-              king: "assets/images/king_w.png",
-              queen: "assets/images/queen_w.png",
-              rook: "assets/images/rook_w.png",
-              bishop: "assets/images/bishop_w.png",
-              knight: "assets/images/knight_w.png",
-              pawn: "assets/images/pawn_w.png"
-            },
-            black: {
-              king: "assets/images/king_b.png",
-              queen: "assets/images/queen_b.png",
-              rook: "assets/images/rook_b.png",
-              bishop: "assets/images/bishop_b.png",
-              knight: "assets/images/knight_b.png",
-              pawn: "assets/images/pawn_b.png"
-            }
-          };
-
           function letterToInt(lett){
             var letter = {
             'a': 0,

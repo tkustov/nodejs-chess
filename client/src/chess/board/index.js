@@ -5,13 +5,15 @@ var BoardFactory = require('./board.factory');
 var GameFactory = require('../game/game.factory');
 var auth = require('../auth');
 var user = require('../user');
+var sprite = require('../sprite');
 
 module.exports = 'chess.board';
 
 angular.module('chess.board', [
   ngRoute,
   auth,
-  user
+  user,
+  sprite
 ]).
 config(RouteConfig).
 factory('Board', BoardFactory).
