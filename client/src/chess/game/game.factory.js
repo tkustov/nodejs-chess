@@ -28,6 +28,16 @@ function GameFactory($http, $q)  {
       return color = 'black';
     }
   }
+
+  function getLastGameId () {
+    var promise = $q(function (resolve, reject) {
+      $http.get(process.env.API_URL + '/api/game/id', {withCredentials: true}).
+        then(function (response) {
+          resolve(response.data.message);
+       });
+    });
+    return promise;
+  }
   function getMovesList() {
     var promise = $q(function(resolve, reject) {
       $http.get(process.env.API_URL + '/api/game/gameinfo/'+ factory.gameId, {withCredentials: true}).
@@ -38,6 +48,18 @@ function GameFactory($http, $q)  {
           factory.whitePlayer = tmpWhite;
           factory.blackPlayer = tmpBlack;
           factory.moves = tmpData.allMoves;
+          factory.moves = factory.moves.map(function (item, i) {
+            if (i === 0) {
+              item.user = factory.whitePlayer;
+            }
+            if (i & 1) {
+              item.user = factory.blackPlayer;
+            }
+            else {
+              item.user = factory.whitePlayer;
+            }
+            return item;
+          });
           resolve({list: factory.moves, white: tmpWhite, black: tmpBlack});
        });
   });
@@ -98,15 +120,29 @@ function GameFactory($http, $q)  {
     whitePlayerName: null,
     blackPlayerName: null,
     moveFlag: null,
-    setMoveFlag: function (flag) {factory.moveFlag = flag},
-    getMoveFlag: function () {return factory.moveFlag},
-    setGameColor: function (color) {factory.color = color},
-    getGameColor: function () {return factory.color},
-    getFactoryMoves: function () {return factory.moves},
-    setGameInfo: function (data) {factory.data = data},
-    getGameInfo: function () {return factory.data},
+    setMoveFlag: function (flag) {factory.moveFlag = flag;},
+    getMoveFlag: function () {return factory.moveFlag;},
+    setGameColor: function (color) {factory.color = color;},
+    getGameColor: function () {return factory.color;},
+    getFactoryMoves: function () {return factory.moves;},
+    setFactoryMoves: function (data) {factory.moves.push(data);},
+    popFactoryMoves: function () {factory.moves.pop();},
+    setGameInfo: function (data) {factory.data = data;},
+    getGameInfo: function () {
+      if (factory.data === null) {
+        data = {
+          blackPlayer: factory.blackPlayer,
+          whitePlayer: factory.whitePlayer,
+          blackPlayerName: factory.blackPlayerName,
+          whitePlayerName: factory.whitePlayerName
+        };
+        return data;
+      }
+      return factory.data;
+    },
     getGameId: function () {return factory.gameId},
-    setGameId: function (gameId) {factory.gameId = gameId}
+    setGameId: function (gameId) {factory.gameId = gameId},
+    getLastGameId: getLastGameId
   };
 
   return factory;

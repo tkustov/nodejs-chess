@@ -21,6 +21,5 @@ GameController.$inject= ['user', 'Game', '$routeParams'];
 function GameController(user, Game, $routeParams) {
   var $ctrl = this
   $ctrl.gameId = $routeParams.gameId;
-  console.log($ctrl.gameId + ' game id from route params');
   Game.setGameId($ctrl.gameId)
 }

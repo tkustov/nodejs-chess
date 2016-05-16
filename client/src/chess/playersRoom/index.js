@@ -70,16 +70,16 @@ function SocketInit($rootScope, $location, Socket, user, PlayersRoom, Game) {
     gameSocket.on('startGame', function(data){
       PlayersRoom.getUsersOnline().forEach(function(u){
         if (u.id === data.blackPlayer) {
-          data.blackPlayerName = u.name
+          data.blackPlayerName = u.name;
         }
         if (u.id === data.whitePlayer) {
-          data.whitePlayerName = u.name
+          data.whitePlayerName = u.name;
         }
         if (data.whitePlayerName == undefined) {
-          data.whitePlayerName = user.userInfo.username
+          data.whitePlayerName = Game.whitePlayerName;
         }
         if (data.blackPlayerName == undefined) {
-          data.blackPlayerName = user.userInfo.username
+          data.blackPlayerName = Game.blackPlayerName;
         }
       });
       Game.setGameInfo(data);
@@ -89,18 +89,13 @@ function SocketInit($rootScope, $location, Socket, user, PlayersRoom, Game) {
 
 
     gameSocket.on('opponentMove', function (data) {
-      var gameInfo = Game.getGameInfo()
-      var username;
-      var color = Game.getGameColor();
-      color = color === 'black' ? 'white' : 'black';
       var moveFlag = Game.getMoveFlag();;
       if(moveFlag === false) {
         moveFlag = true;
       }
       Game.setMoveFlag(moveFlag);
-      Game.setGameColor(color)
+      Game.setFactoryMoves({user: 'Your', form: data.form, to: data.to});
       Game.move(data.form, data.to);
-      Game.moves.push({user: username, form: data.form, to: data.to})
     });
 
   });
