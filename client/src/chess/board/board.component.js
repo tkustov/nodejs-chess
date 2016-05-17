@@ -164,13 +164,20 @@ function chessBoardController(Game, $element, $http, $scope, user, sprites, $q) 
 
   function displayFrom() {
     $ctrl.color = Game.getGameColor()
-    if (clickedElem.color !== $ctrl.color) {
+    if (getPieceColor(clickedElem.position) !== $ctrl.color) {
       console.log('don`t go');
       clickedElem = {};
       return;
     }
     form = clickedElem.position;
     isFrom = false;
+  }
+
+  function getPieceColor(position) {
+    for (var i = 0; i < $ctrl.pieces.length; i++)
+      if ($ctrl.pieces[i].position == position) {
+        return $ctrl.pieces[i].color;
+      }
   }
 
   function displayTo() {
