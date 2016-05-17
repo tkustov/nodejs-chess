@@ -6,6 +6,7 @@ var GameFactory = require('../game/game.factory');
 var auth = require('../auth');
 var user = require('../user');
 var sprite = require('../sprite');
+var SoundsFactory = require('../sounds/sounds.factory');
 
 module.exports = 'chess.board';
 
@@ -18,6 +19,7 @@ angular.module('chess.board', [
 ]).
 config(RouteConfig).
 factory('Board', BoardFactory).
+factory('SoundsFactory', SoundsFactory).
 component('chessCanvas', BoardComponent);
 
 RouteConfig.$inject = ['$routeProvider'];

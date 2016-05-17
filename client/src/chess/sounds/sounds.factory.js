@@ -13,6 +13,7 @@ function SoundsFactory($q) {
     incomingInv: '/assets/sounds/incoming-inv',
     cancelRefuseInv: '/assets/sounds/cancel-refuse',
     startGame: '/assets/sounds/start-game',
+    pieceMove: '/assets/sounds/piece-move',
     horseWhinnies: '/assets/sounds/horse-whinnies'
   };
 

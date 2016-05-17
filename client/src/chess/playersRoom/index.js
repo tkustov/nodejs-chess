@@ -99,6 +99,7 @@ function SocketInit($rootScope, $location, Socket, user, PlayersRoom, Game, Soun
       Game.setMoveFlag(moveFlag);
       Game.setFactoryMoves({user: 'Your', form: data.form, to: data.to});
       Game.move(data.form, data.to);
+      SoundsFactory.play('pieceMove');
     });
 
   });
