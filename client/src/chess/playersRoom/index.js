@@ -44,6 +44,7 @@ function SocketInit($rootScope, $location, Socket, user, PlayersRoom, Game, Soun
       user.setOffline();
       PlayersRoom.clearUsersOnline();
       PlayersRoom.clearInvitations();
+      SoundsFactory.play('horseWhinnies');
     });
 
     gameSocket.on('userJoined', function(data){
@@ -85,6 +86,7 @@ function SocketInit($rootScope, $location, Socket, user, PlayersRoom, Game, Soun
       });
       Game.setGameInfo(data);
       PlayersRoom.changeUserStatus(data.blackPlayer, 'free');
+      SoundsFactory.play('startGame');
       $location.path('/game'+data.gameId)
     });
 
