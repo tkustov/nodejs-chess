@@ -3,8 +3,8 @@ module.exports = {
   templateUrl: 'playersRoom/playersRoom.component.html'
 };
 
-PlayersRoomController.$inject = ['$http', 'PlayersRoom', 'user'];
-function PlayersRoomController($http, PlayersRoom, user) {
+PlayersRoomController.$inject = ['$http', 'PlayersRoom', 'user', 'SoundsFactory'];
+function PlayersRoomController($http, PlayersRoom, user, SoundsFactory) {
   var $ctrl = this;
 
   $ctrl.usersOnline = PlayersRoom.getUsersOnline;
@@ -22,6 +22,7 @@ function PlayersRoomController($http, PlayersRoom, user) {
     $http.get(process.env.API_URL + '/api/game/invitation/cancel/'+userId, {withCredentials: true})
     .then(function(response) {
       PlayersRoom.changeUserStatus(userId, 'free');
+      SoundsFactory.play('cancelRefuseInv');
     });
   };
 
@@ -36,6 +37,7 @@ function PlayersRoomController($http, PlayersRoom, user) {
     $http.get(process.env.API_URL + '/api/game/invitation/refuse/'+userId, {withCredentials: true})
     .then(function(response) {
       PlayersRoom.removeInvitationFromUser(userId);
+      SoundsFactory.play('cancelRefuseInv');
     });
   };
 }
