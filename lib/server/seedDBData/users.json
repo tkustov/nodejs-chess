@@ -1,0 +1,41 @@
+[{
+    "hash": "59c31cbbeeec0da824dfd4a427e69e17",
+    "salt": "3e707ff788c5fd31d36f4a4fb30690c2",
+    "username": "foo",
+    "email": "foo@mail.com",
+    "allGames": [],
+    "scores": 0,
+    "status": "offline",
+    "__v": 0,
+    "socketId": ""
+}, {
+    "hash": "cb4dd2135bea9b281be52d1d0098cd26",
+    "salt": "d447a224592bd1600d0593e89a0550cd",
+    "username": "bar",
+    "email": "bar@mail.com",
+    "allGames": [],
+    "scores": 0,
+    "status": "offline",
+    "__v": 0,
+    "socketId": ""
+}, {
+    "hash": "3a76fae80c8744f0dea1156e1043798d",
+    "salt": "2169ffee651b522a75ef712295149175",
+    "username": "rar",
+    "email": "rar@mail.com",
+    "allGames": [],
+    "scores": 0,
+    "status": "offline",
+    "__v": 0,
+    "socketId": ""
+}, {
+    "hash": "c3558754affb72ee3bc3653e98ab88eb",
+    "salt": "4b0ce300e328358d76742a8115aff4eb",
+    "username": "zip",
+    "email": "zip@mail.com",
+    "allGames": [],
+    "scores": 0,
+    "status": "offline",
+    "__v": 0,
+    "socketId": ""
+}]
