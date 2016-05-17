@@ -6,6 +6,7 @@
     "clean": "gulp clean",
     "build": "gulp",
     "postinstall": "gulp",
+    "seedDB": "node ./lib/server/seedDB.js",
     "start": "node ./lib/server/index.js",
     "client": "gulp start",
     "test-client": "karma start test/client.config.js --single-run",
