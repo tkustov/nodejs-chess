@@ -54,20 +54,14 @@ function ChatController(Socket, $http, user, Game, $location, $scope){
 				elem.scrollTop = elem.scrollHeight - elem.clientHeight;
 			};
 		
-			ctrl.sendMessage = function () {
-				if(ctrl.message == undefined){
-					console.log("UNDEFINED BLYAT");
-				}			
+			ctrl.sendMessage = function () {	
 				if(ctrl.message != '' || ctrl.message != undefined){
-					//for(var i=0; i<ctrl.message.length; i++){
-					console.log('not empty=',ctrl.message);//[i]);//}
 					var sender=ctrl.getUserName();
 				    chatSocket.emit('send:message', {
 				    	who: sender,
 				      message: ctrl.message
 					});
 			  }
-			  else console.log('empty', ctrl.message);
 			  ctrl.message = '';
 			};
 			$scope.$on('disconnectGameSocket', function(){
