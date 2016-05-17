@@ -15,7 +15,6 @@ function PlayersRoomController($http, PlayersRoom, user) {
     $http.get(process.env.API_URL + '/api/game/invitation/send/'+userId, {withCredentials: true})
     .then(function(response) {
       PlayersRoom.changeUserStatus(userId, 'pending');
-      console.log('send invitation');
     });
   };
 
@@ -23,7 +22,6 @@ function PlayersRoomController($http, PlayersRoom, user) {
     $http.get(process.env.API_URL + '/api/game/invitation/cancel/'+userId, {withCredentials: true})
     .then(function(response) {
       PlayersRoom.changeUserStatus(userId, 'free');
-      console.log('cancel invitation');
     });
   };
 
@@ -31,7 +29,6 @@ function PlayersRoomController($http, PlayersRoom, user) {
     $http.get(process.env.API_URL + '/api/game/invitation/accept/'+userId, {withCredentials: true})
     .then(function(response) {
       PlayersRoom.removeInvitationFromUser(userId);
-      console.log('accept invitation');
     });
   };
 
@@ -39,8 +36,6 @@ function PlayersRoomController($http, PlayersRoom, user) {
     $http.get(process.env.API_URL + '/api/game/invitation/refuse/'+userId, {withCredentials: true})
     .then(function(response) {
       PlayersRoom.removeInvitationFromUser(userId);
-      console.log('refuse invitation');
     });
   };
-
 }

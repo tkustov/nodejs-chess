@@ -36,14 +36,12 @@ function SocketInit($rootScope, $location, Socket, user, PlayersRoom, Game) {
       gameSocket.emit('identification', { userId: user.userInfo._id });
       user.setOnline();
       PlayersRoom.fetchUsersOnline();
-      console.log('connected to "game" namespace');
     });
 
     gameSocket.on('disconnect', function() {
       user.setOffline();
       PlayersRoom.clearUsersOnline();
       PlayersRoom.clearInvitations();
-      console.log('Connection lost... :(');
     });
 
     gameSocket.on('userJoined', function(data){
@@ -60,12 +58,10 @@ function SocketInit($rootScope, $location, Socket, user, PlayersRoom, Game) {
     });
 
     gameSocket.on('cancelInv', function(data){
-      console.log('cancelInv');
       PlayersRoom.removeInvitationFromUser(data.userId);
     });
 
     gameSocket.on('refuseInv', function(data){
-      console.log('refuseInv');
       PlayersRoom.changeUserStatus(data.userId, 'free');
     });
 
@@ -104,6 +100,5 @@ function SocketInit($rootScope, $location, Socket, user, PlayersRoom, Game) {
 
   $rootScope.$on('disconnectGameSocket', function(){
     gameSocket.disconnect();
-    console.log('disconnected from "game" namespace');
   });
 }

@@ -11,7 +11,6 @@ function SocketFactory($rootScope, $cacheFactory) {
     var socket;
     if (!sockets.get(ns)) {
       sockets.put(ns, io.connect(process.env.API_URL+ns));
-      console.log('create new socket', ns); // - for test! should remove!
     }
     socket = sockets.get(ns);
     return {
