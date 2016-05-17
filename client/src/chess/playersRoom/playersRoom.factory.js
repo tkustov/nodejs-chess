@@ -40,7 +40,6 @@ function PlayersRoomFactory($http) {
       if (u.id == userId) {u.status = status}
       return u;
     });
-    console.log(usersOnline);
   }
 
 

@@ -1,13 +1,12 @@
 var angular = require('angular');
 var ngRoute = require('angular-route');
-var GameFactory = require('./game.factory')
 var user = require('../user');
 
 module.exports = angular.module('chess.game', [
   ngRoute
 ]).
 config(RouteConfig).
-factory(GameFactory);
+factory('Game', require('./game.factory'));
 
 RouteConfig.$inject = ['$routeProvider'];
 function RouteConfig($routeProvider) {

@@ -13,7 +13,12 @@
     <div class="collapse navbar-collapse" ng-class="{ in: $ctrl.toggled }">
       <ul class="nav navbar-nav">
           <li><a href="#/">Home</a></li>
-          <li ng-if="$ctrl.isLoggedIn()"><a href="#/players-room">Players Room</a></li>
+          <li ng-if="$ctrl.isLoggedIn()">
+            <a href="#/players-room">
+              Players Room
+              <span class="badge">{{$ctrl.invitations().length || ''}}</span>
+            </a>
+          </li>
           <li ng-if="$ctrl.isLoggedIn()"><a href="#/game">Play</a></li>
           <li><a href="#/help">Help</a></li>
       </ul>

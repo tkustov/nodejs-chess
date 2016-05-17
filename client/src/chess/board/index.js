@@ -13,11 +13,11 @@ angular.module('chess.board', [
   ngRoute,
   auth,
   user,
-  sprite
+  sprite,
+  require('../game').name
 ]).
 config(RouteConfig).
 factory('Board', BoardFactory).
-factory('Game', GameFactory).
 component('chessCanvas', BoardComponent);
 
 RouteConfig.$inject = ['$routeProvider'];
