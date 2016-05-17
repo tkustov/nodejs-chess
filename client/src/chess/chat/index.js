@@ -8,7 +8,6 @@ module.exports = angular.module('chess.chat', [
 	user
 ]).
 factory('Game', GameFactory).
-
 component('chat', {
 	controller: ChatController,
   templateUrl: 'chat/chat.component.html'
@@ -30,6 +29,13 @@ function ChatController(Socket, $http, user, Game, $location, $scope){
 
 	var gameId=Game.getGameId();
 
+	
+  $http.get(process.env.API_URL + '/api/game/messages/' + gameId, {withCredentials: true}).
+      then(function(response) {
+        ctrl.messages = response.data.chat;
+  });
+ 
+
 	$http.get(process.env.API_URL + '/api/game/gameroom'+ gameId, {withCredentials: true})
     .then(function(response) {
     	var gameRoom = response.data["game room"];
@@ -49,22 +55,24 @@ function ChatController(Socket, $http, user, Game, $location, $scope){
 			};
 		
 			ctrl.sendMessage = function () {
-				if(ctrl.message != ''){
+				if(ctrl.message == undefined){
+					console.log("UNDEFINED BLYAT");
+				}			
+				if(ctrl.message != '' || ctrl.message != undefined){
+					//for(var i=0; i<ctrl.message.length; i++){
+					console.log('not empty=',ctrl.message);//[i]);//}
 					var sender=ctrl.getUserName();
 				    chatSocket.emit('send:message', {
 				    	who: sender,
 				      message: ctrl.message
 					});
 			  }
+			  else console.log('empty', ctrl.message);
 			  ctrl.message = '';
 			};
 			$scope.$on('disconnectGameSocket', function(){
 		    chatSocket.disconnect();
 		    console.log('disconnected from "game" namespace');
 	  	});
-			for(var i=0; i<ctrl.messages.length; i++){
-		  	if(ctrl.messages.text=='') console.log('There is no messages');
-		  	else console.log('There are messages:'+ctrl.messages[i].text);
-		  }
 	});
 }
