@@ -3,9 +3,9 @@ module.exports = {
   templateUrl: 'board/board.component.html'
 };
 
-chessBoardController.$inject = ['Game', '$element', '$http', '$scope', 'user', 'sprites', '$q'];
+chessBoardController.$inject = ['Game', '$element', '$http', '$scope', 'user', 'sprites', '$q', 'SoundsFactory'];
 
-function chessBoardController(Game, $element, $http, $scope, user, sprites, $q) {
+function chessBoardController(Game, $element, $http, $scope, user, sprites, $q, SoundsFactory) {
   var $ctrl = this;
   $ctrl.sprites;
   $ctrl.white = "#fff";
@@ -197,6 +197,7 @@ function chessBoardController(Game, $element, $http, $scope, user, sprites, $q) 
             var tempFlag = !$ctrl.moveFlag;
             Game.setMoveFlag(tempFlag);
             Game.move(tmp.from, tmp.to);
+            SoundsFactory.play('pieceMove');
             Game.setFactoryMoves({
               user: 'Your',
               form: tmp.from,
