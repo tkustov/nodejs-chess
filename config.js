@@ -31,6 +31,11 @@ var fonts = {
   dest: path.join(assets, 'fonts')
 };
 
+var sounds = {
+  src: path.resolve(__dirname, 'client/src/sounds/*'),
+  dest: path.join(assets, 'sounds')
+};
+
 var html = {
   src: path.resolve(__dirname, 'client/src/index.html'),
   dest: 'index.html',
@@ -55,5 +60,6 @@ module.exports = {
   less,
   images,
   fonts,
+  sounds,
   html
 };
