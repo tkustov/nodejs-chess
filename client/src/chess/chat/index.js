@@ -16,12 +16,13 @@ component('chat', {
 
 ChatController.$inject = ['Socket', '$http', 'user', 'Game', '$location', '$scope'];
 function ChatController(Socket, $http, user, Game, $location, $scope){
-	var $ctrl=this;	
-	$ctrl.messages=[];
+	var ctrl=this;	
+	ctrl.messages=[];
 	var chatSocket;
 	var elem = document.getElementById('chatbody');
+	var msgbox = document.getElementById('message_box');
 
-	$ctrl.getUserName = function() {
+	ctrl.getUserName = function() {
 		return (user.userInfo) 
 		? user.userInfo.username
 		: null;
@@ -39,27 +40,31 @@ function ChatController(Socket, $http, user, Game, $location, $scope){
 	    });
 
 			chatSocket.on('send:message', function (message) {
-			  $ctrl.messages.push(message);
-			  $ctrl.gotoBottom();
+			  ctrl.messages.push(message);
+			  ctrl.gotoBottom();
 			});
 
-			$ctrl.gotoBottom = function() {
+			ctrl.gotoBottom = function() {
 				elem.scrollTop = elem.scrollHeight - elem.clientHeight;
 			};
 		
-			$ctrl.sendMessage = function () {
-				if($ctrl.message != ''){
-					var sender=$ctrl.getUserName();
+			ctrl.sendMessage = function () {
+				if(ctrl.message != ''){
+					var sender=ctrl.getUserName();
 				    chatSocket.emit('send:message', {
 				    	who: sender,
-				      message: $ctrl.message
+				      message: ctrl.message
 					});
 			  }
-			  $ctrl.message = '';
+			  ctrl.message = '';
 			};
 			$scope.$on('disconnectGameSocket', function(){
 		    chatSocket.disconnect();
 		    console.log('disconnected from "game" namespace');
 	  	});
+			for(var i=0; i<ctrl.messages.length; i++){
+		  	if(ctrl.messages.text=='') console.log('There is no messages');
+		  	else console.log('There are messages:'+ctrl.messages[i].text);
+		  }
 	});
 }
