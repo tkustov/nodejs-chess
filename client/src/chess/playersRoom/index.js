@@ -3,6 +3,7 @@ var ngRoute = require('angular-route');
 var PlayersRoomComponent = require('./playersRoom.component');
 var PlayersRoomFactory = require('./playersRoom.factory');
 var SocketFactory = require('../socket/socket.factory');
+var SoundsFactory = require('../sounds/sounds.factory');
 
 module.exports = 'chess.playersRoom';
 
@@ -15,6 +16,7 @@ run(SocketInit).
 config(RouteConfig).
 factory('PlayersRoom', PlayersRoomFactory).
 factory('Socket', SocketFactory).
+factory('SoundsFactory', SoundsFactory).
 component('playersroom', PlayersRoomComponent);
 
 RouteConfig.$inject = ['$routeProvider'];
@@ -24,8 +26,8 @@ function RouteConfig($routeProvider) {
   });
 }
 
-SocketInit.$inject = ['$rootScope', '$location', 'Socket', 'user', 'PlayersRoom', 'Game'];
-function SocketInit($rootScope, $location, Socket, user, PlayersRoom, Game) {
+SocketInit.$inject = ['$rootScope', '$location', 'Socket', 'user', 'PlayersRoom', 'Game', 'SoundsFactory'];
+function SocketInit($rootScope, $location, Socket, user, PlayersRoom, Game, SoundsFactory) {
 
   var gameSocket;
 
@@ -55,6 +57,7 @@ function SocketInit($rootScope, $location, Socket, user, PlayersRoom, Game) {
 
     gameSocket.on('incomingInv', function(data){
       PlayersRoom.putInvitation(data);
+      SoundsFactory.play('incomingInv');
     });
 
     gameSocket.on('cancelInv', function(data){
