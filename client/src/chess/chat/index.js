@@ -2,12 +2,11 @@ var angular = require('angular');
 var ngRoute = require('angular-route');
 var SocketFactory = require('../socket/socket.factory');
 var user = require('../user');
-var GameFactory = require('../game/game.factory');
 
 module.exports = angular.module('chess.chat', [
-	user
+	user,
+  require('../game').name
 ]).
-factory('Game', GameFactory).
 component('chat', {
 	controller: ChatController,
   templateUrl: 'chat/chat.component.html'
@@ -15,32 +14,32 @@ component('chat', {
 
 ChatController.$inject = ['Socket', '$http', 'user', 'Game', '$location', '$scope'];
 function ChatController(Socket, $http, user, Game, $location, $scope){
-	var ctrl=this;	
+	var ctrl=this;
 	ctrl.messages=[];
 	var chatSocket;
 	var elem = document.getElementById('chatbody');
 	var msgbox = document.getElementById('message_box');
 
 	ctrl.getUserName = function() {
-		return (user.userInfo) 
+		return (user.userInfo)
 		? user.userInfo.username
 		: null;
 	};
 
 	var gameId=Game.getGameId();
 
-	
+
   $http.get(process.env.API_URL + '/api/game/messages/' + gameId, {withCredentials: true}).
       then(function(response) {
         ctrl.messages = response.data.chat;
   });
- 
+
 
 	$http.get(process.env.API_URL + '/api/game/gameroom'+ gameId, {withCredentials: true})
     .then(function(response) {
     	var gameRoom = response.data["game room"];
 	    chatSocket = Socket('chat');
-	    
+
 	    chatSocket.on('connect', function(data) {
 	      chatSocket.emit('join', gameRoom);
 	    });
@@ -53,8 +52,8 @@ function ChatController(Socket, $http, user, Game, $location, $scope){
 			ctrl.gotoBottom = function() {
 				elem.scrollTop = elem.scrollHeight - elem.clientHeight;
 			};
-		
-			ctrl.sendMessage = function () {	
+
+			ctrl.sendMessage = function () {
 				if(ctrl.message != '' || ctrl.message != undefined){
 					var sender=ctrl.getUserName();
 				    chatSocket.emit('send:message', {

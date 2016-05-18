@@ -19,7 +19,6 @@ function RouteConfig($routeProvider) {
 
 GameController.$inject= ['user', 'Game', '$routeParams'];
 function GameController(user, Game, $routeParams) {
-  var $ctrl = this
-  $ctrl.gameId = $routeParams.gameId;
-  Game.setGameId($ctrl.gameId)
+  var $ctrl = this;
+  Game.setGameId($routeParams.gameId);
 }

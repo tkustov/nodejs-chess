@@ -1,15 +1,13 @@
 var angular = require('angular');
 var ngRoute = require('angular-route');
 var user = require('../user');
-var GameFactory = require('../game/game.factory');
 
 
 
 module.exports = angular.module('chess.gamelog', [
-	user
+	user,
+  require('../game').name
 ]).
-factory('Game', GameFactory).
-
 component('gamelog', {
   controller: GamelogController,
   templateUrl: 'gamelog/gamelog.component.html'
@@ -30,16 +28,6 @@ function GamelogController(user, Game, $scope, $q) {
 
   }, true);
 
-  // $scope.$watch(Game.getGameInfo, function (info) {
-  //   if (userInfo._id === info.whitePlayer) {
-  //     $ctrl.whoMoves = 'Yours';
-  //     $ctrl.color = 'WHITE';
-  //   }
-  //   else if ((userInfo._id === info.blackPlayer)) {
-  //     $ctrl.whoMoves = 'Opponents';
-  //     $ctrl.color = 'BLACK';
-  //   }
-  // })
 
   function findColor () {
     var info = Game.getGameInfo();

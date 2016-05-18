@@ -7,7 +7,7 @@ chessBoardController.$inject = ['Game', '$element', '$http', '$scope', 'user', '
 
 function chessBoardController(Game, $element, $http, $scope, user, sprites, $q, SoundsFactory) {
   var $ctrl = this;
-  
+
   $ctrl.sprites = {};
   $ctrl.white = "#fff";
   $ctrl.black = "#cc6600";
@@ -45,14 +45,14 @@ function chessBoardController(Game, $element, $http, $scope, user, sprites, $q, 
     };
     initComponent();
   });
-  
+
   $ctrl.getUserInfo = function() {
     return user.userInfo? $q.resolve(user.userInfo): user.getUserInfo();
   };
-  
+
   var isFrom = true;
   var form;
-  
+
   function initComponent() {
     $scope.$watch(Game.getState, function(pieces) {
       if (!$ctrl.pieces) {
@@ -89,7 +89,7 @@ function chessBoardController(Game, $element, $http, $scope, user, sprites, $q, 
     $ctrl.drawBoard($ctrl.ctx, $ctrl.canvasParams);
     $ctrl.drawPieces($ctrl.ctx, $ctrl.pieces);
   }
-  
+
   function initPlayer(data) {
     $ctrl.user = data;
     if ($ctrl.user._id === Game.whitePlayer) {
@@ -114,7 +114,7 @@ function chessBoardController(Game, $element, $http, $scope, user, sprites, $q, 
       }
     }
   }
-  
+
   $ctrl.elementRanges = [];
   $ctrl.canvas = $element[0].querySelector('canvas');
   $ctrl.ctx = $ctrl.canvas.getContext('2d');
@@ -176,7 +176,6 @@ function chessBoardController(Game, $element, $http, $scope, user, sprites, $q, 
   function displayFrom() {
     $ctrl.color = Game.getGameColor()
     if (getPieceColor(clickedElem.position) !== $ctrl.color) {
-      console.log('don`t go');
       clickedElem = {};
       return;
     }
@@ -214,7 +213,6 @@ function chessBoardController(Game, $element, $http, $scope, user, sprites, $q, 
               form: tmp.from,
               to: tmp.to
             });
-            console.log('Move from ' + tmp.from + ' to ' + tmp.to);
           }
         });
       }

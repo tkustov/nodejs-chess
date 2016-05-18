@@ -40,7 +40,7 @@ function GameFactory($http, $q)  {
   }
   function getMovesList() {
     var promise = $q(function(resolve, reject) {
-      $http.get(process.env.API_URL + '/api/game/gameinfo/'+ factory.gameId, {withCredentials: true}).
+      return  $http.get(process.env.API_URL + '/api/game/gameinfo/'+ factory.gameId, {withCredentials: true}).
         then(function (response) {
           var tmpData = JSON.parse(response.data.gameInfo);
           var tmpWhite = tmpData.whitePlayer;
@@ -62,13 +62,13 @@ function GameFactory($http, $q)  {
           });
           resolve({list: factory.moves, white: tmpWhite, black: tmpBlack});
        });
-  });
-  return promise;
+    });
+    return promise;
   }
   function sendMove(move) {
     var promise = $q(function(resolve, reject) {
     var can;
-      $http.post(process.env.API_URL + '/api/game/checkmove', {gameId: factory.gameId, form: move.from, to: move.to}, {withCredentials: true}).
+    return $http.post(process.env.API_URL + '/api/game/checkmove', {gameId: factory.gameId, form: move.from, to: move.to}, {withCredentials: true}).
         then(function (response) {
           can = response.status;
           resolve({list: can});
@@ -79,7 +79,7 @@ function GameFactory($http, $q)  {
 
   function getBoardState (prom) {
     var promise = $q(function(resolve, reject) {
-      var movesList = prom.list
+      var movesList = prom.list;
       var item;
       var itemI;
       var i;
@@ -140,8 +140,8 @@ function GameFactory($http, $q)  {
       }
       return factory.data;
     },
-    getGameId: function () {return factory.gameId},
-    setGameId: function (gameId) {factory.gameId = gameId},
+    getGameId: function () {return factory.gameId;},
+    setGameId: function (gameId) {factory.gameId = gameId;},
     getLastGameId: getLastGameId
   };
 
