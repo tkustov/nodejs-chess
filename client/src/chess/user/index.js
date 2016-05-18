@@ -23,6 +23,7 @@ function UserFactory($http, $rootScope) {
       then(function(response) {
         factory.userInfo = response.data;
         $rootScope.$broadcast('Authorized');
+        return response.data;
       });
   }
 

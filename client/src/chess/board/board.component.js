@@ -7,7 +7,8 @@ chessBoardController.$inject = ['Game', '$element', '$http', '$scope', 'user', '
 
 function chessBoardController(Game, $element, $http, $scope, user, sprites, $q, SoundsFactory) {
   var $ctrl = this;
-  $ctrl.sprites;
+  
+  $ctrl.sprites = {};
   $ctrl.white = "#fff";
   $ctrl.black = "#cc6600";
   $ctrl.pieces;
@@ -15,94 +16,105 @@ function chessBoardController(Game, $element, $http, $scope, user, sprites, $q, 
   $ctrl.moveFlag = true;
   $ctrl.whoMoves;
 
-  sprites.then(function(res) {
-    $ctrl.sprites = res;
-  });
-  $ctrl.getUserInfo = function() {
-    var promise = $q(function(resolve, reject) {
-      if (user.userInfo === null) {
-        user.getUserInfo().
-        then(function() {
-          resolve(user.userInfo);
-        });
-      } else {
-        resolve(user.userInfo);
+  sprites.pieces.then(function(res) {
+    $ctrl.sprites.pieces = {
+      king: {
+        white: res.wKing,
+        black: res.bKing
+      },
+      queen: {
+        white: res.wQueen,
+        black: res.bQueen
+      },
+      bishop: {
+        white: res.wBishop,
+        black: res.bBishop
+      },
+      knight: {
+        white: res.wKnight,
+        black: res.bKnight
+      },
+      rook: {
+        white: res.wRook,
+        black: res.bRook
+      },
+      pawn: {
+        white: res.wPawn,
+        black: res.bPawn
       }
-    });
-    return promise;
+    };
+    initComponent();
+  });
+  
+  $ctrl.getUserInfo = function() {
+    return user.userInfo? $q.resolve(user.userInfo): user.getUserInfo();
   };
+  
   var isFrom = true;
   var form;
-  $scope.$watch(Game.getState, function(pieces) {
-    if ($ctrl.pieces === undefined) {
-      Game.getMovesList().
-      then(Game.getBoardState).
-      then(function(data) {
-          $ctrl.pieces = data.boardState;
-          $ctrl.initPieces($ctrl.pieces);
-          $ctrl.whoMoves = data.playerColor;
-          $ctrl.drawBoard($ctrl.ctx, $ctrl.canvasParams);
-          if ($ctrl.sprites) {
-            $ctrl.drawPieces($ctrl.ctx, $ctrl.pieces);
-          } else {
-            sprites.then(function(res) {
-              $ctrl.drawPieces($ctrl.ctx, $ctrl.pieces);
-            });
-          }
+  
+  function initComponent() {
+    $scope.$watch(Game.getState, function(pieces) {
+      if (!$ctrl.pieces) {
+        $q.all({
+          boardState: Game.getMovesList().then(Game.getBoardState),
+          userInfo: $ctrl.getUserInfo()
         }).
-        // then(user.getUserInfo).
-      then(function() {
+        then(function (responses) {
+          initBoard(responses.boardState);
+          initPlayer(responses.userInfo);
+        });
+      } else {
+        $ctrl.pieces = pieces;
+        $ctrl.drawBoard($ctrl.ctx, $ctrl.canvasParams);
+        $ctrl.drawPieces($ctrl.ctx, $ctrl.pieces);
         $ctrl.getUserInfo().then(function(data) {
           $ctrl.user = data;
           if ($ctrl.user._id === Game.whitePlayer) {
-            if ($ctrl.whoMoves === 'white') {
-              $ctrl.moveFlag = true;
-              Game.setMoveFlag($ctrl.moveFlag);
-            } else {
-              $ctrl.moveFlag = false;
-              Game.setMoveFlag($ctrl.moveFlag);
-            }
             Game.whitePlayerName = $ctrl.user.username;
-            Game.setGameColor($ctrl.whoMoves);
+            Game.setGameColor('white');
           } else if ($ctrl.user._id === Game.blackPlayer) {
             Game.blackPlayerName = $ctrl.user.username;
-            $ctrl.color = undefined;
-            if ($ctrl.whoMoves === 'black') {
-              $ctrl.moveFlag = true;
-              Game.setMoveFlag($ctrl.moveFlag);
-            } else {
-              $ctrl.moveFlag = false;
-              Game.setMoveFlag($ctrl.moveFlag);
-            }
+            Game.setGameColor('black');
           }
         });
-      });
-    } else {
-      $ctrl.pieces = pieces;
-      $ctrl.drawBoard($ctrl.ctx, $ctrl.canvasParams);
-      if ($ctrl.sprites) {
-        $ctrl.drawPieces($ctrl.ctx, $ctrl.pieces);
-      } else {
-        sprites.then(function(res) {
-          $ctrl.drawPieces($ctrl.ctx, $ctrl.pieces);
-        });
       }
-      $ctrl.getUserInfo().then(function(data) {
-        $ctrl.user = data;
-        if ($ctrl.user._id === Game.whitePlayer) {
-          Game.whitePlayerName = $ctrl.user.username;
-          Game.setGameColor('white');
-        } else if ($ctrl.user._id === Game.blackPlayer) {
-          Game.blackPlayerName = $ctrl.user.username;
-          Game.setGameColor('black');
-        }
+    }, true);
+  }
 
-      });
+  function initBoard(data) {
+    $ctrl.pieces = data.boardState;
+    $ctrl.initPieces($ctrl.pieces);
+    $ctrl.whoMoves = data.playerColor;
+    $ctrl.drawBoard($ctrl.ctx, $ctrl.canvasParams);
+    $ctrl.drawPieces($ctrl.ctx, $ctrl.pieces);
+  }
+  
+  function initPlayer(data) {
+    $ctrl.user = data;
+    if ($ctrl.user._id === Game.whitePlayer) {
+      if ($ctrl.whoMoves === 'white') {
+        $ctrl.moveFlag = true;
+        Game.setMoveFlag($ctrl.moveFlag);
+      } else {
+        $ctrl.moveFlag = false;
+        Game.setMoveFlag($ctrl.moveFlag);
+      }
+      Game.whitePlayerName = $ctrl.user.username;
+      Game.setGameColor($ctrl.whoMoves);
+    } else if ($ctrl.user._id === Game.blackPlayer) {
+      Game.blackPlayerName = $ctrl.user.username;
+      $ctrl.color = undefined;
+      if ($ctrl.whoMoves === 'black') {
+        $ctrl.moveFlag = true;
+        Game.setMoveFlag($ctrl.moveFlag);
+      } else {
+        $ctrl.moveFlag = false;
+        Game.setMoveFlag($ctrl.moveFlag);
+      }
     }
-
-
-  }, true);
-
+  }
+  
   $ctrl.elementRanges = [];
   $ctrl.canvas = $element[0].querySelector('canvas');
   $ctrl.ctx = $ctrl.canvas.getContext('2d');
@@ -111,7 +123,6 @@ function chessBoardController(Game, $element, $http, $scope, user, sprites, $q, 
     width: $ctrl.canvas.width,
     height: $ctrl.canvas.height
   };
-
 
   $ctrl.drawBoard = function(ctx, params) {
     for (var i = 0; i < 8; i++) {
@@ -285,10 +296,7 @@ function chessBoardController(Game, $element, $http, $scope, user, sprites, $q, 
   };
 
   function draw(ctx, x, y, piece) {
-    var imageData = $ctrl.sprites.pieces[piece.name][piece.color];
-    var image = new Image();
-    image.src = imageData;
-    ctx.drawImage(image, x, y);
+    ctx.drawImage($ctrl.sprites.pieces[piece.name][piece.color], x, y);
   }
 
   function letterToInt(lett) {
