@@ -34,20 +34,16 @@ function spritesProvider() {
     img.addEventListener('load', function () {
       var canvas = document.createElement('canvas');
       var c = canvas.getContext('2d');
-      canvas.width = 62.5;
-      canvas.height = 62.5;
+      canvas.width = img.width;
+      canvas.height = img.height;
+      c.clearRect(0, 0, canvas.width, canvas.height);
+      c.drawImage(img, 0, 0);
       resolve(Object.keys(config).reduce(function (sprite, key) {
         var item = config[key];
         var xSprite = item * 62.5; //Left
-        c.clearRect(0, 0, canvas.width, canvas.height);
-        c.drawImage(img, xSprite, 0,62.5,62.5,0,0,62.5,62.5);
-        var white = canvas.toDataURL();// base64 src string
-        c.clearRect(0, 0, canvas.width, canvas.height);
-        c.drawImage(img, xSprite, 62.5,62.5,62.5,0,0,62.5,62.5);
-        var black = canvas.toDataURL();
         sprite[key] = {
-          white: white, 
-          black: black
+          white: imageDataToImage(c.getImageData(xSprite, 0, 62.5, 62.5)), 
+          black: imageDataToImage(c.getImageData(xSprite, 62.5, 62.5, 62.5))
         };
         return sprite;
       }, {}));
@@ -56,14 +52,25 @@ function spritesProvider() {
     img.addEventListener('error', reject);
   });
   }
+  
+  function imageDataToImage(imageData) {
+    var img = document.createElement('img');
+    var cnv = document.createElement('canvas');
+    var c = cnv.getContext('2d');
+    cnv.width = imageData.width;
+    cnv.height = imageData.height;
+    c.putImageData(imageData, 0, 0);
+    img.src = cnv.toDataURL();
+    return img;
+  }
     
-    return $q(function (resolve, reject) {
-      Object.keys(sprites).reduce(function (result, name) {
-      var sprite = sprites[name];
-      load(sprite.url, sprite.config).then(
-        function (res) {result[name] = res; resolve(result);},
-        function (rejection) {console.log(rejection.type);});
-      }, {});
+  return $q(function (resolve, reject) {
+    Object.keys(sprites).reduce(function (result, name) {
+    var sprite = sprites[name];
+    load(sprite.url, sprite.config).then(
+      function (res) {result[name] = res; resolve(result);},
+      function (rejection) {console.log(rejection.type);});
+    }, {});
     });
   }
 }
@@ -77,4 +84,3 @@ function SpriteConfig(spritesProvider, piecesSprite) {
     piecesSprite
   );
 }
-
