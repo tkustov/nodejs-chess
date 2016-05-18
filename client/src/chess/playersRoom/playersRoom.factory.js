@@ -6,10 +6,10 @@ function PlayersRoomFactory($http) {
   var incommingInvitations = [];
 
   function fetchUsersOnline () {
-    $http.get(process.env.API_URL + '/api/user/users-online/', {withCredentials: true})
+    return $http.get(process.env.API_URL + '/api/user/users-online/', {withCredentials: true})
     .then(function(response) {
       response.data.forEach(function(user){
-        newUser(user);
+        factory.newUser(user);
       })
     });
   }
@@ -65,28 +65,28 @@ function PlayersRoomFactory($http) {
   }
 
   function sendInvitation(userId) {
-    $http.get(process.env.API_URL + '/api/game/invitation/send/'+userId, {withCredentials: true})
+    return $http.get(process.env.API_URL + '/api/game/invitation/send/'+userId, {withCredentials: true})
     .then(function(response) {
       factory.changeUserStatus(userId, 'pending');
     });
   };
 
   function cancelInvitation(userId) {
-    $http.get(process.env.API_URL + '/api/game/invitation/cancel/'+userId, {withCredentials: true})
+    return $http.get(process.env.API_URL + '/api/game/invitation/cancel/'+userId, {withCredentials: true})
     .then(function(response) {
       factory.changeUserStatus(userId, 'free');
     });
   };
 
   function acceptInvitation(userId) {
-    $http.get(process.env.API_URL + '/api/game/invitation/accept/'+userId, {withCredentials: true})
+    return $http.get(process.env.API_URL + '/api/game/invitation/accept/'+userId, {withCredentials: true})
     .then(function(response) {
       factory.removeInvitationFromUser(userId);
     });
   };
 
   function refuseInvitation(userId) {
-    $http.get(process.env.API_URL + '/api/game/invitation/refuse/'+userId, {withCredentials: true})
+    return $http.get(process.env.API_URL + '/api/game/invitation/refuse/'+userId, {withCredentials: true})
     .then(function(response) {
       factory.removeInvitationFromUser(userId);
     });
