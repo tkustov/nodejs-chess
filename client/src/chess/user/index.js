@@ -3,8 +3,8 @@ module.exports = 'chess.user';
 angular.module('chess.user', []).
 factory('user', UserFactory);
 
-UserFactory.$inject = ['$http','$rootScope'];
-function UserFactory($http, $rootScope) {
+UserFactory.$inject = ['$http'];
+function UserFactory($http) {
 
   var factory = {
     userInfo: null,
@@ -22,7 +22,6 @@ function UserFactory($http, $rootScope) {
     return $http.get(process.env.API_URL + '/api/user/info', {withCredentials: true}).
       then(function(response) {
         factory.userInfo = response.data;
-        $rootScope.$broadcast('Authorized');
         return response.data;
       });
   }
