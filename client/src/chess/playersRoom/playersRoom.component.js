@@ -3,8 +3,8 @@ module.exports = {
   templateUrl: 'playersRoom/playersRoom.component.html'
 };
 
-PlayersRoomController.$inject = ['$http', 'PlayersRoom', 'user', 'SoundsFactory'];
-function PlayersRoomController($http, PlayersRoom, user, SoundsFactory) {
+PlayersRoomController.$inject = ['PlayersRoom', 'user', 'SoundsFactory'];
+function PlayersRoomController(PlayersRoom, user, SoundsFactory) {
   var $ctrl = this;
 
   $ctrl.usersOnline = PlayersRoom.getUsersOnline;
