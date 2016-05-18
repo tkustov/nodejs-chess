@@ -90,7 +90,6 @@ function SocketInit($rootScope, $location, Socket, user, PlayersRoom, Game, Soun
       $location.path('/game'+data.gameId)
     });
 
-
     gameSocket.on('opponentMove', function (data) {
       var moveFlag = Game.getMoveFlag();;
       if(moveFlag === false) {

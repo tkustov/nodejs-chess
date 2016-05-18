@@ -10,34 +10,18 @@ function PlayersRoomController($http, PlayersRoom, user, SoundsFactory) {
   $ctrl.usersOnline = PlayersRoom.getUsersOnline;
   $ctrl.incommingInvitations = PlayersRoom.getInvitations;
   $ctrl.isOnline = user.isOnline;
-  
   $ctrl.sendInvitation = function(userId){
-    $http.get(process.env.API_URL + '/api/game/invitation/send/'+userId, {withCredentials: true})
-    .then(function(response) {
-      PlayersRoom.changeUserStatus(userId, 'pending');
-    });
+    PlayersRoom.sendInvitation(userId);
   };
-
-  $ctrl.cancelInvitation = function(userId){
-    $http.get(process.env.API_URL + '/api/game/invitation/cancel/'+userId, {withCredentials: true})
-    .then(function(response) {
-      PlayersRoom.changeUserStatus(userId, 'free');
-      SoundsFactory.play('cancelRefuseInv');
-    });
+  $ctrl.cancelInvitation = function(userId) {
+    PlayersRoom.cancelInvitation(userId);
+    SoundsFactory.play('cancelRefuseInv');
   };
-
-  $ctrl.acceptInvitation = function (userId) {
-    $http.get(process.env.API_URL + '/api/game/invitation/accept/'+userId, {withCredentials: true})
-    .then(function(response) {
-      PlayersRoom.removeInvitationFromUser(userId);
-    });
+  $ctrl.acceptInvitation = function(userId) {
+    PlayersRoom.acceptInvitation(userId);
   };
-
-  $ctrl.refuseInvitation = function (userId) {
-    $http.get(process.env.API_URL + '/api/game/invitation/refuse/'+userId, {withCredentials: true})
-    .then(function(response) {
-      PlayersRoom.removeInvitationFromUser(userId);
-      SoundsFactory.play('cancelRefuseInv');
-    });
+  $ctrl.refuseInvitation = function(userId) {
+    PlayersRoom.refuseInvitation(userId)
+    SoundsFactory.play('cancelRefuseInv');
   };
 }
