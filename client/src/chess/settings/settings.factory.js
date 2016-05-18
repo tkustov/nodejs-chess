@@ -15,7 +15,7 @@ function SettingsFactory($http, $rootScope, user) {
   }
   
   function deleteAccount() {
-    $rootScope.$broadcast('socketDisconnect');
+    $rootScope.$broadcast('userLoggedOut');
     return $http.delete(process.env.API_URL + '/api/user/account', {withCredentials: true}).
       then(function(response) {
         return response.status + ' ' + response.statusText;

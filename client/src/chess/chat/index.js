@@ -64,7 +64,7 @@ function ChatController(Socket, $http, user, Game, $location, $scope){
 			  }
 			  ctrl.message = '';
 			};
-			$scope.$on('disconnectGameSocket', function(){
+			$scope.$on('userLoggedOut', function(){
 		    chatSocket.disconnect();
 		    console.log('disconnected from "game" namespace');
 	  	});
