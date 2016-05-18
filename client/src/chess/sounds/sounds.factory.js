@@ -42,7 +42,6 @@ function SoundsFactory($q) {
   init();
 
   var promise = $q.when(true);
-
   var getPromise = function(name) {
     var deferred = $q.defer();
     sounds[name].addEventListener('ended', deferred.resolve);
@@ -55,7 +54,6 @@ function SoundsFactory($q) {
 
   function play(name){
     if (!canPlay) {return};
-    console.log('play', name);
     promise = promise.then(function() {
       return getPromise(name);
     });

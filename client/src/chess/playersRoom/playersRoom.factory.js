@@ -42,7 +42,6 @@ function PlayersRoomFactory($http) {
     });
   }
 
-
   function clearUsersOnline() {
     usersOnline = [];
   }
@@ -64,6 +63,34 @@ function PlayersRoomFactory($http) {
   function clearInvitations() {
     incommingInvitations = [];
   }
+
+  function sendInvitation(userId) {
+    $http.get(process.env.API_URL + '/api/game/invitation/send/'+userId, {withCredentials: true})
+    .then(function(response) {
+      factory.changeUserStatus(userId, 'pending');
+    });
+  };
+
+  function cancelInvitation(userId) {
+    $http.get(process.env.API_URL + '/api/game/invitation/cancel/'+userId, {withCredentials: true})
+    .then(function(response) {
+      factory.changeUserStatus(userId, 'free');
+    });
+  };
+
+  function acceptInvitation(userId) {
+    $http.get(process.env.API_URL + '/api/game/invitation/accept/'+userId, {withCredentials: true})
+    .then(function(response) {
+      factory.removeInvitationFromUser(userId);
+    });
+  };
+
+  function refuseInvitation(userId) {
+    $http.get(process.env.API_URL + '/api/game/invitation/refuse/'+userId, {withCredentials: true})
+    .then(function(response) {
+      factory.removeInvitationFromUser(userId);
+    });
+  };
   
   var factory = {
     fetchUsersOnline: fetchUsersOnline,
@@ -75,7 +102,11 @@ function PlayersRoomFactory($http) {
     getInvitations: getInvitations,
     putInvitation: putInvitation,
     removeInvitationFromUser: removeInvitationFromUser,
-    clearInvitations: clearInvitations
+    clearInvitations: clearInvitations,
+    sendInvitation: sendInvitation,
+    cancelInvitation: cancelInvitation,
+    acceptInvitation: acceptInvitation,
+    refuseInvitation: refuseInvitation
   };
 
   return factory;

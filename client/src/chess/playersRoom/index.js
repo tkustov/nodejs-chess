@@ -90,7 +90,6 @@ function SocketInit($rootScope, $location, Socket, user, PlayersRoom, Game, Soun
       $location.path('/game'+data.gameId)
     });
 
-
     gameSocket.on('opponentMove', function (data) {
       var moveFlag = Game.getMoveFlag();;
       if(moveFlag === false) {
@@ -101,10 +100,9 @@ function SocketInit($rootScope, $location, Socket, user, PlayersRoom, Game, Soun
       Game.move(data.form, data.to);
       SoundsFactory.play('pieceMove');
     });
-
   });
 
-  $rootScope.$on('disconnectGameSocket', function(){
+  $rootScope.$on('userLoggedOut', function(){
     gameSocket.disconnect();
   });
 }
