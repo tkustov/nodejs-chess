@@ -7,37 +7,6 @@ describe('module: chess.game', function () {
   beforeEach(angular.mock.module('chess.game'));
 
   describe('game factory', function () {
-    describe('game.sendMove()', function () {
-
-      it ('shoul be a function', inject(function (Game) {
-        assert.equal(typeof Game.sendMove, 'function', 'OOps it is not a function');
-      }));
-
-      // it('should send move into server for validation', inject(function (Game, $httpBackend) {
-      //   Game.setGameId(1);
-      //   Game.sendMove({from: 'a2', to: 'a3'}).
-      //     then (function (prom) {
-      //       assert.equal(prom.list, 400, 'Some message');
-      //     });
-      //   // $httpBackend.expectPOST(process.env.API_URL + '/api/game/checkmove' + {gameId: 1, from: 'a2', to: 'a3'}).respond(201, {"message": "move was written"});
-      //   // Game.sendMove({from: 'a2', to: 'a3'}).
-      //     // then(
-      //       // assert(true,'/api/game/checkmove');
-      //       // assert(false, '/api/game/checkmove');
-      //     // );
-      //   // $httpBackend.flush();
-      // }));
-      // it('should handle server error', inject(function (Game, $httpBackend) {
-      //   Game.setGameId(1);
-      //   $httpBackend.expectPOST(process.env.API_URL + '/api/game/checkmove' + {gameId: 1, from: 'a2', to: 'a3'}).respond(400, {"message": "invalid move"});
-      //
-      // //  assert(false, '/api/game/checkmove');
-      //  assert(true, '/api/game/checkmove');
-      //
-      //   // $httpBackend.flush();
-      // }));
-
-    });
 
     describe('Some small Game methods', function () {
       it ('should get null from Game.moveFlag, because it is not setted', inject(function (Game) {
@@ -94,17 +63,6 @@ describe('module: chess.game', function () {
           assert.deepEqual(data, afterMoving, 'If moves list is filled, function doesnt return Game.getState with moved pieces');
         }
     ));
-    // it ('Game.getBoardState should get not an empty array and return value, Not equal to Game.getState() after moving' ,
-    //  inject(function (Game) {
-    //    var prom = {};
-    //    prom.list = [];
-    //    var boardState = Game.getState();
-    //    Game.getBoardState(prom).
-    //      then(function(data) {
-    //        assert.equal(data, boardState, 'If moves list is empty, function return not a return value of Game.getState after moving');
-    //      });
-    //   }
-    // ));
     });
 
   });
