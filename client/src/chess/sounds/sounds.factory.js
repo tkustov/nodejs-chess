@@ -17,21 +17,30 @@ function SoundsFactory($q) {
     horseWhinnies: '/assets/sounds/horse-whinnies'
   };
 
-  try {
-    var testAudio = document.createElement('audio'); 
-    if (testAudio.canPlayType) {
-      Object.keys(types).some(function(type){
-        if (!!testAudio.canPlayType && "" != testAudio.canPlayType(types[type])) {
-          soundType = type;
-          canPlay = true;
-        }
-      });
-    }
-  } catch(err){
-    console.log(err);
-  };
+  function getSoundType() {
+    var soundType = null;
+    try {
+      var testAudio = document.createElement('audio'); 
+      if (testAudio.canPlayType) {
+        Object.keys(types).some(function(type){
+          if (
+            Boolean(testAudio.canPlayType) &&
+            "" != testAudio.canPlayType(types[type])
+          ) {
+            soundType = type;
+            return true;
+          }
+          return false;
+        });
+      }
+    } catch(err) {}
+    return soundType;
+  }
 
   function init(){
+    soundType = getSoundType();
+    canPlay = Boolean(soundType);
+
     if (!canPlay) {return};
     Object.keys(soundsURLs).forEach(function(name){
       var audio = document.createElement('audio');
