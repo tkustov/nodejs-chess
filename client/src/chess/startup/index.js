@@ -18,7 +18,9 @@ function RouteConfig($routeProvider) {
   });
 }
 
-RunFunction.$inject = ['user'];
-function RunFunction(user) {
-  user.getUserInfo();
+RunFunction.$inject = ['user', '$rootScope'];
+function RunFunction(user, $rootScope) {
+  user.getUserInfo().then(function () {
+    $rootScope.$broadcast('Authorized');
+  });
 }

@@ -9,8 +9,8 @@ module.exports = {
   }
 };
 
-AuthController.$inject = ['$location', 'auth', 'user'];
-function AuthController($location, auth, user) {
+AuthController.$inject = ['$location', 'auth', 'user', '$rootScope'];
+function AuthController($location, auth, user, $rootScope) {
 	var $ctrl = this;
 
 	$ctrl.submitLoginForm = submitLoginForm;
@@ -30,7 +30,9 @@ function AuthController($location, auth, user) {
     };
     auth.login(data)
       .then(function(message) {
-        user.getUserInfo();
+        user.getUserInfo().then(function () {
+          $rootScope.$broadcast('Authorized');
+        });
       })
         .then(function (message) {
             $location.path( "/players-room" );
@@ -45,7 +47,9 @@ function AuthController($location, auth, user) {
     };
     auth.register(data)
       .then(function(message) {
-        user.getUserInfo();
+        user.getUserInfo().then(function () {
+          $rootScope.$broadcast('Authorized');
+        });
       })
         .then(
           function (message) {
