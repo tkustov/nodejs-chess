@@ -95,7 +95,6 @@ function SocketInit($rootScope, $location, Socket, user, PlayersRoom, Game, Soun
       if(moveFlag === false) {
         moveFlag = true;
       }
-      var color = Game.getGameColor();
       Game.setMoveFlag(moveFlag);
       Game.setFactoryMoves({user: 'Your', form: data.form, to: data.to});
       Game.move(data.form, data.to);
