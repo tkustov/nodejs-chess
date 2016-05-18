@@ -86,12 +86,8 @@ function SocketInit($rootScope, $location, Socket, user, PlayersRoom, Game, Soun
       });
       Game.setGameInfo(data);
       PlayersRoom.changeUserStatus(data.blackPlayer, 'free');
-<<<<<<< be28e3d94577028ab3655c2d5cdbdce2d557a927
       SoundsFactory.play('startGame');
-      $location.path('/game'+data.gameId)
-=======
       $location.path('/game/'+data.gameId)
->>>>>>> fixed game url
     });
 
     gameSocket.on('opponentMove', function (data) {
