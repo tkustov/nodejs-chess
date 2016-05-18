@@ -283,16 +283,16 @@ function chessBoardController(Game, $element, $http, $scope, user, sprites, $q, 
   };
 
   $ctrl.drawPieces = function(ctx, pieces) {
-    for (var i = 0; i < pieces.length; i++) {
-      var position = pieces[i].position;
+    pieces.forEach(function(piece) {
+      var position = piece.position;
       var columnLetter = position[0];
       var col = letterToInt(columnLetter);
       var row = Math.abs(parseInt(position[1] - 8));
       var tmp = $ctrl.canvasParams.width / 8;
       var x = tmp * col;
       var y = tmp * row;
-      draw(ctx, x, y, pieces[i]);
-    }
+      draw(ctx, x, y, piece);
+    });
   };
 
   function draw(ctx, x, y, piece) {
