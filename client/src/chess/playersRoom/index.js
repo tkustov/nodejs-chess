@@ -8,7 +8,7 @@ var SoundsFactory = require('../sounds/sounds.factory');
 module.exports = 'chess.playersRoom';
 
 angular.module('chess.playersRoom', [
-  ngRoute, 
+  ngRoute,
   require('../user'),
   require('../game').name
 ]).
@@ -86,8 +86,12 @@ function SocketInit($rootScope, $location, Socket, user, PlayersRoom, Game, Soun
       });
       Game.setGameInfo(data);
       PlayersRoom.changeUserStatus(data.blackPlayer, 'free');
+<<<<<<< be28e3d94577028ab3655c2d5cdbdce2d557a927
       SoundsFactory.play('startGame');
       $location.path('/game'+data.gameId)
+=======
+      $location.path('/game/'+data.gameId)
+>>>>>>> fixed game url
     });
 
     gameSocket.on('opponentMove', function (data) {
@@ -95,6 +99,7 @@ function SocketInit($rootScope, $location, Socket, user, PlayersRoom, Game, Soun
       if(moveFlag === false) {
         moveFlag = true;
       }
+      var color = Game.getGameColor();
       Game.setMoveFlag(moveFlag);
       Game.setFactoryMoves({user: 'Your', form: data.form, to: data.to});
       Game.move(data.form, data.to);
