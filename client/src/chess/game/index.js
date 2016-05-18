@@ -3,14 +3,15 @@ var ngRoute = require('angular-route');
 var user = require('../user');
 
 module.exports = angular.module('chess.game', [
-  ngRoute
+  ngRoute,
+  user
 ]).
 config(RouteConfig).
 factory('Game', require('./game.factory'));
 
 RouteConfig.$inject = ['$routeProvider'];
 function RouteConfig($routeProvider) {
-  $routeProvider.when('/game:gameId', {
+  $routeProvider.when('/game/:gameId', {
     templateUrl: 'game/game.component.html',
     controller: GameController
   });

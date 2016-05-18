@@ -8,7 +8,7 @@ var SoundsFactory = require('../sounds/sounds.factory');
 module.exports = 'chess.playersRoom';
 
 angular.module('chess.playersRoom', [
-  ngRoute, 
+  ngRoute,
   require('../user'),
   require('../game').name
 ]).
@@ -87,7 +87,7 @@ function SocketInit($rootScope, $location, Socket, user, PlayersRoom, Game, Soun
       Game.setGameInfo(data);
       PlayersRoom.changeUserStatus(data.blackPlayer, 'free');
       SoundsFactory.play('startGame');
-      $location.path('/game'+data.gameId)
+      $location.path('/game/'+data.gameId)
     });
 
     gameSocket.on('opponentMove', function (data) {
