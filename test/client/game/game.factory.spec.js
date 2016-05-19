@@ -8,7 +8,7 @@ describe('module: chess.game', function () {
 
   describe('game factory', function () {
 
-    describe('Some small Game methods', function () {
+    describe('Testing of some small Game methods', function () {
       it ('should get null from Game.moveFlag, because it is not setted', inject(function (Game) {
         assert.strictEqual(Game.moveFlag, null, 'It is not null at the beginning');
       }));

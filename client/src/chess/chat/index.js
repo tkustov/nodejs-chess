@@ -18,7 +18,6 @@ function ChatController(Socket, $http, user, Game, $location, $scope){
 	ctrl.messages=[];
 	var chatSocket;
 	var elem = document.getElementById('chatbody');
-	var msgbox = document.getElementById('message_box');
 
 	ctrl.getUserName = function() {
 		return (user.userInfo)
@@ -54,7 +53,7 @@ function ChatController(Socket, $http, user, Game, $location, $scope){
 			};
 
 			ctrl.sendMessage = function () {
-				if(ctrl.message != '' || ctrl.message != undefined){
+				if(ctrl.message != '' && ctrl.message != undefined){
 					var sender=ctrl.getUserName();
 				    chatSocket.emit('send:message', {
 				    	who: sender,
