@@ -55,14 +55,15 @@ function ChatController(Socket, $http, user, Game, $location, $scope){
 			};
 		
 			ctrl.sendMessage = function () {	
-				if(ctrl.message != '' || ctrl.message != undefined){
+				console.log(ctrl.message);
+				if(ctrl.message != '' && ctrl.message != undefined){
 					var sender=ctrl.getUserName();
 				    chatSocket.emit('send:message', {
 				    	who: sender,
 				      message: ctrl.message
 					});
-			  }
-			  ctrl.message = '';
+				  ctrl.message = '';
+			  }			  
 			};
 			$scope.$on('disconnectGameSocket', function(){
 		    chatSocket.disconnect();
